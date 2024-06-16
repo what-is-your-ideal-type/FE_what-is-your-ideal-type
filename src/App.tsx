@@ -13,7 +13,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React 수정한 코드
+          Learn React 수정한 코드 dev 브랜치 test
         </a>
       </header>
     </div>
