@@ -1,22 +1,13 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useState } from "react";
+import Loading from "./components/Loading";
 
 function App() {
+  const [loading, setLoading] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React 수정한 코드
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>What is your ideal type?</h1>
+      <div className="App">{loading ? <Loading></Loading> : <></>}</div>
+    </>
   );
 }
 
