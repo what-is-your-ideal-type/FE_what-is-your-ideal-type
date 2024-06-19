@@ -8,6 +8,7 @@ import Question from "./Pages/Question";
 function App() {
   return (
     <>
+
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
@@ -15,6 +16,7 @@ function App() {
           <Route path="/question" element={<Question />} />
         </Routes>
       </Router>
+
     </>
   );
 }
