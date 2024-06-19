@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from "react";
+import Loading from "./components/Loading";
 
 function App() {
+  const [loading, setLoading] = useState(false);
   return (
-    <div className="App"></div>
+    <>
+      <h1>What is your ideal type?</h1>
+      <div className="App">{loading ? <Loading></Loading> : <></>}</div>
+    </>
   );
 }
 
