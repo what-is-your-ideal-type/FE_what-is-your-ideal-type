@@ -1,6 +1,6 @@
 import React from "react"
 
-const SignUp = () => {
+const Home = () => {
   return (
     <main className="flex items-center justify-center min-h-screen bg-bg p-4">
       <section className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-16">
@@ -17,16 +17,18 @@ const SignUp = () => {
             placeholder="비밀번호를 입력해주세요"
             className="w-64 h-12 px-4 py-2 bg-white rounded-md"
           />
-          <input
-            type="password"
-            placeholder="비밀번호를 한번 더 입력해주세요"
-            className="w-64 h-12 px-4 py-2 bg-white rounded-md"
-          />
-          <section className="flex w-64 h-12 justify-center items-center">
-            <p className="text-red-700">중복된 이메일이 있습니다.</p>
-          </section>
+          <button className="w-64 h-12 bg-gray-300 text-gray-700">로그인하기</button>
+          <button className="w-64 h-12 bg-gray-300 text-gray-700">회원가입하기</button>
           <section className="flex space-x-4">
-            <button className="w-64 h-12 bg-gray-300 text-gray-700">회원가입하기</button>
+            <button className="w-16 h-16 bg-yellow-400">
+                카카오
+            </button>
+            <button className="w-16 h-16 bg-green-500">
+                네이버
+            </button>
+            <button className="w-16 h-16 bg-white">
+                구글
+            </button>
           </section>
         </section>
       </section>
@@ -34,4 +36,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default Home
