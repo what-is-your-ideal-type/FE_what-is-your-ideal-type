@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./Pages/SignUp";
-import Main from "./Pages/Main";
-import Question from "./Pages/Survey";
-import Home from "./Pages/Home";
-import MyPage from "./Pages/MyPage";
+import SignUp from "./pages/SignUp";
+import Main from "./pages/Main";
+import Question from "./pages/Survey";
+import Home from "./pages/Home";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (
