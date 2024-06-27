@@ -115,25 +115,10 @@ const Survey: React.FC = () => {
     // 옵션을 선택하면 자동으로 다음 페이지로 넘어가기
     if (currentQuestionIndex < currentSurvey.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
-  // 다음 버튼 핸들러
-  const handlePageNext = () => {
-    const surveyLength =
-      selectedGender === "남자"
-        ? surveyContentsMen.length
-        : surveyContentsWomen.length;
-
-    if (currentQuestionIndex < surveyLength - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
-  // 이전 버튼 핸들러
-  const handlePagePrev = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    } else if (currentQuestionIndex === currentSurvey.length - 1) {
+      alert("응답을 제출하시겠습니까?");
+      handleSubmit();
+      // 생성 페이지로 이동하는 로직 추가해야 함
     }
   };
 
@@ -172,14 +157,16 @@ const Survey: React.FC = () => {
         </>
       ) : (
         <div className="bg-none p-8 ">
-          <div className="mt-4 w-full">
-            <progress
-              value={currentQuestionIndex + 1}
-              max={currentSurvey.length}
-              className="appearance-none w-full h-2 rounded-lg progress-bar progress-unfilled:bg-sub progress-filled:bg-main"
-            ></progress>
+          <div className="mt-4 w-full flex justify-center">
+            <div className="w-96">
+              <progress
+                value={currentQuestionIndex + 1}
+                max={currentSurvey.length}
+                className="appearance-none w-full h-2 rounded-full mb-20 progress-bar progress-unfilled:bg-sub progress-filled:bg-main"
+              ></progress>
+            </div>
           </div>
-          <h2 className="text-2xl mb-4">
+          <h2 className="flex justify-center items-center text-2xl mb-20">
             {currentSurvey[currentQuestionIndex].question}
           </h2>
           <div className="grid grid-cols-2">
@@ -199,41 +186,14 @@ const Survey: React.FC = () => {
                 />
                 <label
                   htmlFor={option}
-                  className="bg-main hover:bg-sub flex justify-center items-center p-3 mb-5 text-white rounded-lg  shadow-md cursor-pointer"
+                  className="bg-main hover:bg-sub flex justify-center items-center p-3 mb-5 text-white rounded-lg shadow-md cursor-pointer"
                 >
                   {option}
                 </label>
               </div>
             ))}
           </div>
-          <div className="flex justify-between mt-4">
-            <button
-              onClick={handlePagePrev}
-              disabled={currentQuestionIndex === 0}
-              className={`px-4 py-2 rounded ${
-                currentQuestionIndex === 0
-                  ? "bg-gray-300"
-                  : "bg-main  text-white"
-              }`}
-            >
-              이전
-            </button>
-            {currentQuestionIndex < currentSurvey.length - 1 ? (
-              <button
-                onClick={handlePageNext}
-                className="px-4 py-2 bg-main text-white rounded"
-              >
-                다음
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 bg-main text-white rounded"
-              >
-                응답 제출하기
-              </button>
-            )}
-          </div>
+          <div className="flex justify-center items-center mt-10"></div>
         </div>
       )}
     </div>
