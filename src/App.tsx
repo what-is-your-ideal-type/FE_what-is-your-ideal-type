@@ -5,6 +5,7 @@ import Main from "./pages/Main";
 import Question from "./pages/Survey";
 import Home from "./pages/Home";
 import MyPage from "./pages/MyPage";
+import Result from "./pages/Result";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/question" element={<Question />} />
           <Route path="/home" element={<Home />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/result" element={<Result />}></Route>
         </Routes>
       </Router>
     </>
