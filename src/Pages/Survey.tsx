@@ -85,7 +85,7 @@ const surveyContentsMen: Survey[] = [
   },
 ];
 
-const Survey: React.FC = () => {
+const Survey = () => {
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [responses, setResponses] = useState<string[]>([]);
