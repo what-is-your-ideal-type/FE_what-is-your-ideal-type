@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type Survey = {
   question: string;
@@ -97,30 +97,22 @@ const Survey = () => {
   const handleGenderSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const gender = event.target.value;
     setSelectedGender(gender);
-    setResponses(
-      Array(
-        gender === "남자"
-          ? surveyContentsMen.length
-          : surveyContentsWomen.length,
-      ).fill(""),
-    );
-    setCurrentQuestionIndex(0);
   };
 
   // 옵션 선택 핸들러
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newResponses = [...responses];
-    newResponses[currentQuestionIndex] = event.target.value;
-    setResponses(newResponses);
+    setResponses((prev) => prev.concat(event.target.value))
+    // setResponses((prev) => [...prev, event.target.value]
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
     // 옵션을 선택하면 자동으로 다음 페이지로 넘어가기
-    if (currentQuestionIndex < currentSurvey.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else if (currentQuestionIndex === currentSurvey.length - 1) {
+  };
+
+  useEffect(() => {
+    if (currentQuestionIndex === currentSurvey.length) {
       alert("응답을 제출하시겠습니까?");
       handleSubmit();
-      // 생성 페이지로 이동하는 로직 추가해야 함
     }
-  };
+  },[currentQuestionIndex])
 
   // 응답 제출 핸들러 (제출하는 코드 추가해야 함)
   const handleSubmit = () => {
@@ -136,7 +128,7 @@ const Survey = () => {
           </div>
           <div className="w-52 flex justify-between items-center">
             {gender.options.map((option) => (
-              <div key={option} className="mb-2 flex ">
+              <div key={option} className="mb-2 flex">
                 <input
                   type="radio"
                   name="gender"
@@ -155,8 +147,8 @@ const Survey = () => {
             ))}
           </div>
         </>
-      ) : (
-        <div className="bg-none p-8 ">
+      ) : currentQuestionIndex < currentSurvey.length ? (
+        <div className="bg-none p-8">
           <div className="mt-4 w-full flex justify-center">
             <div className="w-96">
               <progress
@@ -171,10 +163,7 @@ const Survey = () => {
           </h2>
           <div className="grid grid-cols-2">
             {currentSurvey[currentQuestionIndex].options.map((option) => (
-              <div
-                key={option}
-                className="mb-2 flex justify-center items-center"
-              >
+              <div key={option} className="mb-2 flex justify-center items-center">
                 <input
                   type="radio"
                   name="option"
@@ -195,7 +184,7 @@ const Survey = () => {
           </div>
           <div className="flex justify-center items-center mt-10"></div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
