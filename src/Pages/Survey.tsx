@@ -25,12 +25,20 @@ const Survey = () => {
     // 옵션을 선택하면 자동으로 다음 페이지로 넘어가기
   };
 
-  useEffect(() => {
+   useEffect(() => {
     if (currentQuestionIndex === currentSurvey.length) {
-      alert("응답을 제출하시겠습니까?");
-      handleSubmit();
+      const handleConfirm = () => {
+        const confirmSubmit = confirm("응답을 제출하시겠습니까?");
+        if (confirmSubmit) {
+          handleSubmit();
+        }else{
+          // 예외처리
+        }
+      };
+
+      handleConfirm()
     }
-  },[currentQuestionIndex])
+  }, [currentQuestionIndex]);
 
   // 응답 제출 핸들러 (제출하는 코드 추가해야 함)
   const handleSubmit = () => {
