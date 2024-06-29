@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./pages/SignUp";
-import Survey from "./pages/Survey";
-import Home from "./pages/Home";
-import MyPage from "./pages/MyPage";
-import Result from "./pages/Result";
+import { Home, SignUp, Survey, Result, MyPage } from "./pages";
 
 function App() {
   return (
@@ -13,7 +9,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/question" element={<Question />} />
+          {/* <Route path="/question" element={<Question />} /> */}
           <Route path="/home" element={<Home />}/>
           <Route path="/survey" element={<Survey />} />
           <Route path="/result" element={<Result />} />

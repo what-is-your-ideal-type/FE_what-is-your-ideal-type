@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Result() {
+const Result = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
@@ -37,3 +37,5 @@ export default function Result() {
     </div>
   );
 }
+
+export default Result
