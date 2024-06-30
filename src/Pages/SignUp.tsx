@@ -1,12 +1,32 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, AuthError } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db, USERS_COLLECTION } from "../firebase";
+import { doc, setDoc, query, where, getDocs } from "firebase/firestore";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+
+  // 이메일 중복 검사
+  const checkEmail = async () => {
+    const q = query(USERS_COLLECTION, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) return setError("이미 사용 중인 이메일입니다.");
+  };
+
+  // 유저 정보 저장
+  const saveUserInfo = async (uid: string) => {
+    await setDoc(doc(db, "users", uid), {
+      uid: uid,
+      email: email,
+      password: password,
+    });
+  };
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -16,16 +36,28 @@ const SignUp = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      checkEmail();
+
+      // 회원가입 처리
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+
+      saveUserInfo(user.uid);
+
       alert("회원가입이 완료됐습니다.");
+      navigate("/");
     } catch (err) {
       const error = err as AuthError;
-      // 오류 처리
+      // firebase 오류 처리
       switch (error.code) {
         case "auth/user-not-found" || "auth/wrong-password":
           return setError("이메일 혹은 비밀번호가 일치하지 않습니다.");
-        case "auth/email-already-in-use":
-          return setError("이미 사용 중인 이메일입니다.");
+        // case "auth/email-already-in-use":
+        //   return setError("이미 사용 중인 이메일입니다.");
         case "auth/weak-password":
           return setError("비밀번호는 6글자 이상이어야 합니다.");
         case "auth/network-request-failed":
