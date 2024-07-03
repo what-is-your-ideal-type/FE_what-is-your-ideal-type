@@ -1,4 +1,13 @@
-import React from "react"
+import React from "react";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import {
+  mainButtonArgs,
+  authButtonArgs,
+  kakaoButtonArgs,
+  naverButtonArgs,
+  googleButtonArgs,
+} from "../components/ButtonArgs";
 
 const Home = () => {
   return (
@@ -8,32 +17,22 @@ const Home = () => {
           <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
             <span className="text-2xl font-bold">Logo</span>
           </div>
-          <button className="w-48 h-12 bg-main text-white">로그인 없이 시작</button>
+          <Button label="로그인 없이 시작" {...mainButtonArgs} />
         </section>
         <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
-          <input type="email" placeholder="이메일을 입력해주세요" className="w-64 h-12 px-4 py-2 bg-white rounded-md" />
-          <input
-            type="password"
-            placeholder="비밀번호를 입력해주세요"
-            className="w-64 h-12 px-4 py-2 bg-white rounded-md"
-          />
-          <button className="w-64 h-12 bg-gray-300 text-gray-700">로그인하기</button>
-          <button className="w-64 h-12 bg-gray-300 text-gray-700">회원가입하기</button>
+          <Input type="email" placeholder="이메일을 입력해주세요" />
+          <Input type="password" placeholder="비밀번호를 입력해주세요" />
+          <Button label="로그인하기" {...authButtonArgs} />
+          <Button label="회원가입하기" {...authButtonArgs} />
           <section className="flex space-x-4">
-            <button className="w-16 h-16 bg-yellow-400">
-                카카오
-            </button>
-            <button className="w-16 h-16 bg-green-500">
-                네이버
-            </button>
-            <button className="w-16 h-16 bg-white">
-                구글
-            </button>
+            <Button label="카카오" {...kakaoButtonArgs} />
+            <Button label="네이버" {...naverButtonArgs} />
+            <Button label="구글" {...googleButtonArgs} />
           </section>
         </section>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
