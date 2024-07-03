@@ -1,13 +1,13 @@
 import React from "react";
 import Loading from "../components/Loading";
+import Button from "../components/Button";
+import { mainButtonArgs } from "../components/ButtonArgs";
 
 const MyPage = () => {
   return (
     <main className="flex flex-col items-center space-y-8 bg-bg py-16">
       <h1 className="text-3xl font-bold">Josh님의 이상형 리스트 입니다.</h1>
-      <button className="bg-[#a855f7] text-white py-2 px-4 rounded-md">
-        새로운 이상형 찾기
-      </button>
+      <Button label="새로운 이상형 찾기" {...mainButtonArgs} />
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {Array(4)
           .fill(0)
