@@ -1,15 +1,11 @@
-<<<<<<< HEAD
-import React from "react";
 import Button from "../components/Button";
 import { mainButtonArgs, authButtonArgs } from "../components/ButtonArgs";
 import Input from "../components/Input";
-=======
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, AuthError } from "firebase/auth";
 import { auth, db, USERS_COLLECTION } from "../firebase";
 import { doc, setDoc, query, where, getDocs } from "firebase/firestore";
->>>>>>> e61004f9548cdf9f5c331262db649e1e21304cfd
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -86,7 +82,6 @@ const SignUp = () => {
           <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
             <span className="text-2xl font-bold">Logo</span>
           </div>
-<<<<<<< HEAD
           <Button label="로그인 없이 시작" {...mainButtonArgs} />
         </section>
         <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
@@ -102,7 +97,6 @@ const SignUp = () => {
           <section className="flex space-x-4">
             <Button label="회원가입" {...authButtonArgs} />
           </section>
-=======
         </section>
         <section>
           <form
@@ -144,7 +138,6 @@ const SignUp = () => {
               회원가입하기
             </button>
           </form>
->>>>>>> e61004f9548cdf9f5c331262db649e1e21304cfd
         </section>
       </section>
     </main>
