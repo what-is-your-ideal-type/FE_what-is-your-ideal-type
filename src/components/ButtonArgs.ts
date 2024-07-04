@@ -7,24 +7,24 @@ export const mainButtonArgs = {
 };
 
 export const authButtonArgs = {
-  backgroundColor: "zinc-300",
-  hoverColor: "zinc-200",
-  textColor: "gray-700",
+  backgroundColor: "zinc300",
+  hoverColor: "zinc200",
+  textColor: "gray700",
   buttonSize: "w-64 h-12",
   textSize: "base",
 };
 
 export const kakaoButtonArgs = {
-  backgroundColor: "yellow-400",
-  hoverColor: "yellow-300",
+  backgroundColor: "yellow400",
+  hoverColor: "yellow300",
   textColor: "gray",
   buttonSize: "w-16 h-16",
   textSize: "base",
 };
 
 export const naverButtonArgs = {
-  backgroundColor: "green-500",
-  hoverColor: "green-400",
+  backgroundColor: "green500",
+  hoverColor: "green400",
   textColor: "gray",
   buttonSize: "w-16 h-16",
   textSize: "base",
@@ -32,7 +32,7 @@ export const naverButtonArgs = {
 
 export const googleButtonArgs = {
   backgroundColor: "white",
-  hoverColor: "zinc-100",
+  hoverColor: "zinc100",
   textColor: "gray",
   buttonSize: "w-16 h-16",
   textSize: "base",
