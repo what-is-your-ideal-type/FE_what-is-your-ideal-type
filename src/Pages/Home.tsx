@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import {
+  mainButtonArgs,
+  authButtonArgs,
+  kakaoButtonArgs,
+  naverButtonArgs,
+  googleButtonArgs,
+} from "../components/ButtonArgs";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -33,12 +42,7 @@ const Home = () => {
           <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
             <span className="text-2xl font-bold">Logo</span>
           </div>
-          <Link
-            to="/survey"
-            className="w-48 h-12 py-3 bg-main text-white text-center rounded-md"
-          >
-            로그인 없이 시작
-          </Link>
+          <Button label="로그인 없이 시작" {...mainButtonArgs} />
         </section>
         <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
           <section>
