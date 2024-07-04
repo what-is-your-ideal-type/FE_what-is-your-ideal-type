@@ -24,7 +24,7 @@ const Result = () => {
         <p className="text-gray">
           사진을 저장하고 기록하고 싶다면 로그인 해보세요
         </p>
-        <Button label="로그인" {...mainButtonArgs} />
+        <Button label="로그인" type="submit" {...mainButtonArgs} />
         <div>
           <button className="size-8 mr-6">
             <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
