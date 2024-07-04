@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home, SignUp, Survey, Result, MyPage } from "./pages";
-import { auth } from "./firebase";
+//import { auth } from "./firebase";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
