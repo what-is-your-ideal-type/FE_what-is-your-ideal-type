@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import {
+  mainButtonArgs,
+  authButtonArgs,
+  kakaoButtonArgs,
+  naverButtonArgs,
+  googleButtonArgs,
+} from "../components/ButtonArgs";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -33,12 +42,7 @@ const Home = () => {
           <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
             <span className="text-2xl font-bold">Logo</span>
           </div>
-          <Link
-            to="/survey"
-            className="w-48 h-12 py-3 bg-main text-white text-center rounded-md"
-          >
-            로그인 없이 시작
-          </Link>
+          <Button label="로그인 없이 시작" type="button" {...mainButtonArgs} />
         </section>
         <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
           <section>
@@ -46,45 +50,29 @@ const Home = () => {
               onSubmit={onSubmit}
               className="flex flex-col items-center space-y-4"
             >
-              <input
+              <Input
                 type="email"
+                placeholder="이메일을 입력해주세요"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                aria-label="이메일"
-                placeholder="이메일을 입력해주세요"
-                className="w-64 h-12 px-4 py-2 bg-white rounded-md"
               />
-              <input
+              <Input
                 type="password"
+                placeholder="비밀번호를 입력해주세요"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
-                aria-label="비밀번호"
-                placeholder="비밀번호를 입력해주세요"
-                className="w-64 h-12 px-4 py-2 bg-white rounded-md"
               />
               {error && <p className="text-red-700">{error}</p>}
-              <button
-                type="submit"
-                className="w-64 h-12 py-3 bg-gray text-white rounded-md"
-              >
-                로그인하기
-              </button>
+              <Button label="로그인하기" type="submit" {...authButtonArgs} />
             </form>
           </section>
-
-          <section className="w-64 h-12 py-3 bg-gray text-white text-center rounded-md">
-            <Link to="/signup">회원가입하기</Link>
-          </section>
+          <Link to="/signup">
+            <Button label="회원가입하기" type="button" {...authButtonArgs} />
+          </Link>
           <section className="flex space-x-8">
-            <button className="w-16 h-16 bg-yellow-400 rounded-md">
-              카카오
-            </button>
-            <button className="w-16 h-16 bg-green-500 rounded-md">
-              네이버
-            </button>
-            <button className="w-16 h-16 bg-white rounded-md">구글</button>
+            <Button label="카카오" type="button" {...kakaoButtonArgs} />
+            <Button label="네이버" type="button" {...naverButtonArgs} />
+            <Button label="구글" type="button" {...googleButtonArgs} />
           </section>
         </section>
       </section>

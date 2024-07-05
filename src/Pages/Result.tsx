@@ -1,4 +1,6 @@
 import React from "react";
+import Button from "../components/Button";
+import { mainButtonArgs } from "../components/ButtonArgs";
 
 const Result = () => {
   return (
@@ -22,9 +24,7 @@ const Result = () => {
         <p className="text-gray">
           사진을 저장하고 기록하고 싶다면 로그인 해보세요
         </p>
-        <button className="bg-main text-white w-48 h-12 rounded-md">
-          로그인 버튼
-        </button>
+        <Button label="로그인" type="submit" {...mainButtonArgs} />
         <div>
           <button className="size-8 mr-6">
             <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
@@ -36,6 +36,6 @@ const Result = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Result
+export default Result;
