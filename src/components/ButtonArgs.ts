@@ -1,39 +1,44 @@
 export const mainButtonArgs = {
-  backgroundColor: "main",
-  hoverColor: "sub",
+  backgroundColor: "#A860F6",
+  hoverColor: "#D4B7F4",
   textColor: "white",
-  buttonSize: "w-48 h-12",
-  textSize: "base",
+  width: "12rem",
+  height: "3rem",
+  textSize: "1rem",
 };
 
 export const authButtonArgs = {
-  backgroundColor: "zinc300",
-  hoverColor: "zinc200",
-  textColor: "gray700",
-  buttonSize: "w-64 h-12",
-  textSize: "base",
+  backgroundColor: "#D1D5DB",
+  hoverColor: "#E5E7EB",
+  textColor: "#374151",
+  width: "16rem",
+  height: "3rem",
+  textSize: "1rem",
 };
 
 export const kakaoButtonArgs = {
-  backgroundColor: "yellow400",
-  hoverColor: "yellow300",
-  textColor: "gray",
-  buttonSize: "w-16 h-16",
-  textSize: "base",
+  backgroundColor: "#facc15",
+  hoverColor: "#fde047",
+  textColor: "#374151",
+  width: "4rem",
+  height: "4rem",
+  textSize: "1rem",
 };
 
 export const naverButtonArgs = {
-  backgroundColor: "green500",
-  hoverColor: "green400",
-  textColor: "gray",
-  buttonSize: "w-16 h-16",
-  textSize: "base",
+  backgroundColor: "#10B981",
+  hoverColor: "#34D399",
+  textColor: "#374151",
+  width: "4rem",
+  height: "4rem",
+  textSize: "1rem",
 };
 
 export const googleButtonArgs = {
   backgroundColor: "white",
-  hoverColor: "zinc100",
-  textColor: "gray",
-  buttonSize: "w-16 h-16",
-  textSize: "base",
+  hoverColor: "#F4F5F7",
+  textColor: "#374151",
+  width: "4rem",
+  height: "4rem",
+  textSize: "1rem",
 };

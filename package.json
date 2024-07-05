@@ -20,6 +20,7 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "style-loader": "^4.0.0",
+    "styled-components": "^6.1.11",
     "tailwindcss": "^3.4.4",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -30,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_8c1688be921585c"
   },
   "eslintConfig": {
     "extends": [
@@ -65,6 +67,7 @@
     "@storybook/react-webpack5": "^8.1.11",
     "@storybook/test": "^8.1.11",
     "@types/storybook__react": "^5.2.1",
+    "chromatic": "^11.5.4",
     "eslint-plugin-storybook": "^0.8.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.1.11",

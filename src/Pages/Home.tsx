@@ -50,23 +50,17 @@ const Home = () => {
               onSubmit={onSubmit}
               className="flex flex-col items-center space-y-4"
             >
-              <input
+              <Input
                 type="email"
+                placeholder="이메일을 입력해주세요"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                aria-label="이메일"
-                placeholder="이메일을 입력해주세요"
-                className="w-64 h-12 px-4 py-2 bg-white rounded-md"
               />
-              <input
+              <Input
                 type="password"
+                placeholder="비밀번호를 입력해주세요"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
-                aria-label="비밀번호"
-                placeholder="비밀번호를 입력해주세요"
-                className="w-64 h-12 px-4 py-2 bg-white rounded-md"
               />
               {error && <p className="text-red-700">{error}</p>}
               <Button label="로그인하기" type="submit" {...authButtonArgs} />
@@ -78,7 +72,7 @@ const Home = () => {
           <section className="flex space-x-8">
             <Button label="카카오" type="button" {...kakaoButtonArgs} />
             <Button label="네이버" type="button" {...naverButtonArgs} />
-            <button className="w-16 h-16 bg-white rounded-md">구글</button>
+            <Button label="구글" type="button" {...googleButtonArgs} />
           </section>
         </section>
       </section>

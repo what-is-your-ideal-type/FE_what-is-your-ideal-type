@@ -12,7 +12,6 @@ import {
 export default {
   title: "Button",
   component: Button,
-  argTypes: { clickHandler: { action: "clicked" } },
 } as Meta;
 
 const Template: StoryFn<ButtonProps> = (args) => <Button {...args} />;
