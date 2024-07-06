@@ -9,4 +9,11 @@ jobs:
     steps:
       - name: Access Secrets
         run: |
-          echo "Secret Token : ${{ secrets.REACT_APP_OPEN_AI_API_KEY }}"
+          echo "Firebase API Key : ${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+          echo "Firebase Auth Domain : ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          echo "Firebase Project ID : ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+          echo "Firebase Storage Bucket : ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+          echo "Firebase Messaging Sender ID : ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+          echo "Firebase App ID : ${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+          echo "Firebase Measurement ID : ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          echo "OpenAI API Key : ${{ secrets.REACT_APP_OPEN_AI_API_KEY }}"
