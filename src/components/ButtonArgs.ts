@@ -1,4 +1,8 @@
-export const mainButtonArgs = {
+import { StyleProps } from "./Button";
+
+
+
+export const mainButtonArgs: StyleProps = {
   backgroundColor: "#A860F6",
   hoverColor: "#D4B7F4",
   textColor: "white",
@@ -7,7 +11,7 @@ export const mainButtonArgs = {
   textSize: "1rem",
 };
 
-export const authButtonArgs = {
+export const authButtonArgs: StyleProps = {
   backgroundColor: "#D1D5DB",
   hoverColor: "#E5E7EB",
   textColor: "#374151",
@@ -16,7 +20,7 @@ export const authButtonArgs = {
   textSize: "1rem",
 };
 
-export const kakaoButtonArgs = {
+export const kakaoButtonArgs: StyleProps = {
   backgroundColor: "#facc15",
   hoverColor: "#fde047",
   textColor: "#374151",
@@ -25,7 +29,7 @@ export const kakaoButtonArgs = {
   textSize: "1rem",
 };
 
-export const naverButtonArgs = {
+export const naverButtonArgs: StyleProps = {
   backgroundColor: "#10B981",
   hoverColor: "#34D399",
   textColor: "#374151",
@@ -34,7 +38,7 @@ export const naverButtonArgs = {
   textSize: "1rem",
 };
 
-export const googleButtonArgs = {
+export const googleButtonArgs: StyleProps = {
   backgroundColor: "white",
   hoverColor: "#F4F5F7",
   textColor: "#374151",

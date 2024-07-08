@@ -42,7 +42,7 @@ const Home = () => {
           <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
             <span className="text-2xl font-bold">Logo</span>
           </div>
-          <Button label="로그인 없이 시작" type="button" {...mainButtonArgs} />
+          <Button label="로그인 없이 시작" type="button" {...mainButtonArgs} onClick={() => navigate('/survey')}/>
         </section>
         <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
           <section>

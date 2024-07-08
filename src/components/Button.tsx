@@ -1,15 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
-export interface ButtonProps {
-  label: string;
-  type?: "submit" | "button";
+
+export interface StyleProps {
   backgroundColor?: "#A860F6" | "#D1D5DB" | "#facc15" | "#10B981" | "white";
   hoverColor?: "#D4B7F4" | "#E5E7EB" | "#fde047" | "#34D399" | "#F4F5F7";
   textColor?: "white" | "#374151";
   width?: "12rem" | "16rem" | "4rem";
   height?: "3rem" | "4rem";
   textSize?: "1rem";
+}
+
+export interface ButtonProps extends StyleProps{
+  label: string;
+  type?: "submit" | "button";
+  onClick?: () => void
 }
 
 const Button = styled.button<
