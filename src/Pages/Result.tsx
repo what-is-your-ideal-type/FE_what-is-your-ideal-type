@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
+import { useLocation } from "react-router-dom";
 
 const Result = () => {
+  const location = useLocation();
+  const [imageUrl, setImageUrl] = useState()
+
+  useEffect(() => {
+    const { url } = location.state
+    setImageUrl(url)
+  }, []);
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
@@ -10,7 +19,7 @@ const Result = () => {
         <h2 className="font-bold text-2xl">마법사 유령</h2>
         <div>
           <img
-            src="/images/ideal-image.png"
+            src={imageUrl}
             alt="이상형 이미지"
             className="rounded-lg"
           />
