@@ -14,6 +14,7 @@ export interface StyleProps {
 export interface ButtonProps extends StyleProps{
   label: string;
   type?: "submit" | "button";
+  onClick?: () => void
 }
 
 const Button = styled.button<
