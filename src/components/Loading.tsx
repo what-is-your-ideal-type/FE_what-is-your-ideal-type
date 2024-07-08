@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Loading() {
+export const Loading = () => {
   return (
     <div>
       <img src="/images/spin.gif" alt="loading" width="10%" />
@@ -9,3 +9,5 @@ export default function Loading() {
     </div>
   );
 }
+
+export default Loading
