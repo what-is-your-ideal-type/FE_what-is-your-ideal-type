@@ -9,7 +9,7 @@ const openai = new OpenAI({
 });
 
 export async function imageGenerate(order: string[]) {
-  const prompt = "realistic" + order.join(' ')
+  const prompt = order.join('의 ') + "실사 전신 사진을 생성해주세요"
 
   try {
     const response = await openai.images.generate({

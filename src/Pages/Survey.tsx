@@ -40,12 +40,6 @@ const Survey = () => {
     }
   }, [currentQuestionIndex]);
 
-  interface imageUrl {
-      data: {
-        url: string
-    }[]
-  }
-
   const handleSubmit = async () => {
     try{
       const response = await imageGenerate(responses)
