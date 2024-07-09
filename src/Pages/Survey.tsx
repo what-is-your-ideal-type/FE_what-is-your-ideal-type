@@ -44,7 +44,7 @@ const Survey = () => {
     try{
       const response = await imageGenerate(responses)
       const imageUrl = response?.data[0]?.url
-      navigate('/result', {state: { url: imageUrl}})
+      navigate('/result', {state: { url: imageUrl, responses: responses.join(" ")}})
     }catch(error){
       console.log(error)
     }
