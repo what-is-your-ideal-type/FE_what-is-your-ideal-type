@@ -105,7 +105,7 @@ const SignUp = () => {
               type="password"
               placeholder="비밀번호를 한번 더 입력해주세요"
               value={confirmPassword}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
             {error && <p className="text-red-700">{error}</p>}
             <Button label="회원가입하기" type="submit" {...authButtonArgs} />
