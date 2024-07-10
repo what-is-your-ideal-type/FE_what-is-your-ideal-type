@@ -7,6 +7,7 @@ export const uploadImageToFirebase = async (
   userId: string,
 ) => {
   try {
+    imageUrl = imageUrl.replace('https://oaidalleapiprodscus.blob.core.windows.net', '');
     // 생성된 이미지 url을 사용해 이미지 다운로드
     const response = await fetch(imageUrl);
     const blob = await response.blob();
