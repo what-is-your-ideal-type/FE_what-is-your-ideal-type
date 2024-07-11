@@ -3,25 +3,24 @@ import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
 import { uploadImageToFirebase } from "../services/uploadImage";
 import { useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const Result = () => {
-  const { prompts, url } = useParams()
+  const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
-  const [prompt, setPrompt] = useState("")
+  const [prompt, setPrompt] = useState("");
 
   useEffect(() => {
-
-    if(url === undefined || prompts === undefined){
-      return
+    if (url === undefined || prompts === undefined) {
+      return;
     }
 
-    const decodedUrl = decodeURIComponent(url)
-    const decodedPrompts = decodeURIComponent(prompts)
-
+    const decodedUrl = decodeURIComponent(url);
+    const decodedPrompts = decodeURIComponent(prompts);
 
     setImageUrl(decodedUrl);
-    setPrompt(decodedPrompts)
+    setPrompt(decodedPrompts);
   }, [url, prompts]);
 
   // 로그인 인증에 따른 user 받아오는거 추가 예정
@@ -40,6 +39,16 @@ const Result = () => {
     handleUpload();
   }, [imageUrl]);
 
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("링크가 클립보드에 복사되었습니다. 원하는 곳에 붙여넣기 해주세요.");
+    } catch (error) {
+      console.error("Failed to copy link : ", error);
+      alert("링크 복사에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
@@ -49,9 +58,7 @@ const Result = () => {
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        <h3 className="font-bold pt-8">
-          {prompt}입니다
-        </h3>
+        <h3 className="font-bold pt-8">{prompt}입니다</h3>
         <p className="text-gray">
           사진을 저장하고 기록하고 싶다면 로그인 해보세요
         </p>
@@ -68,7 +75,7 @@ const Result = () => {
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
           )}
-          <button className="size-8">
+          <button className="size-8" onClick={handleShare}>
             <img src="/images/icon-share.png" alt="공유 아이콘" />
           </button>
         </div>

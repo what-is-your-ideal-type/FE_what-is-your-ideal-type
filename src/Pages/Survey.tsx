@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { surveyContentsMen, surveyContentsWomen, genderTheme } from "../components/Survey";
+import {
+  surveyContentsMen,
+  surveyContentsWomen,
+  genderTheme,
+} from "../components/Survey";
 import { imageGenerate } from "../services/imageGenerator";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
-type Gender = "남자" | "여자"
+type Gender = "남자" | "여자";
 
 const Survey = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [responses, setResponses] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const currentSurvey =
     selectedGender === "남자" ? surveyContentsMen : surveyContentsWomen;
-  
 
   const handleGenderSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const gender = event.target.value as Gender;
@@ -20,52 +26,57 @@ const Survey = () => {
   };
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResponses((prev) => prev.concat(event.target.value))
+    setResponses((prev) => prev.concat(event.target.value));
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
   const handleSubmit = async () => {
-    try{
-      const data = await imageGenerate(responses)
-      if(data === undefined){
-        return
+    try {
+      setIsLoading(true);
+      const data = await imageGenerate(responses);
+      if (data === undefined) {
+        return;
       }
 
-      const { url } = data
-      if(url === undefined){
-        return
+      const { url } = data;
+      if (url === undefined) {
+        return;
       }
-      
-      const prompts = responses.join(" ")
-      navigate(`/result/${encodeURIComponent(prompts)}/${encodeURIComponent(url)}`)
-      
-     
-    }catch(error){
-      console.log(error)
+
+      const prompts = responses.join(" ");
+      setTimeout(() => {
+        navigate(
+          `/result/${encodeURIComponent(prompts)}/${encodeURIComponent(url)}`,
+        );
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (currentQuestionIndex === currentSurvey.length) {
       const handleConfirm = () => {
         const confirmSubmit = confirm("제출하시겠습니까?");
-        
+
         if (confirmSubmit) {
           handleSubmit();
-        }else{
-          alert("요청이 잘못 되었습니다.")
+        } else {
+          alert("요청이 잘못 되었습니다.");
         }
       };
 
-      handleConfirm()
+      handleConfirm();
     }
   }, [currentQuestionIndex]);
 
- 
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
-      {!selectedGender ? (
+      {isLoading ? (
+        <Loading />
+      ) : !selectedGender ? (
         <>
           <div className="bg-none p-8">
             <h2 className="text-2xl mb-4">{genderTheme.question}</h2>
@@ -107,7 +118,10 @@ const Survey = () => {
           </h2>
           <div className="grid grid-cols-2">
             {currentSurvey[currentQuestionIndex].options.map((option) => (
-              <div key={option} className="mb-2 flex justify-center items-center">
+              <div
+                key={option}
+                className="mb-2 flex justify-center items-center"
+              >
                 <input
                   type="radio"
                   name="option"
