@@ -24,14 +24,16 @@ const Result = () => {
     setPrompt(decodedPrompts);
   }, [url, prompts]);
 
-  // 로그인 인증에 따른 user 받아오는거 추가 예정
   useEffect(() => {
     const handleUpload = async () => {
-      const userId = "userID1234";
       try {
         if (imageUrl.trim() !== "") {
-          const url = await uploadImageToFirebase(imageUrl, userId);
-          setDownloadUrl(url);
+          const url = await uploadImageToFirebase(imageUrl);
+          if (typeof url === "string") {
+            setDownloadUrl(url);
+          } else {
+            throw new Error("Invalid URL format received");
+          }
         }
       } catch (error) {
         console.error("Error uploading image: ", error);
