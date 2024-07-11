@@ -3,35 +3,36 @@ import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
 import { uploadImageToFirebase } from "../services/uploadImage";
 import { useParams } from "react-router-dom";
+import { auth } from "../firebase";
 
 const Result = () => {
-  const { prompts, url } = useParams()
+  const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
-  const [prompt, setPrompt] = useState("")
-
+  const [prompt, setPrompt] = useState("");
+  const user = auth.currentUser;
   useEffect(() => {
-
-    if(url === undefined || prompts === undefined){
-      return
+    if (url === undefined || prompts === undefined) {
+      return;
     }
 
-    const decodedUrl = decodeURIComponent(url)
-    const decodedPrompts = decodeURIComponent(prompts)
-
+    const decodedUrl = decodeURIComponent(url);
+    const decodedPrompts = decodeURIComponent(prompts);
 
     setImageUrl(decodedUrl);
-    setPrompt(decodedPrompts)
+    setPrompt(decodedPrompts);
   }, [url, prompts]);
 
-  // 로그인 인증에 따른 user 받아오는거 추가 예정
   useEffect(() => {
     const handleUpload = async () => {
-      const userId = "userID1234";
       try {
         if (imageUrl.trim() !== "") {
-          const url = await uploadImageToFirebase(imageUrl, userId);
-          setDownloadUrl(url);
+          const url = await uploadImageToFirebase(imageUrl);
+          if (typeof url === "string") {
+            setDownloadUrl(url);
+          } else {
+            throw new Error("Invalid URL format received");
+          }
         }
       } catch (error) {
         console.error("Error uploading image: ", error);
@@ -49,9 +50,7 @@ const Result = () => {
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        <h3 className="font-bold pt-8">
-          {prompt}입니다
-        </h3>
+        <h3 className="font-bold pt-8">{prompt}입니다</h3>
         <p className="text-gray">
           사진을 저장하고 기록하고 싶다면 로그인 해보세요
         </p>
