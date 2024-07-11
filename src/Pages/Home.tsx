@@ -11,6 +11,7 @@ import {
   naverButtonArgs,
   googleButtonArgs,
 } from "../components/ButtonArgs";
+import { useAuth } from "../contexts/AuthContext";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,10 +19,18 @@ const Home = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
+  const { currentUser, setCurrentUser } = useAuth();
+
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      console.log("User logged in: ", userCredential.user);
+      setCurrentUser(userCredential.user);
       alert("로그인에 성공했습니다.");
       navigate("/survey");
     } catch (error: any) {
@@ -42,7 +51,12 @@ const Home = () => {
           <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
             <span className="text-2xl font-bold">Logo</span>
           </div>
-          <Button label="로그인 없이 시작" type="button" {...mainButtonArgs} onClick={() => navigate('/survey')}/>
+          <Button
+            label="로그인 없이 시작"
+            type="button"
+            {...mainButtonArgs}
+            onClick={() => navigate("/survey")}
+          />
         </section>
         <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
           <section>
