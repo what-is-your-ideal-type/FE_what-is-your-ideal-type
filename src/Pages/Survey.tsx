@@ -24,6 +24,27 @@ const Survey = () => {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
+  const handleSubmit = async () => {
+    try{
+      const data = await imageGenerate(responses)
+      if(data === undefined){
+        return
+      }
+
+      const { url } = data
+      if(url === undefined){
+        return
+      }
+      
+      const prompts = responses.join(" ")
+      navigate(`/result/${encodeURIComponent(prompts)}/${encodeURIComponent(url)}`)
+      
+     
+    }catch(error){
+      console.log(error)
+    }
+  };
+
    useEffect(() => {
     if (currentQuestionIndex === currentSurvey.length) {
       const handleConfirm = () => {
@@ -40,15 +61,7 @@ const Survey = () => {
     }
   }, [currentQuestionIndex]);
 
-  const handleSubmit = async () => {
-    try{
-      const response = await imageGenerate(responses)
-      const imageUrl = response?.data[0]?.url
-      navigate('/result', {state: { url: imageUrl, responses: responses.join(" ")}})
-    }catch(error){
-      console.log(error)
-    }
-  };
+ 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
