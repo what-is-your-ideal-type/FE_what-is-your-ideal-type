@@ -3,13 +3,14 @@ import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
 import { uploadImageToFirebase } from "../services/uploadImage";
 import { useParams } from "react-router-dom";
-import Loading from "../components/Loading";
+import { useAuth } from "../contexts/AuthContext";
 
 const Result = () => {
   const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
   const [prompt, setPrompt] = useState("");
+  const currentUser = useAuth();
 
   useEffect(() => {
     if (url === undefined || prompts === undefined) {
@@ -59,10 +60,14 @@ const Result = () => {
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
         <h3 className="font-bold pt-8">{prompt}입니다</h3>
-        <p className="text-gray">
-          사진을 저장하고 기록하고 싶다면 로그인 해보세요
-        </p>
-        <Button label="로그인" type="submit" {...mainButtonArgs} />
+        {currentUser ? null : (
+          <>
+            <p className="text-gray">
+              사진을 저장하고 기록하고 싶다면 로그인 해보세요
+            </p>
+            <Button label="로그인" type="submit" {...mainButtonArgs} />
+          </>
+        )}
         <div>
           {/* 로그인 인증에 따른 코드 추가 필요 */}
           {downloadUrl && (
