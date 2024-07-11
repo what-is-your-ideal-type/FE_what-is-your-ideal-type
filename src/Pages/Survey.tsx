@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { surveyContentsMen, surveyContentsWomen, genderTheme } from "../components/Survey";
+import { imageGenerate } from "../services/imageGenerator";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Gender = "남자" | "여자"
 
 const Survey = () => {
+  const navigate = useNavigate()
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [responses, setResponses] = useState<string[]>([]);
-  // 성별에 따른 현재 설문내용 선언
   const currentSurvey =
     selectedGender === "남자" ? surveyContentsMen : surveyContentsWomen;
+  
 
-  // 성별 선택 핸들러
   const handleGenderSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const gender = event.target.value as Gender;
     setSelectedGender(gender);
   };
 
-  // 옵션 선택 핸들러
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setResponses((prev) => prev.concat(event.target.value))
-    // setResponses((prev) => [...prev, event.target.value]
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-    // 옵션을 선택하면 자동으로 다음 페이지로 넘어가기
   };
 
    useEffect(() => {
     if (currentQuestionIndex === currentSurvey.length) {
       const handleConfirm = () => {
-        const confirmSubmit = confirm("응답을 제출하시겠습니까?");
+        const confirmSubmit = confirm("제출하시겠습니까?");
+        
         if (confirmSubmit) {
           handleSubmit();
         }else{
-          // 예외처리
+          alert("요청이 잘못 되었습니다.")
         }
       };
 
@@ -40,9 +40,14 @@ const Survey = () => {
     }
   }, [currentQuestionIndex]);
 
-  // 응답 제출 핸들러 (제출하는 코드 추가해야 함)
-  const handleSubmit = () => {
-    console.log("응답내용 : ", responses);
+  const handleSubmit = async () => {
+    try{
+      const response = await imageGenerate(responses)
+      const imageUrl = response?.data[0]?.url
+      navigate('/result', {state: { url: imageUrl, responses: responses.join(" ")}})
+    }catch(error){
+      console.log(error)
+    }
   };
 
   return (
