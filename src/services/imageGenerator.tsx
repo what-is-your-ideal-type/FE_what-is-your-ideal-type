@@ -7,7 +7,7 @@ const openai = new OpenAI({
   apiKey: process.env.REACT_APP_OPEN_AI_API_KEY,
   dangerouslyAllowBrowser: true
 });
-
+ 
 export async function imageGenerate(order: string[]) {
   const prompt = order.join('의 ') + "한명의 실사 전신 사진을 생성해주세요"
 
@@ -19,7 +19,7 @@ export async function imageGenerate(order: string[]) {
       size: '1024x1024',
     });
 
-    return response
+    return response?.data[0]
 
   } catch (err) {
     console.error(err);

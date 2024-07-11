@@ -33,7 +33,7 @@ function App() {
             {/* <Route path="/question" element={<Question />} /> */}
             <Route path="/home" element={<Home />} />
             <Route path="/survey" element={<Survey />} />
-            <Route path="/result" element={<Result />} />
+            <Route path="/result/:prompts/:url" element={<Result />} />
             <Route path="/mypage" element={<MyPage />} />
           </Routes>
         </Router>

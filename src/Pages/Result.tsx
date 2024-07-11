@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
-import { useLocation } from "react-router-dom";
 import { uploadImageToFirebase } from "../services/uploadImage";
+import { useParams } from "react-router-dom";
 
 const Result = () => {
-  const location = useLocation();
+  const { prompts, url } = useParams()
   const [imageUrl, setImageUrl] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
   const [prompt, setPrompt] = useState("")
 
   useEffect(() => {
-    const { url, responses } = location.state;
-    setImageUrl(url);
-    setPrompt(responses)
-  }, []);
+
+    if(url === undefined || prompts === undefined){
+      return
+    }
+
+    const decodedUrl = decodeURIComponent(url)
+    const decodedPrompts = decodeURIComponent(prompts)
+
+
+    setImageUrl(decodedUrl);
+    setPrompt(decodedPrompts)
+  }, [url, prompts]);
 
   // 로그인 인증에 따른 user 받아오는거 추가 예정
   useEffect(() => {
