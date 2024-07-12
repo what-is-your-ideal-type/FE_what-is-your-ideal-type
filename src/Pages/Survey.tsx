@@ -4,8 +4,7 @@ import {
   surveyContentsWomen,
   genderTheme,
 } from "../components/Survey";
-import { imageGenerate } from "../services/imageGenerator";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
 type Gender = "남자" | "여자";
@@ -52,9 +51,7 @@ const Survey = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
-      {isLoading ? (
-        <Loading />
-      ) : !selectedGender ? (
+       { !selectedGender ? (
         <>
           <div className="bg-none p-8">
             <h2 className="text-2xl mb-4">{genderTheme.question}</h2>
