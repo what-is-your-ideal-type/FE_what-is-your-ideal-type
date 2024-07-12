@@ -10,7 +10,6 @@ const Result = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
   const [prompt, setPrompt] = useState("");
-  const user = auth.currentUser;
   const currentUser = useAuth();
 
   useEffect(() => {
