@@ -6,7 +6,12 @@ import React, {
   ReactNode,
 } from "react";
 import { auth } from "../firebase";
-import { onAuthStateChanged, User } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  User,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 
 interface AuthContextType {
   currentUser: User | null;
@@ -32,13 +37,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("Auth state changed: ", user);
-      setCurrentUser(user);
-      setAuthLoading(false);
-    });
-
-    return unsubscribe;
+    const setAuthPersistence = async () => {
+      try {
+        await setPersistence(auth, browserSessionPersistence);
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          console.log("Auth state changed: ", user);
+          setCurrentUser(user);
+          setAuthLoading(false);
+        });
+        return unsubscribe;
+      } catch (error) {
+        console.error("Failed to set auth persistence: ", error);
+      }
+    };
+    setAuthPersistence();
   }, []);
 
   const value: AuthContextType = { currentUser, setCurrentUser };

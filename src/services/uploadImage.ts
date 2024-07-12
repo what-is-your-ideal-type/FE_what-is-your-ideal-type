@@ -2,6 +2,7 @@ import React from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth, storage, IMAGES_COLLECTION } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { v4 as uuid } from "uuid";
 
 export const uploadImageToFirebase = async (imageUrl: string) => {
   try {
@@ -16,8 +17,8 @@ export const uploadImageToFirebase = async (imageUrl: string) => {
     const response = await fetch(imageUrl);
     const blob = await response.blob();
 
-    const fileName = "randomName444";
-    const storageRef = ref(storage, `images/${fileName}.png`);
+    const fileName = uuid() + ".png";
+    const storageRef = ref(storage, `images/${fileName}`);
 
     // 다운로드한 이미지를 Firebase Storage에 업로드
     await uploadBytes(storageRef, blob).then((snapshot) => {
