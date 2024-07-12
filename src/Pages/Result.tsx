@@ -11,6 +11,7 @@ const Result = () => {
   const [downloadUrl, setDownloadUrl] = useState("");
   const [prompt, setPrompt] = useState("");
   const user = auth.currentUser;
+
   useEffect(() => {
     if (url === undefined || prompts === undefined) {
       return;
@@ -46,7 +47,14 @@ const Result = () => {
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
         <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
         <div>
-          <img src={imageUrl} alt="이상형 이미지" className="rounded-lg" />
+          <img src={imageUrl} alt="이상형 이미지" className="rounded-lg"
+            style={{  
+              width: "100%",
+              height: "auto",
+              maxWidth: "1024px",
+              maxHeight: "1024px"
+            }}
+          />
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
