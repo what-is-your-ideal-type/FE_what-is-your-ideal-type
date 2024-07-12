@@ -31,29 +31,7 @@ const Survey = () => {
   };
 
   const handleSubmit = async () => {
-    try {
-      setIsLoading(true);
-      const data = await imageGenerate(responses);
-      if (data === undefined) {
-        return;
-      }
-
-      const { url } = data;
-      if (url === undefined) {
-        return;
-      }
-
-      const prompts = responses.join(" ");
-      setTimeout(() => {
-        navigate(
-          `/result/${encodeURIComponent(prompts)}/${encodeURIComponent(url)}`,
-        );
-      }, 2000);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+      navigate('/generate', {state: { prompts: responses}})
   };
 
   useEffect(() => {
