@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
-import { uploadImageToFirebase } from "../services/uploadImage";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -13,34 +12,19 @@ const Result = () => {
   const currentUser = useAuth();
 
   useEffect(() => {
-    if (url === undefined || prompts === undefined) {
+    if ( prompts === undefined || url === undefined) {
       return;
     }
 
-    const decodedUrl = decodeURIComponent(url);
+    const replacedURL = url.replace('/o/images/', '/o/images%2F');
     const decodedPrompts = decodeURIComponent(prompts);
 
-    setImageUrl(decodedUrl);
+
+    setImageUrl(replacedURL);
     setPrompt(decodedPrompts);
+    setDownloadUrl(url)
   }, [url, prompts]);
 
-  useEffect(() => {
-    const handleUpload = async () => {
-      try {
-        if (imageUrl.trim() !== "") {
-          const url = await uploadImageToFirebase(imageUrl);
-          if (typeof url === "string") {
-            setDownloadUrl(url);
-          } else {
-            throw new Error("Invalid URL format received");
-          }
-        }
-      } catch (error) {
-        console.error("Error uploading image: ", error);
-      }
-    };
-    handleUpload();
-  }, [imageUrl]);
 
   const handleShare = async () => {
     try {
@@ -57,7 +41,15 @@ const Result = () => {
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
         <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
         <div>
-          <img src={imageUrl} alt="이상형 이미지" className="rounded-lg" />
+          <img src={imageUrl} alt="이상형 이미지" className="rounded-lg"
+            style={{  
+              width: "100%",
+              height: "auto",
+              maxWidth: "1024px",
+              maxHeight: "1024px"
+            }}
+            loading="lazy"
+          />
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">

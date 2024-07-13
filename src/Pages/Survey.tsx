@@ -4,8 +4,7 @@ import {
   surveyContentsWomen,
   genderTheme,
 } from "../components/Survey";
-import { imageGenerate } from "../services/imageGenerator";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
 type Gender = "남자" | "여자";
@@ -31,29 +30,7 @@ const Survey = () => {
   };
 
   const handleSubmit = async () => {
-    try {
-      setIsLoading(true);
-      const data = await imageGenerate(responses);
-      if (data === undefined) {
-        return;
-      }
-
-      const { url } = data;
-      if (url === undefined) {
-        return;
-      }
-
-      const prompts = responses.join(" ");
-      setTimeout(() => {
-        navigate(
-          `/result/${encodeURIComponent(prompts)}/${encodeURIComponent(url)}`,
-        );
-      }, 2000);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+      navigate('/generate', {state: { prompts: responses}})
   };
 
   useEffect(() => {
@@ -74,9 +51,7 @@ const Survey = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
-      {isLoading ? (
-        <Loading />
-      ) : !selectedGender ? (
+       { !selectedGender ? (
         <>
           <div className="bg-none p-8">
             <h2 className="text-2xl mb-4">{genderTheme.question}</h2>

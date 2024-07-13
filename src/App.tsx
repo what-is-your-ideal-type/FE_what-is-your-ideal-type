@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home, SignUp, Survey, Result, MyPage } from "./pages";
 import { AuthProvider } from "./contexts/AuthContext";
+import Generate from "./pages/Generate";
 //import { auth } from "./firebase";
 
 function App() {
@@ -32,9 +33,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<SignUp />} />
-              {/* <Route path="/question" element={<Question />} /> */}
               <Route path="/home" element={<Home />} />
               <Route path="/survey" element={<Survey />} />
+              <Route path="/generate" element={<Generate/>}/>
               <Route path="/result/:prompts/:url" element={<Result />} />
               <Route path="/mypage" element={<MyPage />} />
             </Routes>
