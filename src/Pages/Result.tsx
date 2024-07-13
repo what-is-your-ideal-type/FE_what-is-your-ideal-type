@@ -45,9 +45,15 @@ const Result = () => {
             style={{  
               width: "100%",
               height: "auto",
-              maxWidth: "1024px",
+              maxWidth: "1024px", 
               maxHeight: "1024px"
             }}
+            // srcSet={
+            //   `${imageUrl}.webp 320w,
+            //   ${imageUrl}.webp 480w,
+            //   ${imageUrl}.webp 800w,
+            //   ${imageUrl}.webp 1024w
+            // `}
             loading="lazy"
           />
         </div>
