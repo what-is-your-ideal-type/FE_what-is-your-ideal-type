@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom"
 import Loading from "../components/Loading"
 import { useEffect } from "react";
-import { requestImage } from "../services/requestImage";
+import { imageGenerate } from "../services/imageGenerator";
 import { convertToWebP } from "../services/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
 
@@ -14,7 +14,8 @@ const Generate = () => {
         const { prompts } = location.state;
         const processAndNavigate = async () => {
             try{
-                const responseUrl = await requestImage(prompts)
+                const data = await imageGenerate(prompts);
+                const responseUrl = data?.url
 
                 if(!responseUrl){
                     throw new Error("Failed to get response URL");
