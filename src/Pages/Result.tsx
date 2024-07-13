@@ -48,12 +48,12 @@ const Result = () => {
               maxWidth: "1024px", 
               maxHeight: "1024px"
             }}
-            // srcSet={
-            //   `${imageUrl}.webp 320w,
-            //   ${imageUrl}.webp 480w,
-            //   ${imageUrl}.webp 800w,
-            //   ${imageUrl}.webp 1024w
-            // `}
+            srcSet={
+              `${imageUrl}.webp 320w,
+              ${imageUrl}.webp 480w,
+              ${imageUrl}.webp 800w,
+              ${imageUrl}.webp 1024w
+            `}
             loading="lazy"
           />
         </div>
