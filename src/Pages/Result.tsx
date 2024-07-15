@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Picture from "../components/Picture";
 
 const Result = () => {
   const { prompts, url } = useParams();
@@ -41,32 +42,7 @@ const Result = () => {
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
         <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
         <div>
-          <picture>
-            <source 
-              srcSet={`${imageUrl}.webp 320w,
-                      ${imageUrl}.webp 480w,
-                      ${imageUrl}.webp 800w,
-                      ${imageUrl}.webp 1024w`}
-              sizes="(max-width: 320px) 280px, 
-                    (max-width: 480px) 440px, 
-                    (max-width: 600px) 500px, 
-                    (max-width: 800px) 760px, 
-                    1024px"
-              type="image/webp"
-            />
-            <img 
-              src={`${imageUrl}.jpg`} 
-              alt="이상형 이미지" 
-              className="rounded-lg"
-              style={{  
-                width: "100%",
-                height: "auto",
-                maxWidth: "1024px", 
-                maxHeight: "1024px"
-              }}
-              loading="lazy"
-            />
-        </picture>
+          <Picture imageUrl={imageUrl} altText="이상형 이미지"/>
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
