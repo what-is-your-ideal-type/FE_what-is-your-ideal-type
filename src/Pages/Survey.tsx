@@ -5,7 +5,6 @@ import {
   genderTheme,
 } from "../components/Survey";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/Loading";
 
 type Gender = "남자" | "여자";
 
