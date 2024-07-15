@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { surveyContentsMen, surveyContentsWomen, genderTheme } from "../components/Survey";
-import { imageGenerate } from "../services/imageGenerator";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  surveyContentsMen,
+  surveyContentsWomen,
+  genderTheme,
+} from "../components/Survey";
+import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
-type Gender = "남자" | "여자"
+type Gender = "남자" | "여자";
 
 const Survey = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [responses, setResponses] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const currentSurvey =
     selectedGender === "남자" ? surveyContentsMen : surveyContentsWomen;
-  
 
   const handleGenderSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const gender = event.target.value as Gender;
@@ -20,39 +25,33 @@ const Survey = () => {
   };
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResponses((prev) => prev.concat(event.target.value))
+    setResponses((prev) => prev.concat(event.target.value));
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
-   useEffect(() => {
+  const handleSubmit = async () => {
+      navigate('/generate', {state: { prompts: responses}})
+  };
+
+  useEffect(() => {
     if (currentQuestionIndex === currentSurvey.length) {
       const handleConfirm = () => {
         const confirmSubmit = confirm("제출하시겠습니까?");
-        
+
         if (confirmSubmit) {
           handleSubmit();
-        }else{
-          alert("요청이 잘못 되었습니다.")
+        } else {
+          alert("요청이 잘못 되었습니다.");
         }
       };
 
-      handleConfirm()
+      handleConfirm();
     }
   }, [currentQuestionIndex]);
 
-  const handleSubmit = async () => {
-    try{
-      const response = await imageGenerate(responses)
-      const imageUrl = response?.data[0]?.url
-      navigate('/result', {state: { url: imageUrl, responses: responses.join(" ")}})
-    }catch(error){
-      console.log(error)
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
-      {!selectedGender ? (
+       { !selectedGender ? (
         <>
           <div className="bg-none p-8">
             <h2 className="text-2xl mb-4">{genderTheme.question}</h2>
@@ -94,7 +93,10 @@ const Survey = () => {
           </h2>
           <div className="grid grid-cols-2">
             {currentSurvey[currentQuestionIndex].options.map((option) => (
-              <div key={option} className="mb-2 flex justify-center items-center">
+              <div
+                key={option}
+                className="mb-2 flex justify-center items-center"
+              >
                 <input
                   type="radio"
                   name="option"

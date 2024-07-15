@@ -18,5 +18,7 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const USERS_COLLECTION = collection(db, "users");
 export const storage = getStorage(app);
+export const USERS_COLLECTION = collection(db, "users");
+export const IMAGES_COLLECTION = (uid: string) =>
+  collection(db, `users/${uid}/images`);
