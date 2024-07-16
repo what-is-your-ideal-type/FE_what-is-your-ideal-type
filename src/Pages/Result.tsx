@@ -4,6 +4,7 @@ import { mainButtonArgs } from "../components/ButtonArgs";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/Picture";
+import Kakaoshare from "../components/KakaoShare";
 
 const Result = () => {
   const { prompts, url } = useParams();
@@ -13,19 +14,17 @@ const Result = () => {
   const currentUser = useAuth();
 
   useEffect(() => {
-    if ( prompts === undefined || url === undefined) {
+    if (prompts === undefined || url === undefined) {
       return;
     }
 
-    const replacedURL = url.replace('/o/images/', '/o/images%2F');
+    const replacedURL = url.replace("/o/images/", "/o/images%2F");
     const decodedPrompts = decodeURIComponent(prompts);
-
 
     setImageUrl(replacedURL);
     setPrompt(decodedPrompts);
-    setDownloadUrl(url)
+    setDownloadUrl(url);
   }, [url, prompts]);
-
 
   const handleShare = async () => {
     try {
@@ -42,7 +41,7 @@ const Result = () => {
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
         <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
         <div>
-          <Picture imageUrl={imageUrl} altText="이상형 이미지"/>
+          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
@@ -67,9 +66,10 @@ const Result = () => {
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
           )}
-          <button className="size-8" onClick={handleShare}>
+          <button className="size-8 mr-6" onClick={handleShare}>
             <img src="/images/icon-share.png" alt="공유 아이콘" />
           </button>
+          <Kakaoshare />
         </div>
       </div>
     </div>
