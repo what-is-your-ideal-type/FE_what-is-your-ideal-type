@@ -1,7 +1,5 @@
 import { StyleProps } from "./Button";
 
-
-
 export const mainButtonArgs: StyleProps = {
   $backgroundColor: "#A860F6",
   $hoverColor: "#D4B7F4",
