@@ -90,7 +90,7 @@ const Result = () => {
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
           )}
-          <button className="size-8" onClick={handleShare}>
+          <button className="size-8 mr-6" onClick={handleShare}>
             <img src="/images/icon-share.png" alt="공유 아이콘" />
           </button>
           <Kakaoshare />
