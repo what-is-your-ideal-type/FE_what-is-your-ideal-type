@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import Kakaoshare from "../components/KakaoShare";
 
 const Result = () => {
   const { prompts, url } = useParams();
@@ -12,19 +13,17 @@ const Result = () => {
   const currentUser = useAuth();
 
   useEffect(() => {
-    if ( prompts === undefined || url === undefined) {
+    if (prompts === undefined || url === undefined) {
       return;
     }
 
-    const replacedURL = url.replace('/o/images/', '/o/images%2F');
+    const replacedURL = url.replace("/o/images/", "/o/images%2F");
     const decodedPrompts = decodeURIComponent(prompts);
-
 
     setImageUrl(replacedURL);
     setPrompt(decodedPrompts);
-    setDownloadUrl(url)
+    setDownloadUrl(url);
   }, [url, prompts]);
-
 
   const handleShare = async () => {
     try {
@@ -42,7 +41,7 @@ const Result = () => {
         <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
         <div>
           <picture>
-            <source 
+            <source
               srcSet={`${imageUrl}.webp 320w,
                       ${imageUrl}.webp 480w,
                       ${imageUrl}.webp 800w,
@@ -54,19 +53,19 @@ const Result = () => {
                     1024px"
               type="image/webp"
             />
-            <img 
-              src={`${imageUrl}.jpg`} 
-              alt="이상형 이미지" 
+            <img
+              src={`${imageUrl}.jpg`}
+              alt="이상형 이미지"
               className="rounded-lg"
-              style={{  
+              style={{
                 width: "100%",
                 height: "auto",
-                maxWidth: "1024px", 
-                maxHeight: "1024px"
+                maxWidth: "1024px",
+                maxHeight: "1024px",
               }}
               loading="lazy"
             />
-        </picture>
+          </picture>
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
@@ -94,6 +93,7 @@ const Result = () => {
           <button className="size-8" onClick={handleShare}>
             <img src="/images/icon-share.png" alt="공유 아이콘" />
           </button>
+          <Kakaoshare />
         </div>
       </div>
     </div>
