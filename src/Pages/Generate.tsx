@@ -5,16 +5,6 @@ import { useEffect } from "react";
 import { imageGenerate } from "../services/imageGenerator";
 import { convertToWebP } from "../services/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
-import styled from "styled-components";
-
-const Main = styled.main`
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #F8F6EE;
-`
 
 const Generate = () => {
     const location = useLocation()
@@ -51,11 +41,7 @@ const Generate = () => {
         processAndNavigate()
     }, [])
 
-    return (
-        <Main>
-            <Loading/>
-        </Main>
-    )
+    return <Loading/>
 }
 
 export default Generate
