@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
@@ -9,9 +9,10 @@ import Kakaoshare from "../components/KakaoShare";
 const Result = () => {
   const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
-  const [downloadUrl, setDownloadUrl] = useState("");
   const [prompt, setPrompt] = useState("");
   const currentUser = useAuth();
+  const location = useLocation();
+  const { fileName } = location.state || {};
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -23,8 +24,27 @@ const Result = () => {
 
     setImageUrl(replacedURL);
     setPrompt(decodedPrompts);
-    setDownloadUrl(url);
   }, [url, prompts]);
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(imageUrl);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the image: ", error);
+    }
+  };
 
   const handleShare = async () => {
     try {
@@ -55,14 +75,8 @@ const Result = () => {
           </>
         )}
         <div>
-          {/* 로그인 인증에 따른 코드 추가 필요 */}
-          {downloadUrl && (
-            <button
-              onClick={() => {
-                window.open(downloadUrl);
-              }}
-              className="size-8 mr-6"
-            >
+          {currentUser && (
+            <button onClick={handleDownload} className="size-8 mr-6">
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
           )}
