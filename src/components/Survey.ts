@@ -4,7 +4,7 @@ type Survey = {
 };
 
 export const genderTheme: Survey = {
-  question: "원하는 성별을 골라주세요",
+  question: "원하는 이상형의 성별을 골라주세요",
   options: ["남자", "여자"],
 };
 
@@ -24,7 +24,11 @@ export const surveyContentsWomen: Survey[] = [
   },
   {
     question: "원하는 머리 스타일을 골라주세요",
-    options: ["생머리", "자연스러운 웨이브", "히피펌"],
+    options: ["생머리", "자연스러운 웨이브", "곱슬 머리"],
+  },
+  {
+    question: "원하는 머리 색을 골라주세요",
+    options: ["흑발", "금발", "은발", "갈색", "빨간색"],
   },
   {
     question: "원하는 얼굴형을 골라주세요",
@@ -41,8 +45,14 @@ export const surveyContentsWomen: Survey[] = [
     options: ["무쌍", "속쌍", "쌍커풀 짙은 눈"],
   },
   {
-    question: "인종을 선택해주세요",
-    options: ["황인", "백인", "흑인"],
+    question: "원하는 피부색을 골라주세요",
+    options: [
+      "엑스트라 화이트 톤",
+      "밝고 환한 밀크 톤",
+      "차분한 아이보리 톤",
+      "자연스러운 미디엄 다크 톤",
+      "태닝한 듯 건강한 다크 톤",
+    ],
   },
   {
     question: "옷 스타일을 골라주세요",
@@ -56,7 +66,7 @@ export const surveyContentsWomen: Survey[] = [
       "너드 스타일",
       "말괄량이 스타일",
     ],
-  },
+  }
 ];
 
 // 성별이 남자인 경우 설문내용
@@ -72,6 +82,10 @@ export const surveyContentsMen: Survey[] = [
   {
     question: "원하는 머리 길이를 골라주세요",
     options: ["아주 짧은 머리", "짧은 머리", "보통 길이의 머리", "남자 긴머리"],
+  },
+  {
+    question: "원하는 머리 색을 골라주세요",
+    options: ["흑발", "금발", "은발", "갈색", "빨간색"],
   },
   {
     question: "원하는 머리 스타일을 골라주세요",
@@ -92,8 +106,14 @@ export const surveyContentsMen: Survey[] = [
     options: ["무쌍", "속쌍", "쌍커풀 짙은 눈"],
   },
   {
-    question: "인종을 선택해주세요",
-    options: ["황인", "백인", "흑인"],
+    question: "원하는 피부색을 골라주세요",
+    options: [
+      "엑스트라 화이트 톤",
+      "밝고 환한 밀크 톤",
+      "차분한 아이보리 톤",
+      "자연스러운 미디엄 다크 톤",
+      "태닝한 듯 건강한 다크 톤",
+    ],
   },
   {
     question: "옷 스타일을 골라주세요",
