@@ -11,7 +11,7 @@ const Generate = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { prompts } = location.state;
+    const { prompts, hashTags } = location.state;
     const processAndNavigate = async () => {
       try {
         const data = await imageGenerate(prompts);
@@ -32,7 +32,7 @@ const Generate = () => {
           throw new Error("Failed to upload and download Image to Firebase");
         }
 
-        const newPrompts = prompts.join(" ");
+        const newPrompts = hashTags.join(" ");
         navigate(
           `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`,
           {

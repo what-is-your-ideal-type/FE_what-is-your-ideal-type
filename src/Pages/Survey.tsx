@@ -5,39 +5,45 @@ import {
   genderTheme,
 } from "../components/Survey";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import { mainButtonArgs } from "../components/ButtonArgs";
 
-type Gender = "남자" | "여자";
+type Gender = "man" | "woman";
 
 const Survey = () => {
   const navigate = useNavigate();
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [responses, setResponses] = useState<string[]>([]);
+  const [prompts, setprompts] = useState<string[]>([]);
+  const [hashtags, setHashTags] = useState<string[]>([]);
 
   const currentSurvey =
-    selectedGender === "남자" ? surveyContentsMen : surveyContentsWomen;
+    selectedGender === "man" ? surveyContentsMen : surveyContentsWomen;
 
-  const handleGenderSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const gender = event.target.value as Gender;
-    setResponses((prev) => prev.concat(gender));
-    setSelectedGender(gender);
+  const handleGenderSelect = (genderEng: Gender, genderKor: "남자" | "여자") => {
+    setprompts((prev) => prev.concat(genderEng));
+    setHashTags((prev) => prev.concat(genderKor));
+    setSelectedGender(genderEng);
   };
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResponses((prev) => prev.concat(event.target.value));
+  const handleOptionChange = (valueEng: string, valueKor: string) => {
+    setprompts((prev) => prev.concat(valueEng));
+    setHashTags((prev) => prev.concat(valueKor));
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
   };
 
   const handleSubmit = () => {
-    navigate("/generate", { state: { prompts: responses } });
+    navigate("/generate", { state: { prompts: prompts, hashTags: hashtags } });
   };
 
   const handleBack = () => {
-    if(responses.length === 1){
+    if(prompts.length === 1){
       setSelectedGender(null)
-      setResponses([])
+      setprompts([])
+      setHashTags([])
     }else{
-      setResponses((prev) => prev.slice(0, prev.length - 1));
+      setprompts((prev) => prev.slice(0, prev.length - 1));
+      setHashTags((prev) => prev.slice(0, prev.length - 1));
       setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
     }
   }
@@ -60,23 +66,15 @@ const Survey = () => {
       </div>
       <div className="w-52 flex justify-between items-center">
         {genderTheme.options.map((option) => (
-          <div key={option} className="mb-2 flex">
-            <input
-              type="radio"
-              name="gender"
-              value={option}
-              id={option}
-              onChange={handleGenderSelect}
-              className="mr-2 hidden"
-            />
-            <label
-              htmlFor={option}
-              className="bg-main hover:bg-sub flex justify-center items-center p-3 mb-5 text-white rounded-lg w-20 shadow-md cursor-pointer"
-            >
-              {option}
-            </label>
-          </div>
-        ))}
+          <Button
+            key={option.label}
+            label={option.label}
+            type="button"
+            {...mainButtonArgs}
+            onClick={() => handleGenderSelect(option.value, option.label)}
+          />
+        )
+      )}
       </div>
     </>
   );
@@ -97,22 +95,13 @@ const Survey = () => {
       </h2>
       <div className="grid grid-cols-2">
         {currentSurvey[currentQuestionIndex].options.map((option) => (
-          <div key={option} className="mb-2 flex justify-center items-center">
-            <input
-              type="radio"
-              name="option"
-              value={option}
-              id={option}
-              checked={responses[currentQuestionIndex] === option}
-              onChange={handleOptionChange}
-              className="mr-2 hidden"
+          <div key={option.label} className="mb-2 flex justify-center items-center">
+            <Button
+              label={option.label}
+              type="button"
+              {...mainButtonArgs}
+              onClick={() => handleOptionChange(option.value, option.label)}
             />
-            <label
-              htmlFor={option}
-              className="bg-main hover:bg-sub flex justify-center items-center p-3 mb-5 text-white rounded-lg shadow-md cursor-pointer"
-            >
-              {option}
-            </label>
           </div>
         ))}
       </div>
@@ -122,7 +111,7 @@ const Survey = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
-      {responses.length > 0 ? 
+      {prompts.length > 0 ? 
         <button onClick={handleBack}>뒤로가기</button>
       : null}
       {!selectedGender
