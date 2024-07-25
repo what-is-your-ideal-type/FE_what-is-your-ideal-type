@@ -12,6 +12,8 @@ import {
   googleButtonArgs,
 } from "../components/ButtonArgs";
 import { useAuth } from "../contexts/AuthContext";
+import NavigateToSurvey from "../components/NavigateToSurvey";
+import { getCountAndTimeLeft } from "../services/countService";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +34,13 @@ const Home = () => {
       console.log("User logged in: ", userCredential.user);
       setCurrentUser(userCredential.user);
       alert("로그인에 성공했습니다.");
-      navigate("/survey");
+
+      const { count, limit } = await getCountAndTimeLeft(currentUser);
+      if (count < limit) {
+        navigate("/survey");
+      } else {
+        navigate("/");
+      }
     } catch (error: any) {
       // 예외 처리
       switch (error.code) {
@@ -79,12 +87,7 @@ const Home = () => {
               />
             </>
           ) : (
-            <Button
-              label="로그인 없이 시작"
-              type="button"
-              {...mainButtonArgs}
-              onClick={() => navigate("/survey")}
-            />
+            <NavigateToSurvey label="로그인 없이 시작" />
           )}
         </section>
         {!currentUser && (

@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useEffect } from "react";
 import { imageGenerate } from "../services/imageGenerator";
 import { convertToWebP } from "../services/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
+import { useAuth } from "../contexts/AuthContext";
+import { getCountAndTimeLeft, incrementCount } from "../services/countService";
 
 const Generate = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const { prompts, hashTags } = location.state;
@@ -39,6 +42,9 @@ const Generate = () => {
             state: { fileName: firebaseFileName },
           },
         );
+
+        const { count, limit } = await getCountAndTimeLeft(currentUser);
+        await incrementCount(currentUser, count, limit);
       } catch (error) {
         console.error(error);
       }
