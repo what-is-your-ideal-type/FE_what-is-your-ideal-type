@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
 
 const Result = () => {
   const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState("");
   const [prompt, setPrompt] = useState("");
   const currentUser = useAuth();
-  const location = useLocation();
-  const { fileName } = location.state || {};
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -24,27 +22,8 @@ const Result = () => {
 
     setImageUrl(replacedURL);
     setPrompt(decodedPrompts);
+    setDownloadUrl(url);
   }, [url, prompts]);
-
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(imageUrl);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading the image: ", error);
-    }
-  };
 
   const handleShare = async () => {
     try {
@@ -61,7 +40,32 @@ const Result = () => {
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
         <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
         <div>
-          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
+          <picture>
+            <source
+              srcSet={`${imageUrl}.webp 320w,
+                      ${imageUrl}.webp 480w,
+                      ${imageUrl}.webp 800w,
+                      ${imageUrl}.webp 1024w`}
+              sizes="(max-width: 320px) 280px, 
+                    (max-width: 480px) 440px, 
+                    (max-width: 600px) 500px, 
+                    (max-width: 800px) 760px, 
+                    1024px"
+              type="image/webp"
+            />
+            <img
+              src={`${imageUrl}.jpg`}
+              alt="이상형 이미지"
+              className="rounded-lg"
+              style={{
+                width: "100%",
+                height: "auto",
+                maxWidth: "1024px",
+                maxHeight: "1024px",
+              }}
+              loading="lazy"
+            />
+          </picture>
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
@@ -75,8 +79,14 @@ const Result = () => {
           </>
         )}
         <div>
-          {currentUser && (
-            <button onClick={handleDownload} className="size-8 mr-6">
+          {/* 로그인 인증에 따른 코드 추가 필요 */}
+          {downloadUrl && (
+            <button
+              onClick={() => {
+                window.open(downloadUrl);
+              }}
+              className="size-8 mr-6"
+            >
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
           )}
