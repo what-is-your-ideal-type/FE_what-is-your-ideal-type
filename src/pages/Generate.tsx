@@ -37,7 +37,8 @@ const Generate = () => {
           throw new Error("Failed to upload and download Image to Firebase");
         }
 
-        const newPrompts = hashTags.join(" ");
+        const addHashTags = hashTags.map((v: string) => "#" + v)
+        const newPrompts = addHashTags.join(" ");
         navigate(
           `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`,
           {

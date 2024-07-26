@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
+import NavigateToSurvey from "../components/NavigateToSurvey";
 
 const Result = () => {
   const { prompts, url } = useParams();
@@ -13,6 +14,7 @@ const Result = () => {
   const currentUser = useAuth();
   const location = useLocation();
   const { fileName } = location.state || {};
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -56,24 +58,35 @@ const Result = () => {
     }
   };
 
+  const handleNavigate = (pagePath: string) => {
+    navigate(pagePath)
+  }
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
-        <h2 className="font-bold text-2xl">정호님의 이상형은</h2>
+        <h2 className="font-bold text-2xl">이런 스타일을 찾으셨나요?</h2>
         <div>
           <Picture imageUrl={imageUrl} altText="이상형 이미지" />
         </div>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        <h3 className="font-bold pt-8">{prompt}입니다</h3>
-        {currentUser ? null : (
+        <h3 className="font-bold pt-8">{prompt}</h3>
+        <div>
+        {currentUser ? (
           <>
+            <Button label={"마이페이지"} type="button" {...mainButtonArgs} onClick={() => handleNavigate("/mypage")}/>
+            <NavigateToSurvey label="이상형 다시 찾기"/>
+          </>
+          ) : (
+            <>
             <p className="text-gray">
               사진을 저장하고 기록하고 싶다면 로그인 해보세요
             </p>
-            <Button label="로그인" type="submit" {...mainButtonArgs} />
+            <Button label="로그인" type="button" {...mainButtonArgs} onClick={() => handleNavigate("/")}/>
           </>
         )}
+        </div>
         <div>
           {currentUser && (
             <button onClick={handleDownload} className="size-8 mr-6">
