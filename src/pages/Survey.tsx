@@ -20,7 +20,10 @@ const Survey = () => {
   const currentSurvey =
     selectedGender === "man" ? surveyContentsMen : surveyContentsWomen;
 
-  const handleGenderSelect = (genderEng: Gender, genderKor: "남자" | "여자") => {
+  const handleGenderSelect = (
+    genderEng: Gender,
+    genderKor: "남자가 좋아요!" | "여자가 좋아요!",
+  ) => {
     setprompts((prev) => prev.concat(genderEng));
     setHashTags((prev) => prev.concat(genderKor));
     setSelectedGender(genderEng);
@@ -37,16 +40,16 @@ const Survey = () => {
   };
 
   const handleBack = () => {
-    if(prompts.length === 1){
-      setSelectedGender(null)
-      setprompts([])
-      setHashTags([])
-    }else{
+    if (prompts.length === 1) {
+      setSelectedGender(null);
+      setprompts([]);
+      setHashTags([]);
+    } else {
       setprompts((prev) => prev.slice(0, prev.length - 1));
       setHashTags((prev) => prev.slice(0, prev.length - 1));
       setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
     }
-  }
+  };
 
   useEffect(() => {
     if (currentQuestionIndex === currentSurvey.length) {
@@ -64,7 +67,7 @@ const Survey = () => {
       <div className="bg-none p-8">
         <h2 className="text-2xl mb-4">{genderTheme.question}</h2>
       </div>
-      <div className="w-52 flex justify-between items-center">
+      <div className="w-64 flex justify-between items-center">
         {genderTheme.options.map((option) => (
           <Button
             key={option.label}
@@ -73,8 +76,7 @@ const Survey = () => {
             {...mainButtonArgs}
             onClick={() => handleGenderSelect(option.value, option.label)}
           />
-        )
-      )}
+        ))}
       </div>
     </>
   );
@@ -95,7 +97,10 @@ const Survey = () => {
       </h2>
       <div className="grid grid-cols-2">
         {currentSurvey[currentQuestionIndex].options.map((option) => (
-          <div key={option.label} className="mb-2 flex justify-center items-center">
+          <div
+            key={option.label}
+            className="mb-2 flex justify-center items-center"
+          >
             <Button
               label={option.label}
               type="button"
@@ -111,14 +116,14 @@ const Survey = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-bg">
-      {prompts.length > 0 ? 
+      {prompts.length > 0 ? (
         <button onClick={handleBack}>뒤로가기</button>
-      : null}
+      ) : null}
       {!selectedGender
         ? renderGenderSelection()
         : currentQuestionIndex < currentSurvey.length
-        ? renderSurveyQuestion()
-        : null}
+          ? renderSurveyQuestion()
+          : null}
     </div>
   );
 };
