@@ -35,7 +35,7 @@ const Home = () => {
       setCurrentUser(userCredential.user);
       alert("로그인에 성공했습니다.");
 
-      const { count, limit } = await getCountAndTimeLeft(currentUser);
+      const { count, limit } = await getCountAndTimeLeft(userCredential.user);
       if (count < limit) {
         navigate("/survey");
       } else {
@@ -56,6 +56,8 @@ const Home = () => {
     if (confirm("로그아웃 하시겠어요?")) {
       await signOut(auth)
         .then(() => {
+          setEmail("");
+          setPassword("");
           console.log("Signout successful");
         })
         .catch((error) => {
