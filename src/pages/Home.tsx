@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../firebase";
@@ -35,12 +35,7 @@ const Home = () => {
       setCurrentUser(userCredential.user);
       alert("로그인에 성공했습니다.");
 
-      const { count, limit } = await getCountAndTimeLeft(userCredential.user);
-      if (count < limit) {
-        navigate("/survey");
-      } else {
-        navigate("/");
-      }
+      navigate("/mypage");
     } catch (error: any) {
       // 예외 처리
       switch (error.code) {
