@@ -14,7 +14,14 @@ const Result = () => {
   const currentUser = useAuth();
   const location = useLocation();
   const { fileName } = location.state || {};
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (!currentUser) {
+      setLoading(false);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -59,8 +66,8 @@ const Result = () => {
   };
 
   const handleNavigate = (pagePath: string) => {
-    navigate(pagePath)
-  }
+    navigate(pagePath);
+  };
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
@@ -72,23 +79,31 @@ const Result = () => {
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
         <h3 className="font-bold pt-8">{prompt}</h3>
-        <div>
-        {currentUser ? (
+        {!loading && currentUser ? (
           <>
-            <Button label={"마이페이지"} type="button" {...mainButtonArgs} onClick={() => handleNavigate("/mypage")}/>
-            <NavigateToSurvey label="이상형 다시 찾기"/>
+            <Button
+              label={"마이페이지"}
+              type="button"
+              {...mainButtonArgs}
+              onClick={() => handleNavigate("/mypage")}
+            />
+            <NavigateToSurvey label="이상형 다시 찾기" />
           </>
-          ) : (
-            <>
+        ) : (
+          <>
             <p className="text-gray">
               사진을 저장하고 기록하고 싶다면 로그인 해보세요
             </p>
-            <Button label="로그인" type="button" {...mainButtonArgs} onClick={() => handleNavigate("/")}/>
+            <Button
+              label="로그인"
+              type="button"
+              {...mainButtonArgs}
+              onClick={() => handleNavigate("/")}
+            />
           </>
         )}
-        </div>
         <div>
-          {currentUser && (
+          {!loading && currentUser && (
             <button onClick={handleDownload} className="size-8 mr-6">
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
