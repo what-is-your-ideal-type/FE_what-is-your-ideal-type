@@ -9,7 +9,7 @@ const openai = new OpenAI({
 });
  
 export async function imageGenerate(order: string[]) {
-  const prompt = order.join('의 ') + "한명의 실사 전신 사진을 생성해주세요"
+  const prompt = "A person who is " + order.join(' ') + " realistic photo" 
 
   try {
     const response = await openai.images.generate({

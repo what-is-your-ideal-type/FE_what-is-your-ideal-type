@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import NavigateToSurvey from "../components/NavigateToSurvey";
 
 interface CardData {
   url: string;
@@ -48,12 +49,7 @@ const MyPage = () => {
   return (
     <main className="flex flex-col items-center space-y-8 bg-bg py-16">
       <h1 className="text-3xl font-bold">Josh님의 이상형 리스트 입니다.</h1>
-      <Button
-        label="새로운 이상형 찾기"
-        type="button"
-        {...mainButtonArgs}
-        onClick={() => navigate("/survey")}
-      />
+      <NavigateToSurvey label="새로운 이상형 찾기" />
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {cards.map((card, index) => (
           <div key={index} className="w-[250px]">

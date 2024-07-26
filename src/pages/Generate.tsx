@@ -1,27 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useEffect } from "react";
 import { imageGenerate } from "../services/imageGenerator";
 import { convertToWebP } from "../services/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
-import styled from "styled-components";
-
-const Main = styled.main`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f8f6ee;
-`;
+import { useAuth } from "../contexts/AuthContext";
+import { getCountAndTimeLeft, incrementCount } from "../services/countService";
 
 const Generate = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    const { prompts } = location.state;
+    const { prompts, hashTags } = location.state;
     const processAndNavigate = async () => {
       try {
         const data = await imageGenerate(prompts);
@@ -35,16 +28,23 @@ const Generate = () => {
         if (!webP) {
           throw new Error("Failed to convert to WebP");
         }
-        const firebaseUrl = await uploadImageToFirebase(webP);
+        const [firebaseUrl, firebaseFileName] =
+          await uploadImageToFirebase(webP);
 
         if (!firebaseUrl) {
           throw new Error("Failed to upload and download Image to Firebase");
         }
 
-        const newPrompts = prompts.join(" ");
+        const newPrompts = hashTags.join(" ");
         navigate(
           `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`,
+          {
+            state: { fileName: firebaseFileName },
+          },
         );
+
+        const { count, limit } = await getCountAndTimeLeft(currentUser);
+        await incrementCount(currentUser, count, limit);
       } catch (error) {
         console.error(error);
       }
@@ -52,11 +52,7 @@ const Generate = () => {
     processAndNavigate();
   }, []);
 
-  return (
-    <Main>
-      <Loading />
-    </Main>
-  );
+  return <Loading />;
 };
 
 export default Generate;
