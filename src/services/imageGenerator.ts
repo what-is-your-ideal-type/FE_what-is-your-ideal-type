@@ -9,7 +9,7 @@ const openai = new OpenAI({
 });
  
 export async function imageGenerate(order: string[]) {
-  const prompt = "A person who is " + order.join(' ') + " realistic photo" 
+  const prompt = "A person who is " + order.join(' ') + " realistic full-body photo" 
 
   try {
     const response = await openai.images.generate({
