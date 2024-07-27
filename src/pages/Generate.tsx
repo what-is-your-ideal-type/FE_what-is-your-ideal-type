@@ -28,14 +28,17 @@ const Generate = () => {
         if (!webP) {
           throw new Error("Failed to convert to WebP");
         }
-        const [firebaseUrl, firebaseFileName] =
-          await uploadImageToFirebase(webP);
+        const [firebaseUrl, firebaseFileName] = await uploadImageToFirebase(
+          webP,
+          hashTags,
+        );
 
         if (!firebaseUrl) {
           throw new Error("Failed to upload and download Image to Firebase");
         }
 
-        const newPrompts = hashTags.join(" ");
+        const addHashTags = hashTags.map((v: string) => "#" + v)
+        const newPrompts = addHashTags.join(" ");
         navigate(
           `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`,
           {

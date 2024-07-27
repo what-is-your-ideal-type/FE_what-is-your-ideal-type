@@ -4,7 +4,7 @@ import { auth, storage, IMAGES_COLLECTION } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
 
-export const uploadImageToFirebase = async (webP: Blob) => {
+export const uploadImageToFirebase = async (webP: Blob, hashTags: string[]) => {
   try {
     const user = auth.currentUser;
     const uid = user?.uid;
@@ -27,6 +27,7 @@ export const uploadImageToFirebase = async (webP: Blob) => {
         fileName: fileName,
         url: downloadUrl,
         createdAt: new Date(),
+        hashTags: hashTags,
       });
       console.log("URL successfully saved to firestore!");
     }
