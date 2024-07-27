@@ -1,4 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# vercel deploy
 /.env
 
 # dependencies
@@ -24,3 +26,5 @@ yarn-debug.log*
 yarn-error.log*
 
 *storybook.log
+
+.vercel
