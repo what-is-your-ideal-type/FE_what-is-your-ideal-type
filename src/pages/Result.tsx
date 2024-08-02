@@ -15,13 +15,7 @@ const Result = () => {
   const location = useLocation();
   const { fileName } = location.state || {};
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (!currentUser) {
-      setLoading(false);
-    }
-  }, [currentUser]);
+  const isLogin = currentUser.currentUser;
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -80,7 +74,7 @@ const Result = () => {
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
         <h3 className="font-bold pt-8">{prompt}</h3>
 
-        {!loading && currentUser ? (
+        {isLogin ? (
           <>
             <Button
               label={"마이페이지"}
@@ -104,7 +98,7 @@ const Result = () => {
           </>
         )}
         <div>
-          {!loading && currentUser && (
+          {isLogin && (
             <button onClick={handleDownload} className="size-8 mr-6">
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
             </button>
