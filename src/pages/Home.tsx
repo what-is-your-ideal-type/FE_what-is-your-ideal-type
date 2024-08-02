@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../firebase";
@@ -12,6 +12,8 @@ import {
   googleButtonArgs,
 } from "../components/ButtonArgs";
 import { useAuth } from "../contexts/AuthContext";
+import NavigateToSurvey from "../components/NavigateToSurvey";
+import { getCountAndTimeLeft } from "../services/countService";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +34,8 @@ const Home = () => {
       console.log("User logged in: ", userCredential.user);
       setCurrentUser(userCredential.user);
       alert("로그인에 성공했습니다.");
-      navigate("/survey");
+
+      navigate("/mypage");
     } catch (error: any) {
       // 예외 처리
       switch (error.code) {
@@ -48,6 +51,8 @@ const Home = () => {
     if (confirm("로그아웃 하시겠어요?")) {
       await signOut(auth)
         .then(() => {
+          setEmail("");
+          setPassword("");
           console.log("Signout successful");
         })
         .catch((error) => {
@@ -79,12 +84,7 @@ const Home = () => {
               />
             </>
           ) : (
-            <Button
-              label="로그인 없이 시작"
-              type="button"
-              {...mainButtonArgs}
-              onClick={() => navigate("/survey")}
-            />
+            <NavigateToSurvey label="로그인 없이 시작" />
           )}
         </section>
         {!currentUser && (
