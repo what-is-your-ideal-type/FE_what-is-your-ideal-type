@@ -25,7 +25,7 @@ const Kakaoshare: React.FC = () => {
         content: {
           title: "AI 이상형 찾기",
           description: "AI가 그려준 내 이상형은 어떻게 생겼을까?",
-          imageUrl: "https://ibb.co/m5vDHcb",
+          imageUrl: encodeURI("https://ibb.co/m5vDHcb"),
           link: {
             mobileWebUrl: resultUrl,
           },
