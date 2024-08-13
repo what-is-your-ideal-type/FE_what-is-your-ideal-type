@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Loading from "../components/Loading";
 import { IMAGES_COLLECTION } from "../firebase";
 import {
   query,
