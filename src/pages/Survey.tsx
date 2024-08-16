@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import {
   surveyContentsMen,
   surveyContentsWomen,
@@ -9,6 +10,21 @@ import Button from "../components/Button";
 import { mainButtonArgs } from "../components/ButtonArgs";
 
 type Gender = "man" | "woman";
+
+const slideInRight = keyframes`
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const QuestionContainer = styled.div`
+  animation: ${slideInRight} 0.5s ease-in-out;
+`;
 
 const Survey = () => {
   const navigate = useNavigate();
@@ -82,7 +98,7 @@ const Survey = () => {
   );
 
   const renderSurveyQuestion = () => (
-    <div className="bg-none p-8">
+    <QuestionContainer key={currentQuestionIndex} className="bg-none p-8">
       <div className="mt-4 w-full flex justify-center">
         <div className="w-96">
           <progress
@@ -111,7 +127,7 @@ const Survey = () => {
         ))}
       </div>
       <div className="flex justify-center items-center mt-10"></div>
-    </div>
+    </QuestionContainer>
   );
 
   return (
