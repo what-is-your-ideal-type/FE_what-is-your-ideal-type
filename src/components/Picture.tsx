@@ -29,13 +29,7 @@ const Picture = ({ imageUrl, altText }: PictureProps) => {
                 1024px"
         type="image/webp"
       />
-      <Image
-        src={`${imageUrl}.jpg`}
-        alt={altText}
-        loading="lazy"
-        onContextMenu={(e) => e.preventDefault()}
-        onDragStart={(e) => e.preventDefault()}
-      />
+      <Image src={`${imageUrl}.jpg`} alt={altText} loading="lazy" />
     </picture>
   );
 };

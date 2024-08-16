@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Loading from "../components/Loading";
 import { IMAGES_COLLECTION } from "../firebase";
 import {
   query,
@@ -16,6 +15,7 @@ interface CardData {
   createdAt: Date;
   fileName: string;
   hashTags?: string[] | null;
+  resultUrl?: string | null;
 }
 
 const MyPage = () => {
@@ -37,6 +37,7 @@ const MyPage = () => {
               createdAt: data.createdAt.toDate(),
               fileName: data.fileName,
               hashTags: data.hashTags,
+              resultUrl: data.resultUrl,
             };
             newCards.push(cardData);
           });
@@ -62,7 +63,11 @@ const MyPage = () => {
       <NavigateToSurvey label="새로운 이상형 찾기" />
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {cards.map((card, index) => (
-          <div key={index} className="w-[250px]">
+          <div
+            key={index}
+            className="w-[250px]"
+            onClick={() => navigate(`${card.resultUrl}`)}
+          >
             <div className="p-4">
               <img
                 src={card.url}

@@ -38,6 +38,10 @@ const Button = styled.button<
   &:hover {
     background-color: ${(props) => props.$hoverColor};
   }
+    
+  &:active {
+  background-color: ${(props) => props.$backgroundColor || "#007BFF"};
+  }
 `;
 
 function StyledButton({ label, type = "button", ...props }: ButtonProps) {

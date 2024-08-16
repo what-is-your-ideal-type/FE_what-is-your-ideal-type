@@ -7,6 +7,7 @@ import { convertToWebP } from "../services/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
 import { useAuth } from "../contexts/AuthContext";
 import { getCountAndTimeLeft, incrementCount } from "../services/countService";
+import { saveResultUrlToFirebase } from "../services/saveResultUrlToFirebase";
 
 const Generate = () => {
   const location = useLocation();
@@ -28,23 +29,29 @@ const Generate = () => {
         if (!webP) {
           throw new Error("Failed to convert to WebP");
         }
-        const [firebaseUrl, firebaseFileName] = await uploadImageToFirebase(
-          webP,
-          hashTags,
-        );
+        const [firebaseUrl, firebaseFileName, imageDocId] =
+          await uploadImageToFirebase(webP, hashTags);
 
         if (!firebaseUrl) {
           throw new Error("Failed to upload and download Image to Firebase");
         }
 
-        const addHashTags = hashTags.map((v: string) => "#" + v)
+        const addHashTags = hashTags.map((v: string) => "#" + v);
         const newPrompts = addHashTags.join(" ");
-        navigate(
-          `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`,
-          {
-            state: { fileName: firebaseFileName },
-          },
-        );
+        const resultUrl = `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`;
+
+        // Firebase에 결과 페이지 url 저장
+        if (currentUser) {
+          await saveResultUrlToFirebase({
+            user: currentUser,
+            imageDocId: imageDocId,
+            resultUrl: resultUrl,
+          });
+        }
+
+        navigate(resultUrl, {
+          state: { fileName: firebaseFileName },
+        });
 
         const { count, limit } = await getCountAndTimeLeft(currentUser);
         await incrementCount(currentUser, count, limit);

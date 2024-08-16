@@ -9,10 +9,17 @@ const openai = new OpenAI({
 });
 
 export async function imageGenerate(order: string[]) {
-  const prompt =
-    "A person who is " +
-    order.slice(1).join(" ") +
-    " realistic full-body photo";
+  const fixPrompt = [
+    "passport-style",
+    "realistic",
+    "professional",
+    "plain light-colored background",
+    "soft lighting",
+    "natural",
+    "polished",
+    "refined",
+  ];
+  const prompt = "korean, " + order.join(", ") + fixPrompt.join(", ");
 
   try {
     const response = await openai.images.generate({
