@@ -1,37 +1,45 @@
-import React from "react";
-import { useEffect } from "react";
-const { Kakao } = window;
+import React, { useEffect } from "react";
 
-const Kakaoshare = () => {
-  const realUrl = "https://what-is-your-ideal-type.vercel.app";
-  const resultUrl = window.location.href;
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
+const Kakaoshare: React.FC = () => {
+  const realUrl = "https://what-is-your-ideal-type.vercel.app"; // 메인페이지 링크
+  const resultUrl = window.location.href; // 결과페이지 링크
 
   useEffect(() => {
-    Kakao.cleanup();
-    Kakao.init("dfd8e8ebd0ff355e3edb9867070551e5");
-    console.log(Kakao.isInitialized());
+    if (window.Kakao) {
+      window.Kakao.cleanup();
+      window.Kakao.init("dfd8e8ebd0ff355e3edb9867070551e5");
+      console.log(window.Kakao.isInitialized());
+    }
   }, []);
 
   const shareKakao = () => {
-    Kakao.Share.sendDefault({
-      objectType: "feed",
-      content: {
-        title: "AI 이상형 찾기",
-        description: "AI가 그려준 내 이상형은 어떻게 생겼을까?",
-        imageUrl: "https://ibb.co/m5vDHcb",
-        link: {
-          mobileWebUrl: realUrl,
-        },
-      },
-      buttons: [
-        {
-          title: "나도 이상형 찾으러 가기",
+    if (window.Kakao) {
+      window.Kakao.Share.sendDefault({
+        objectType: "feed",
+        content: {
+          title: "AI 이상형 찾기",
+          description: "AI가 그려준 내 이상형은 어떻게 생겼을까?",
+          imageUrl: encodeURI("https://ibb.co/m5vDHcb"),
           link: {
-            mobileWebUrl: realUrl,
+            mobileWebUrl: resultUrl,
           },
         },
-      ],
-    });
+        buttons: [
+          {
+            title: "나도 이상형 찾으러 가기",
+            link: {
+              mobileWebUrl: resultUrl,
+            },
+          },
+        ],
+      });
+    }
   };
 
   return (
