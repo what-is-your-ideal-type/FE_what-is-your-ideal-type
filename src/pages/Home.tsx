@@ -14,6 +14,9 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import { getCountAndTimeLeft } from "../services/countService";
+import { AuthSection, ButtonGroup, ErrorMessage, InnerSection, LogoContainer, Main } from "../styles/styled";
+import { FlexBox } from "../styles/FlexBox";
+import { Text } from "../styles/Text";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -62,66 +65,34 @@ const Home = () => {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-bg p-4">
-      <section className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-16">
-        <section className="flex flex-col items-center space-y-8">
-          <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
-            <span className="text-2xl font-bold">Logo</span>
-          </div>
-          {currentUser ? (
-            <>
-              <Button
-                label="마이페이지"
-                type="button"
-                {...mainButtonArgs}
-                onClick={() => navigate("/mypage")}
-              />
-              <Button
-                label="로그아웃"
-                type="button"
-                {...mainButtonArgs}
-                onClick={() => handleLogout()}
-              />
-            </>
-          ) : (
-            <NavigateToSurvey label="로그인 없이 시작" />
-          )}
-        </section>
-        {!currentUser && (
-          <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
-            <section>
-              <form
-                onSubmit={handleLogin}
-                className="flex flex-col items-center space-y-4"
-              >
-                <Input
-                  type="email"
-                  placeholder="이메일을 입력해주세요"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Input
-                  type="password"
-                  placeholder="비밀번호를 입력해주세요"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {error && <p className="text-red-700">{error}</p>}
-                <Button label="로그인하기" type="submit" {...authButtonArgs} />
-              </form>
-            </section>
-            <Link to="/signup">
-              <Button label="회원가입하기" type="button" {...authButtonArgs} />
-            </Link>
-            <section className="flex space-x-8">
-              <Button label="카카오" type="button" {...kakaoButtonArgs} />
-              <Button label="네이버" type="button" {...naverButtonArgs} />
-              <Button label="구글" type="button" {...googleButtonArgs} />
-            </section>
-          </section>
-        )}
-      </section>
-    </main>
+    <Main>
+      <FlexBox direction="column" gap="2rem">
+        <FlexBox direction="column" gap="1rem" style={{alignItems: "flex-start", width: "100%"}}>
+          <Text fontSize="lg" fontWeight="bold">안녕하세요!</Text>
+          <Text fontSize="md" fontWeight="bold">나만의 이상형을 찾아 볼까요?</Text>
+        </FlexBox>  
+        <FlexBox direction="column" gap="1rem">
+          <Input
+            type="email"
+            placeholder="이메일을 입력해주세요"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            />
+          <Input
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            />
+          </FlexBox>
+        <Button label="로그인하기" type="submit" {...authButtonArgs} />
+      </FlexBox>
+        <ButtonGroup>
+          <Button label="카카오" type="button" {...kakaoButtonArgs} />
+          <Button label="네이버" type="button" {...naverButtonArgs} />
+          <Button label="구글" type="button" {...googleButtonArgs} />
+        </ButtonGroup>
+    </Main>
   );
 };
 

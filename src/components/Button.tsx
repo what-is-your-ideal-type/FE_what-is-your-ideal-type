@@ -13,11 +13,14 @@ export interface StyleProps {
 
 export interface ButtonProps extends StyleProps{
   label: string;
+  size: string;
+  color: string;
+  children: string;
   type?: "submit" | "button";
   onClick?: () => void
 }
 
-const Button = styled.button<
+export const Button = styled.button<
   Pick<
     ButtonProps,
     | "$backgroundColor"
@@ -35,6 +38,7 @@ const Button = styled.button<
   height: ${(props) => props.height || "3rem"};
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
+  border: none;
   &:hover {
     background-color: ${(props) => props.$hoverColor};
   }
