@@ -1,12 +1,16 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-export const Main = styled.main`
+export const Main = styled.main<{gap: string}>`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background-color: white;
   padding: 16px;
+  gap: ${(props) => props.gap};
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const InnerSection = styled.section`
@@ -38,7 +42,8 @@ export const AuthSection = styled.section`
 
 export const ButtonGroup = styled.section`
   display: flex;
-  gap: 32px;
+  justify-content: center;
+  gap: 14px;
 `;
 
 export const ErrorMessage = styled.p`

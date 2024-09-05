@@ -13,9 +13,6 @@ export interface StyleProps {
 
 export interface ButtonProps extends StyleProps{
   label: string;
-  size: string;
-  color: string;
-  children: string;
   type?: "submit" | "button";
   onClick?: () => void
 }

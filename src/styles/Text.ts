@@ -8,7 +8,7 @@ const fontSizes: { [key: string]: string } = {
   xl: "30px",
 };
 
-export const Text = styled.span<{
+export const Text = styled.p<{
   fontSize?: "xs" | "sm" | "md" | "lg" | "xl";
   fontWeight?: string;
   color?: string;

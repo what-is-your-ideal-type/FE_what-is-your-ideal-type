@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import Button from "../components/Button";
+import { Button } from "../styles/Button"
 import Input from "../components/Input";
-import {
-  mainButtonArgs,
-  authButtonArgs,
-  kakaoButtonArgs,
-  naverButtonArgs,
-  googleButtonArgs,
-} from "../components/ButtonArgs";
 import { useAuth } from "../contexts/AuthContext";
-import NavigateToSurvey from "../components/NavigateToSurvey";
-import { getCountAndTimeLeft } from "../services/countService";
-import { AuthSection, ButtonGroup, ErrorMessage, InnerSection, LogoContainer, Main } from "../styles/styled";
+import { ButtonGroup, Main } from "../styles/styled";
 import { FlexBox } from "../styles/FlexBox";
 import { Text } from "../styles/Text";
+import { FirebaseError } from "firebase/app";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,10 +16,9 @@ const Home = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const { currentUser, setCurrentUser } = useAuth();
+  const { setCurrentUser } = useAuth();
 
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -37,11 +28,10 @@ const Home = () => {
       console.log("User logged in: ", userCredential.user);
       setCurrentUser(userCredential.user);
       alert("로그인에 성공했습니다.");
-
       navigate("/mypage");
-    } catch (error: any) {
-      // 예외 처리
-      switch (error.code) {
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      switch (firebaseError.code) {
         case "auth/invalid-credential":
           return setError("이메일 또는 비밀번호를 확인해주세요");
         default:
@@ -50,22 +40,8 @@ const Home = () => {
     }
   };
 
-  const handleLogout = async () => {
-    if (confirm("로그아웃 하시겠어요?")) {
-      await signOut(auth)
-        .then(() => {
-          setEmail("");
-          setPassword("");
-          console.log("Signout successful");
-        })
-        .catch((error) => {
-          console.error("Failed to signOut", error);
-        });
-    }
-  };
-
   return (
-    <Main>
+    <Main gap="8rem">
       <FlexBox direction="column" gap="2rem">
         <FlexBox direction="column" gap="1rem" style={{alignItems: "flex-start", width: "100%"}}>
           <Text fontSize="lg" fontWeight="bold">안녕하세요!</Text>
@@ -85,13 +61,29 @@ const Home = () => {
             onChange={(e) => setPassword(e.target.value)}
             />
           </FlexBox>
-        <Button label="로그인하기" type="submit" {...authButtonArgs} />
+          {error ? <Text fontSize="md" color="red">{error}</Text> : null}
+        <Button bgColor="main" label="로그인하기" onClick={handleLogin}>로그인하기</Button>
       </FlexBox>
-        <ButtonGroup>
-          <Button label="카카오" type="button" {...kakaoButtonArgs} />
-          <Button label="네이버" type="button" {...naverButtonArgs} />
-          <Button label="구글" type="button" {...googleButtonArgs} />
-        </ButtonGroup>
+      <FlexBox direction="column" gap="8rem">
+        <div>
+          <Text fontSize="md">SNS 계정으로 간편하게 시작하기</Text>
+          <ButtonGroup>
+            <Button label="구글 로그인" width="auto" height="auto">
+              <img src="/images/google.png" alt="구글 로그인" />
+            </Button>
+            <Button label="카카오 로그인" width="auto" height="auto">
+              <img src="/images/kakao.png" alt="카카오 로그인" />
+            </Button>
+            <Button label="네이버 로그인" width="auto" height="auto">
+              <img src="/images/naver.png" alt="네이버 로그인" />
+            </Button>
+          </ButtonGroup>
+        </div>
+        <FlexBox gap="1rem">
+          <Text fontSize="md">이상형 찾기가 처음이라면?</Text>
+          <Button label="회원가입" bgColor="sub" width="auto" height="auto" onClick={() => navigate('signup')}>가입하기</Button>
+        </FlexBox>
+      </FlexBox>
     </Main>
   );
 };
