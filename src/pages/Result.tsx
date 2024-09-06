@@ -7,16 +7,31 @@ import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
+import { parseProfile } from "../services/profileGenerator";
+
+interface Profile {
+  name: string;
+  age: number;
+  occupation: string;
+  personality: string;
+  hobbies: string;
+}
 
 const Result = () => {
   const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [imageProfile, setImageProfile] = useState<Profile | null>(null);
   const currentUser = useAuth();
   const location = useLocation();
-  const { fileName } = location.state || {};
+  const { fileName, profile } = location.state || {};
   const navigate = useNavigate();
   const isLogin = currentUser.currentUser;
+
+  useEffect(() => {
+    const result = parseProfile(profile);
+    setImageProfile(result);
+  }, [profile]);
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -87,7 +102,17 @@ const Result = () => {
         </PreventDefaultWrapper>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        <h3 className="font-bold pt-8">{prompt}</h3>
+        {!imageProfile ? (
+          <h3 className="font-bold pt-8">{prompt}</h3>
+        ) : (
+          <div className="font-bold pt-8">
+            <p>이름: {imageProfile.name}</p>
+            <p>나이: {imageProfile.age}</p>
+            <p>직업: {imageProfile.occupation}</p>
+            <p>성격: {imageProfile.personality}</p>
+            <p>취미: {imageProfile.hobbies}</p>
+          </div>
+        )}
         {isLogin ? (
           <>
             <Button
