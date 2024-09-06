@@ -1,7 +1,7 @@
 // stories/Button.stories.tsx
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
-import { Button, ButtonProps } from "../styles/Button";
+import { Button, ButtonProps } from "../components/Button";
 
 export default {
   title: "Button",

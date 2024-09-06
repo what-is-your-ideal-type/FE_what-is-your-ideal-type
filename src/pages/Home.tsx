@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import { Button } from "../styles/Button"
+import { Button } from "../components/Button"
 import Input from "../components/Input";
 import { useAuth } from "../contexts/AuthContext";
 import { ButtonGroup, Main } from "../styles/styled";

@@ -8,9 +8,9 @@ interface FlexBoxProps {
 
 export const FlexBox = styled.section<FlexBoxProps>`
   display: flex;
-  flex-direction: ${({ direction = "row" }) => direction};
+  flex-direction: ${({ direction }) => direction || "row"};
   align-items: center;
-  gap: ${({ gap = "0" }) => gap};
+  gap: ${({ gap }) => gap || "0px"};
 
   ${({ isResponsive = false }) =>
     isResponsive &&
