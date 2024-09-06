@@ -7,25 +7,25 @@ import {
 import { auth } from "../../firebase";
 import { FirebaseError } from "firebase/app";
 
+// export const loginWithGoogle = async () => {
+//   const provider = new GoogleAuthProvider();
+//   try {
+//     await signInWithRedirect(auth, provider);
+//   } catch (error) {
+//     console.error("Error during Google login: ", error);
+//   }
+// };
+
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
-    await signInWithRedirect(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    return credential;
   } catch (error) {
     console.error("Error during Google login: ", error);
   }
 };
-
-//export const loginWithGoogle = async () => {
-//const provider = new GoogleAuthProvider();
-//try {
-//const result = await signInWithPopup(auth, provider);
-//const credential = GoogleAuthProvider.credentialFromResult(result);
-//return credential;
-//} catch (error) {
-//  console.error("Error during Google login: ", error);
-// }
-//};
 
 export const handleRedirectResult = async () => {
   try {
