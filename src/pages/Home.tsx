@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db, USERS_COLLECTION } from "../firebase";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import {
@@ -13,7 +12,14 @@ import {
 } from "../components/ButtonArgs";
 import { useAuth } from "../contexts/AuthContext";
 import NavigateToSurvey from "../components/NavigateToSurvey";
-import { getCountAndTimeLeft } from "../services/countService";
+import {
+  loginWithGoogle,
+  handleRedirectResult,
+} from "../services/auth/loginWithGoogle";
+import { loginWithEmail } from "../services/auth/loginWithEmail";
+import { logout } from "../services/auth/logoutService";
+import { doc, setDoc, getDocs, where, query } from "firebase/firestore";
+import { User } from "firebase/auth";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -21,20 +27,62 @@ const Home = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser } = useAuth();
 
-  const handleLogin = async (event: React.FormEvent) => {
+  useEffect(() => {
+    const fetchRedirectResult = async () => {
+      try {
+        const credential = await handleRedirectResult();
+        if (credential?.accessToken) {
+          console.log("User logged in: ", credential);
+          navigate("/mypage");
+        }
+      } catch (error) {
+        console.log("fetchRedirectResult error:", error);
+      }
+    };
+    fetchRedirectResult();
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      saveGoogleUserToFirestore(currentUser);
+    }
+  }, [currentUser]);
+
+  const saveGoogleUserToFirestore = async (currentUser: User) => {
+    const q = query(USERS_COLLECTION, where("email", "==", currentUser.email));
+    try {
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        await setDoc(doc(db, "users", currentUser.uid), {
+          uid: currentUser.uid,
+          email: currentUser.email,
+        });
+        console.log("Google user data successfully saved to Firestore.");
+      } else {
+        console.log("Google user already exists in Firestore.");
+      }
+    } catch (error) {
+      console.error("Error saveGoogleUserToFirestore: ", error);
+    }
+  };
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      await loginWithGoogle();
+      console.log("loginWithGoogle");
+    } catch (error) {
+      console.error("Error handleLoginWithGoogle: ", error);
+    }
+  };
+
+  const handleLoginWithEmail = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log("User logged in: ", userCredential.user);
-      setCurrentUser(userCredential.user);
+      await loginWithEmail(email, password);
       alert("로그인에 성공했습니다.");
-
       navigate("/mypage");
     } catch (error: any) {
       // 예외 처리
@@ -48,17 +96,14 @@ const Home = () => {
   };
 
   const handleLogout = async () => {
-    if (confirm("로그아웃 하시겠어요?")) {
-      await signOut(auth)
-        .then(() => {
-          setEmail("");
-          setPassword("");
-          console.log("Signout successful");
-        })
-        .catch((error) => {
-          console.error("Failed to signOut", error);
-        });
-    }
+    await logout()
+      .then(() => {
+        setEmail("");
+        setPassword("");
+      })
+      .catch((error) => {
+        console.error("Failed to signOut", error);
+      });
   };
 
   return (
@@ -91,7 +136,7 @@ const Home = () => {
           <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
             <section>
               <form
-                onSubmit={handleLogin}
+                onSubmit={handleLoginWithEmail}
                 className="flex flex-col items-center space-y-4"
               >
                 <Input
@@ -116,7 +161,12 @@ const Home = () => {
             <section className="flex space-x-8">
               <Button label="카카오" type="button" {...kakaoButtonArgs} />
               <Button label="네이버" type="button" {...naverButtonArgs} />
-              <Button label="구글" type="button" {...googleButtonArgs} />
+              <Button
+                label="구글"
+                type="button"
+                {...googleButtonArgs}
+                onClick={handleLoginWithGoogle}
+              />
             </section>
           </section>
         )}
