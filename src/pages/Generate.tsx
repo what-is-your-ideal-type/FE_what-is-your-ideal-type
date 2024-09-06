@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useEffect } from "react";
 import { imageGenerate } from "../services/imageGenerator";
+import { profileGenerate } from "../services/profileGenerator";
 import { convertToWebP } from "../services/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -18,6 +19,7 @@ const Generate = () => {
     const { prompts, hashTags } = location.state;
     const processAndNavigate = async () => {
       try {
+        // 이미지 생성
         const data = await imageGenerate(prompts);
         const responseUrl = data?.url;
 
@@ -29,8 +31,16 @@ const Generate = () => {
         if (!webP) {
           throw new Error("Failed to convert to WebP");
         }
+
+        // 이미지 관련 profile 생성
+        const profile = await profileGenerate(prompts);
+        if (!profile) {
+          throw new Error("Failed to get profile");
+        }
+
+        // Firebase에 이미지 및 프로필 저장
         const [firebaseUrl, firebaseFileName, imageDocId] =
-          await uploadImageToFirebase(webP, hashTags);
+          await uploadImageToFirebase(webP, hashTags, profile);
 
         if (!firebaseUrl) {
           throw new Error("Failed to upload and download Image to Firebase");
@@ -40,7 +50,7 @@ const Generate = () => {
         const newPrompts = addHashTags.join(" ");
         const resultUrl = `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`;
 
-        // Firebase에 결과 페이지 url 저장
+        // 결과 페이지 url 저장
         if (currentUser) {
           await saveResultUrlToFirebase({
             user: currentUser,
@@ -50,7 +60,7 @@ const Generate = () => {
         }
 
         navigate(resultUrl, {
-          state: { fileName: firebaseFileName },
+          state: { fileName: firebaseFileName, profile: profile },
         });
 
         const { count, limit } = await getCountAndTimeLeft(currentUser);
