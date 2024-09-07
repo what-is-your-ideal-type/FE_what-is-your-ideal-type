@@ -88,33 +88,25 @@ idealType
 ├─ .gitignore
 ├─ .prettierrc
 ├─ .storybook
-│  ├─ main.ts
-│  └─ preview.ts
 ├─ package-lock.json
 ├─ package.json
+├─ README.md
 ├─ public
 │  ├─ favicon.ico
 │  ├─ images
-│  │  ├─ icon-photo.png
-│  │  ├─ icon-share.png
-│  │  ├─ kakaoshare.png
-│  │  ├─ Lock_light.png
 │  │  ├─ Message_light.png
 │  │  └─ spin.gif
+|  |  ...
 │  └─ index.html
-├─ README.md
+
 ├─ src
 │  ├─ App.tsx
 │  ├─ components
 │  │  ├─ Button.tsx
-│  │  ├─ ButtonArgs.ts
 │  │  ├─ Input.tsx
-│  │  ├─ KakaoShare.tsx
-│  │  ├─ Loading.tsx
-│  │  ├─ NavigateToSurvey.tsx
 │  │  ├─ Picture.tsx
-│  │  ├─ PreventDefaultWrapper.tsx
-│  │  └─ Survey.ts
+│  │  ...
+
 │  ├─ contexts
 │  │  └─ AuthContext.tsx
 │  ├─ firebase.ts
@@ -124,28 +116,24 @@ idealType
 │  │  ├─ Generate.tsx
 │  │  ├─ Home.tsx
 │  │  ├─ MyPage.tsx
-│  │  ├─ Result.tsx
-│  │  ├─ SignUp.tsx
-│  │  └─ Survey.tsx
+│  │  ├─ ...
 │  ├─ pages.ts
 │  ├─ react-app-env.d.ts
 │  ├─ reportWebVitals.ts
 │  ├─ reset.css
 │  ├─ services
 │  │  ├─ convertToWebP.ts
-│  │  ├─ countService.ts
 │  │  ├─ imageGenerator.ts
-│  │  ├─ saveResultUrlToFirebase.ts
-│  │  └─ uploadImageToFirebase.ts
+│  │  ├─ ...
 │  ├─ setupTests.ts
 │  ├─ stories
 │  │  ├─ Button.stories.tsx
 │  │  ├─ FlexBox.stories.tsx
-│  │  └─ Input.stories.tsx
+│  │  ...
 │  └─ styles
 │     ├─ FlexBox.ts
-│     ├─ styled.ts
 │     └─ Text.ts
+|  |  ...
 └─ tsconfig.json
 ```
 
