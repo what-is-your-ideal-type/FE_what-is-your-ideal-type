@@ -2,8 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { getCountAndTimeLeft } from "../services/countService";
 import { useAuth } from "../contexts/AuthContext";
-import Button from "./Button";
-import { mainButtonArgs } from "./ButtonArgs";
+import { Button } from "./Button";
 
 interface NavigateToSurveyProps {
   label: string;
@@ -17,7 +16,7 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
     const { count, limit, timeLeft } = await getCountAndTimeLeft(currentUser);
 
     if (count < limit) {
-      navigate("/survey");
+      navigate("/genderselect");
     } else if (!currentUser) {
       const confirmed = confirm("기본 이미지 생성 횟수를 초과했습니다. 로그인을 위해 로그인 페이지로 이동합니다.")
       if (confirmed) {
@@ -31,12 +30,12 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
   };
 
   return (
-    <Button
-      label={label}
-      type="button"
-      {...mainButtonArgs}
-      onClick={handleSurveyNavigation}
-    />
+    <div style={{width: "40%", padding: "2rem 0"}}>
+      <Button
+        label={label}
+        onClick={handleSurveyNavigation}
+        >{label}</Button>
+    </div>
   );
 };
 

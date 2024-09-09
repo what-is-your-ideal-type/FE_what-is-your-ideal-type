@@ -1,29 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
-
-const ColorMap: { [key: string]: { background: string; hover: string } } = {
-  main: {
-    background: "#706EF4",
-    hover: "#5b5dd7",
-  },
-  sub: {
-    background: "#D1D5DB",
-    hover: "#b1b5c1",
-  },
-  kakao: {
-    background: "#facc15",
-    hover: "#e5b007",
-  },
-  naver: {
-    background: "#10B981",
-    hover: "#0e976a",
-  },
-  white: {
-    background: "white",
-    hover: "#f0f0f0",
-  },
-};
+import { ColorMap } from "./ColorMap";
 
 export interface ButtonProps{
     label?: string;
@@ -35,29 +12,30 @@ export interface ButtonProps{
   }
 
 const ButtonStyle = styled.button<ButtonProps>`
-  background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : "white"};
+  background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : ColorMap['main'].background};
   color: white;
   font-size: 1rem;
-  width: ${(props) => props.width || '100%'};
-  height: ${(props) => props.height || '3rem'};
+  width: ${(props) => props.width || 'auto'};
+  height: ${(props) => props.height || 'auto'};
   padding: 0.5rem 0;
   border-radius: 0.375rem;
   border: none;
   transition: background-color 0.2s ease-in-out;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].hover : "white"};
+    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].hover : ColorMap['main'].hover};
   }
     
   &:active {
-    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : "white"};
+    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : ColorMap['main'].background};
   }
 `;
 
 export const Button = ({children, label, ...props }: ButtonProps) => {
+  const ariaLabel = typeof children === 'string' ? children : label;
   return (
     <ButtonStyle 
-      aria-label={label}
+      aria-label={ariaLabel}
       role={"button"}
       {...props}
     >

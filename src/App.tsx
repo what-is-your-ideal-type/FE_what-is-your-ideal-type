@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home, Survey, Result } from "./pages";
+import { Home, Survey, Result, GenderSelect } from "./pages";
 import { AuthProvider } from "./contexts/AuthContext";
 import Loading from "./components/Loading";
 
@@ -24,6 +24,7 @@ const App = () => {
           />
           <Route path="/home" element={<Home />} />
           <Route path="/survey" element={<Survey />} />
+          <Route path="/genderselect" element={<GenderSelect />} />
           <Route
             path="/generate"
             element={

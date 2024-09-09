@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Button from "../components/Button";
-import { mainButtonArgs } from "../components/ButtonArgs";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
+import { Button } from "../components/Button";
 
 const Result = () => {
   const { prompts, url } = useParams();
@@ -91,9 +90,7 @@ const Result = () => {
         {isLogin ? (
           <>
             <Button
-              label={"마이페이지"}
-              type="button"
-              {...mainButtonArgs}
+              label="마이페이지"
               onClick={() => handleNavigate("/mypage")}
             />
             <NavigateToSurvey label="이상형 다시 찾기" />
@@ -105,8 +102,6 @@ const Result = () => {
             </p>
             <Button
               label="로그인"
-              type="button"
-              {...mainButtonArgs}
               onClick={() => handleNavigate("/")}
             />
           </>

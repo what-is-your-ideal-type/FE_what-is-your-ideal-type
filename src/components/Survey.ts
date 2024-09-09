@@ -1,28 +1,10 @@
-type Survey = {
+export type SurveyTypes = {
   question: string;
   options: { [key: string]: string }[];
 };
 
-interface GenderOption {
-  label: "여자가 좋아요!" | "남자가 좋아요!";
-  value: "woman" | "man";
-}
-
-interface GenderThemeType {
-  question: string;
-  options: GenderOption[];
-}
-
-export const genderTheme: GenderThemeType = {
-  question: "원하는 이상형의 성별을 선택해주세요",
-  options: [
-    { label: "여자가 좋아요!", value: "woman" },
-    { label: "남자가 좋아요!", value: "man" },
-  ],
-};
-
 // 성별이 여자인 경우 설문내용
-export const surveyContentsWomen: Survey[] = [
+export const surveyContentsWomen: SurveyTypes[] = [
   {
     question: "원하는 연령대를 골라주세요",
     options: [
@@ -105,7 +87,7 @@ export const surveyContentsWomen: Survey[] = [
   },
 ];
 
-export const surveyContentsMen: Survey[] = [
+export const surveyContentsMen: SurveyTypes[] = [
   {
     question: "원하는 연령대를 골라주세요",
     options: [
