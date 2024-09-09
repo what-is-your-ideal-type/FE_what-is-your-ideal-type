@@ -6,16 +6,32 @@ import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
 import NavigateToSurvey from "../components/NavigateToSurvey";
+import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
+import { parseProfile } from "../services/profileGenerator";
+
+interface Profile {
+  name: string;
+  age: number;
+  occupation: string;
+  personality: string;
+  hobbies: string;
+}
 
 const Result = () => {
   const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [imageProfile, setImageProfile] = useState<Profile | null>(null);
   const currentUser = useAuth();
   const location = useLocation();
-  const { fileName } = location.state || {};
+  const { fileName, profile } = location.state || {};
   const navigate = useNavigate();
   const isLogin = currentUser.currentUser;
+
+  useEffect(() => {
+    const result = parseProfile(profile);
+    setImageProfile(result);
+  }, [profile]);
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -36,14 +52,28 @@ const Result = () => {
         throw new Error("Network response was not ok");
       }
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const img = new Image();
+      img.src = URL.createObjectURL(blob);
+
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx?.drawImage(img, 0, 0);
+        canvas.toBlob((blob) => {
+          const url = window.URL.createObjectURL(blob!);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = fileName || "download_image.webp";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, "image/webp");
+      };
     } catch (error) {
       console.error("Error downloading the image: ", error);
     }
@@ -67,13 +97,22 @@ const Result = () => {
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
       <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
         <h2 className="font-bold text-2xl">이런 스타일을 찾으셨나요?</h2>
-        <div>
+        <PreventDefaultWrapper>
           <Picture imageUrl={imageUrl} altText="이상형 이미지" />
-        </div>
+        </PreventDefaultWrapper>
       </div>
       <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        <h3 className="font-bold pt-8">{prompt}</h3>
-
+        {!imageProfile ? (
+          <h3 className="font-bold pt-8">{prompt}</h3>
+        ) : (
+          <div className="font-bold pt-8">
+            <p>이름: {imageProfile.name}</p>
+            <p>나이: {imageProfile.age}</p>
+            <p>직업: {imageProfile.occupation}</p>
+            <p>성격: {imageProfile.personality}</p>
+            <p>취미: {imageProfile.hobbies}</p>
+          </div>
+        )}
         {isLogin ? (
           <>
             <Button
@@ -97,7 +136,7 @@ const Result = () => {
             />
           </>
         )}
-        <div>
+        <PreventDefaultWrapper>
           {isLogin && (
             <button onClick={handleDownload} className="size-8 mr-6">
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
@@ -107,7 +146,7 @@ const Result = () => {
             <img src="/images/icon-share.png" alt="공유 아이콘" />
           </button>
           <Kakaoshare />
-        </div>
+        </PreventDefaultWrapper>
       </div>
     </div>
   );
