@@ -6,7 +6,7 @@ export interface ButtonProps{
     label?: string;
     width?: string;
     height?: string;
-    bgColor?: "main" | "sub" | "kakao" | "naver" | "white";
+    bgColor?: "main" | "sub" | "kakao" | "naver" | "white" ;
     children?: React.ReactNode;
     onClick?: () => void
   }

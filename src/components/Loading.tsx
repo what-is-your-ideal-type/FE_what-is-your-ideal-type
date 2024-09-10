@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { LinearProgress, Typography, Box } from "@mui/material";
 import { Main } from "../styles/styled";
+import { Text } from "../styles/Text";
+import { FlexBox } from "../styles/FlexBox";
 
 export const Loading = () => {
   const [progress, setProgress] = useState(0);
-  const loading = process.env.PUBLIC_URL + "/images/spin.gif";
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -20,28 +21,27 @@ export const Loading = () => {
 
   return (
     <Main>
-      <div className="flex flex-col items-center">
+      <FlexBox direction="column" gap="45px">
         <img src="/images/spin.gif" alt="loading" className="w-20 h-20" />
-        <p className="text-base font-bold mt-3">이상형을 찾고 있어요!</p>
-        <Box sx={{ width: "100%", mt: 3 }}>
-          <LinearProgress
-            variant="determinate"
-            value={progress}
-            sx={{
-              height: 10,
-              borderRadius: 8,
-              backgroundColor: "#D4B7F4",
-              "& .MuiLinearProgress-bar": {
-                backgroundColor: "#A860F6",
-              },
-            }}
-          />
-        </Box>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-        >{`${progress}%`}</Typography>
-      </div>
+        <Text fontSize="lg" fontWeight="bold">이상형을 찾고 있어요!</Text>
+        <FlexBox direction="column" gap="10px" style={{width: "100%"}}>
+          <Box sx={{ width: "100%", mt: 3 }}>
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              sx={{
+                height: 20,
+                borderRadius: 8,
+                backgroundColor: "#D4B7F4",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "#A860F6",
+                },
+              }}
+            />
+          </Box>
+          <Text fontWeight="bold">{progress}%</Text>
+        </FlexBox>
+      </FlexBox>
     </Main>
   );
 };

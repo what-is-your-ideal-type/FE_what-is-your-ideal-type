@@ -108,13 +108,13 @@ const Result = () => {
         )}
         <PreventDefaultWrapper>
           {isLogin && (
-            <button onClick={handleDownload} className="size-8 mr-6">
+            <Button onClick={handleDownload}>
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
-            </button>
+            </Button>
           )}
-          <button className="size-8 mr-6" onClick={handleShare}>
+          <Button onClick={handleShare}>
             <img src="/images/icon-share.png" alt="공유 아이콘" />
-          </button>
+          </Button>
           <Kakaoshare />
         </PreventDefaultWrapper>
       </div>
