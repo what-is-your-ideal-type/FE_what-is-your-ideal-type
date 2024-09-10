@@ -6,6 +6,9 @@ import Kakaoshare from "../components/KakaoShare";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
 import { Button } from "../components/Button";
+import { Text } from "../styles/Text";
+import { FlexBox } from "../styles/FlexBox";
+import { Main } from "../styles/styled";
 
 const Result = () => {
   const { prompts, url } = useParams();
@@ -78,21 +81,21 @@ const Result = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
-      <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
-        <h2 className="font-bold text-2xl">이런 스타일을 찾으셨나요?</h2>
-        <PreventDefaultWrapper>
-          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
-        </PreventDefaultWrapper>
-      </div>
-      <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        <h3 className="font-bold pt-8">{prompt}</h3>
+    <Main>
+      <FlexBox direction="column" gap="47px">
+        <FlexBox direction="column" gap="2px">
+          <Text fontWeight="bold">26세 나현아</Text>
+          <Text fontSize="lg" fontWeight="bold">패션 인플루언서</Text>
+        </FlexBox>
+          <PreventDefaultWrapper>
+            <Picture imageUrl={imageUrl} altText="이상형 이미지" />
+          </PreventDefaultWrapper>
+      </FlexBox>
+      <FlexBox direction="column">
+        <Text fontWeight="bold">{prompt}</Text>
         {isLogin ? (
           <>
-            <Button
-              label="마이페이지"
-              onClick={() => handleNavigate("/mypage")}
-            />
+            <Button onClick={() => handleNavigate("/mypage")}>마이 페이지</Button>
             <NavigateToSurvey label="이상형 다시 찾기" />
           </>
         ) : (
@@ -100,10 +103,7 @@ const Result = () => {
             <p className="text-gray">
               사진을 저장하고 기록하고 싶다면 로그인 해보세요
             </p>
-            <Button
-              label="로그인"
-              onClick={() => handleNavigate("/")}
-            />
+            <Button onClick={() => handleNavigate("/")}>로그인</Button>
           </>
         )}
         <PreventDefaultWrapper>
@@ -117,8 +117,8 @@ const Result = () => {
           </Button>
           <Kakaoshare />
         </PreventDefaultWrapper>
-      </div>
-    </div>
+      </FlexBox>
+    </Main>
   );
 };
 
