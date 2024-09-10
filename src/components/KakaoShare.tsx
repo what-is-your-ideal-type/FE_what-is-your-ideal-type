@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { Button } from "./Button";
 const { Kakao } = window;
 
 const Kakaoshare = () => {
@@ -35,9 +36,9 @@ const Kakaoshare = () => {
   };
 
   return (
-    <button className="size-8" onClick={shareKakao}>
-      <img src="/images/kakaoshare.png" alt="카카오톡 공유 아이콘" />
-    </button>
+    <Button onClick={shareKakao}>
+      <img src="/images/kakao.png" alt="카카오톡 공유 아이콘" />
+    </Button>
   );
 };
 
