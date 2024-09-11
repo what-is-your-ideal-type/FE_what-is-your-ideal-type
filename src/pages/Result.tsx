@@ -9,16 +9,31 @@ import { Button } from "../components/Button";
 import { Text } from "../styles/Text";
 import { FlexBox } from "../styles/FlexBox";
 import { Main } from "../styles/styled";
+import { parseProfile } from "../services/profileGenerator";
+
+interface Profile {
+  name: string;
+  age: number;
+  occupation: string;
+  personality: string;
+  hobbies: string;
+}
 
 const Result = () => {
   const { prompts, url } = useParams();
   const [imageUrl, setImageUrl] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [imageProfile, setImageProfile] = useState<Profile | null>(null);
   const currentUser = useAuth();
   const location = useLocation();
-  const { fileName } = location.state || {};
+  const { fileName, profile } = location.state || {};
   const navigate = useNavigate();
   const isLogin = currentUser.currentUser;
+
+  useEffect(() => {
+    const result = parseProfile(profile);
+    setImageProfile(result);
+  }, [profile]);
 
   useEffect(() => {
     if (prompts === undefined || url === undefined) {
@@ -93,6 +108,7 @@ const Result = () => {
       </FlexBox>
       <FlexBox direction="column">
         <Text fontWeight="bold">{prompt}</Text>
+
         {isLogin ? (
           <>
             <Button onClick={() => handleNavigate("/mypage")}>마이 페이지</Button>

@@ -4,7 +4,7 @@ import { auth, storage, IMAGES_COLLECTION } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
 
-export const uploadImageToFirebase = async (webP: Blob, hashTags: string[]) => {
+export const uploadImageToFirebase = async (webP: Blob, hashTags: string[], profile: string) => {
   try {
     const user = auth.currentUser;
 
@@ -17,7 +17,7 @@ export const uploadImageToFirebase = async (webP: Blob, hashTags: string[]) => {
     // 업로드가 완료되면 다운로드 URL 가져오기
     const downloadUrl = await getDownloadURL(snapshot.ref);
 
-    // 로그인 상태인 경우, firestore의 uid로 users images 컬렉션에 url 저장
+    // 로그인 상태인 경우, firestore의 uid로 users images 컬렉션에 url, profile 저장
     if (user) {
       const uid = user?.uid;
       const imagesCollectionRef = IMAGES_COLLECTION(uid);
@@ -28,12 +28,13 @@ export const uploadImageToFirebase = async (webP: Blob, hashTags: string[]) => {
         url: downloadUrl,
         createdAt: new Date(),
         hashTags: hashTags,
+        profile: profile,
       });
 
       console.log("URL successfully saved to firestore!");
       return [downloadUrl, fileName, userDocRef.id];
     } else {
-      // 로그인하지 않은 경우 Firestore에는 저장하지 않음
+      // 로그인하지 않은 경우, url을 Firestore에는 저장하지 않음
       console.log("User not authenticated. URL saved only to Storage.");
       return [downloadUrl, fileName, null];
     }

@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import { Button } from "../components/Button"
-import Input from "../components/Input";
-import { useAuth } from "../contexts/AuthContext";
 import { ButtonGroup, Main } from "../styles/styled";
 import { FlexBox } from "../styles/FlexBox";
 import { Text } from "../styles/Text";
 import { FirebaseError } from "firebase/app";
+import NavigateToSurvey from "../components/NavigateToSurvey";
+import {
+  loginWithGoogle,
+  handleRedirectResult,
+} from "../services/auth/loginWithGoogle";
+import { loginWithEmail } from "../services/auth/loginWithEmail";
+import { logout } from "../services/auth/logoutService";
+import { doc, setDoc, getDocs, where, query } from "firebase/firestore";
+import { User } from "firebase/auth";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,17 +22,12 @@ const Home = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
+
   const { setCurrentUser } = useAuth();
 
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log("User logged in: ", userCredential.user);
-      setCurrentUser(userCredential.user);
+      await loginWithEmail(email, password);
       alert("로그인에 성공했습니다.");
       navigate("/mypage");
     } catch (error) {
@@ -79,6 +80,7 @@ const Home = () => {
         </FlexBox>
       </FlexBox>
     </Main>
+
   );
 };
 

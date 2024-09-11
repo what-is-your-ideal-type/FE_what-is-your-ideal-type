@@ -20,6 +20,7 @@ interface CardData {
   fileName: string;
   hashTags?: string[] | null;
   resultUrl?: string | null;
+  profile?: string | null;
 }
 
 const MyPage = () => {
@@ -42,6 +43,7 @@ const MyPage = () => {
               fileName: data.fileName,
               hashTags: data.hashTags,
               resultUrl: data.resultUrl,
+              profile: data.profile,
             };
             newCards.push(cardData);
           });
@@ -69,7 +71,11 @@ const MyPage = () => {
         {cards.map((card, index) => (
           <Card
             key={index}
-            onClick={() => navigate(`${card.resultUrl}`)}
+            onClick={() =>
+              navigate(`${card.resultUrl}`, {
+                state: { profile: card.profile },
+              })
+            }
           >
             <FlexBox direction="column" gap="16px">
               <img
