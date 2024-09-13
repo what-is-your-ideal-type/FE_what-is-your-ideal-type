@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import Button from "../components/Button";
-import { mainButtonArgs } from "../components/ButtonArgs";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/Picture";
 import Kakaoshare from "../components/KakaoShare";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
+import { Button } from "../components/Button";
+import { Text } from "../styles/Text";
+import { FlexBox } from "../styles/FlexBox";
+import { Main } from "../styles/styled";
 import { parseProfile } from "../services/profileGenerator";
 
 interface Profile {
@@ -94,33 +96,22 @@ const Result = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
-      <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
-        <h2 className="font-bold text-2xl">이런 스타일을 찾으셨나요?</h2>
-        <PreventDefaultWrapper>
-          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
-        </PreventDefaultWrapper>
-      </div>
-      <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        {!imageProfile ? (
-          <h3 className="font-bold pt-8">{prompt}</h3>
-        ) : (
-          <div className="font-bold pt-8">
-            <p>이름: {imageProfile.name}</p>
-            <p>나이: {imageProfile.age}</p>
-            <p>직업: {imageProfile.occupation}</p>
-            <p>성격: {imageProfile.personality}</p>
-            <p>취미: {imageProfile.hobbies}</p>
-          </div>
-        )}
+    <Main>
+      <FlexBox direction="column" gap="47px">
+        <FlexBox direction="column" gap="2px">
+          <Text fontWeight="bold">26세 나현아</Text>
+          <Text fontSize="lg" fontWeight="bold">패션 인플루언서</Text>
+        </FlexBox>
+          <PreventDefaultWrapper>
+            <Picture imageUrl={imageUrl} altText="이상형 이미지" />
+          </PreventDefaultWrapper>
+      </FlexBox>
+      <FlexBox direction="column">
+        <Text fontWeight="bold">{prompt}</Text>
+
         {isLogin ? (
           <>
-            <Button
-              label={"마이페이지"}
-              type="button"
-              {...mainButtonArgs}
-              onClick={() => handleNavigate("/mypage")}
-            />
+            <Button onClick={() => handleNavigate("/mypage")}>마이 페이지</Button>
             <NavigateToSurvey label="이상형 다시 찾기" />
           </>
         ) : (
@@ -128,27 +119,22 @@ const Result = () => {
             <p className="text-gray">
               사진을 저장하고 기록하고 싶다면 로그인 해보세요
             </p>
-            <Button
-              label="로그인"
-              type="button"
-              {...mainButtonArgs}
-              onClick={() => handleNavigate("/")}
-            />
+            <Button onClick={() => handleNavigate("/")}>로그인</Button>
           </>
         )}
         <PreventDefaultWrapper>
           {isLogin && (
-            <button onClick={handleDownload} className="size-8 mr-6">
+            <Button onClick={handleDownload}>
               <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
-            </button>
+            </Button>
           )}
-          <button className="size-8 mr-6" onClick={handleShare}>
+          <Button onClick={handleShare}>
             <img src="/images/icon-share.png" alt="공유 아이콘" />
-          </button>
+          </Button>
           <Kakaoshare />
         </PreventDefaultWrapper>
-      </div>
-    </div>
+      </FlexBox>
+    </Main>
   );
 };
 

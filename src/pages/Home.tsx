@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { auth, db, USERS_COLLECTION } from "../firebase";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import {
-  mainButtonArgs,
-  authButtonArgs,
-  kakaoButtonArgs,
-  naverButtonArgs,
-  googleButtonArgs,
-} from "../components/ButtonArgs";
-import { useAuth } from "../contexts/AuthContext";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { ButtonGroup, Main } from "../styles/styled";
+import { FlexBox } from "../styles/FlexBox";
+import { Text } from "../styles/Text";
+import { FirebaseError } from "firebase/app";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import {
   loginWithGoogle,
@@ -27,66 +22,17 @@ const Home = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const { currentUser } = useAuth();
 
-  useEffect(() => {
-    const fetchRedirectResult = async () => {
-      try {
-        const credential = await handleRedirectResult();
-        if (credential?.accessToken) {
-          console.log("User logged in: ", credential);
-          navigate("/mypage");
-        }
-      } catch (error) {
-        console.log("fetchRedirectResult error:", error);
-      }
-    };
-    fetchRedirectResult();
-  }, []);
+  const { setCurrentUser } = useAuth();
 
-  useEffect(() => {
-    if (currentUser) {
-      saveGoogleUserToFirestore(currentUser);
-    }
-  }, [currentUser]);
-
-  const saveGoogleUserToFirestore = async (currentUser: User) => {
-    const q = query(USERS_COLLECTION, where("email", "==", currentUser.email));
-    try {
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        await setDoc(doc(db, "users", currentUser.uid), {
-          uid: currentUser.uid,
-          email: currentUser.email,
-        });
-        console.log("Google user data successfully saved to Firestore.");
-      } else {
-        console.log("Google user already exists in Firestore.");
-      }
-    } catch (error) {
-      console.error("Error saveGoogleUserToFirestore: ", error);
-    }
-  };
-
-  const handleLoginWithGoogle = async () => {
-    try {
-      await loginWithGoogle();
-      console.log("loginWithGoogle");
-    } catch (error) {
-      console.error("Error handleLoginWithGoogle: ", error);
-    }
-  };
-
-  const handleLoginWithEmail = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleLogin = async () => {
     try {
       await loginWithEmail(email, password);
       alert("로그인에 성공했습니다.");
       navigate("/mypage");
-    } catch (error: any) {
-      // 예외 처리
-      switch (error.code) {
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      switch (firebaseError.code) {
         case "auth/invalid-credential":
           return setError("이메일 또는 비밀번호를 확인해주세요");
         default:
@@ -95,83 +41,46 @@ const Home = () => {
     }
   };
 
-  const handleLogout = async () => {
-    await logout()
-      .then(() => {
-        setEmail("");
-        setPassword("");
-      })
-      .catch((error) => {
-        console.error("Failed to signOut", error);
-      });
-  };
-
   return (
-    <main className="flex items-center justify-center min-h-screen bg-bg p-4">
-      <section className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-16">
-        <section className="flex flex-col items-center space-y-8">
-          <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
-            <span className="text-2xl font-bold">Logo</span>
-          </div>
-          {currentUser ? (
-            <>
-              <Button
-                label="마이페이지"
-                type="button"
-                {...mainButtonArgs}
-                onClick={() => navigate("/mypage")}
-              />
-              <Button
-                label="로그아웃"
-                type="button"
-                {...mainButtonArgs}
-                onClick={() => handleLogout()}
-              />
-            </>
-          ) : (
-            <NavigateToSurvey label="로그인 없이 시작" />
-          )}
-        </section>
-        {!currentUser && (
-          <section className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg">
-            <section>
-              <form
-                onSubmit={handleLoginWithEmail}
-                className="flex flex-col items-center space-y-4"
-              >
-                <Input
-                  type="email"
-                  placeholder="이메일을 입력해주세요"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Input
-                  type="password"
-                  placeholder="비밀번호를 입력해주세요"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {error && <p className="text-red-700">{error}</p>}
-                <Button label="로그인하기" type="submit" {...authButtonArgs} />
-              </form>
-            </section>
-            <Link to="/signup">
-              <Button label="회원가입하기" type="button" {...authButtonArgs} />
-            </Link>
-            <section className="flex space-x-8">
-              <Button label="카카오" type="button" {...kakaoButtonArgs} />
-              <Button label="네이버" type="button" {...naverButtonArgs} />
-              <Button
-                label="구글"
-                type="button"
-                {...googleButtonArgs}
-                onClick={handleLoginWithGoogle}
-              />
-            </section>
-          </section>
-        )}
-      </section>
-    </main>
+    <Main gap="8rem">
+      <FlexBox direction="column" gap="2rem">
+        <FlexBox direction="column" gap="1rem" style={{alignItems: "flex-start", width: "100%"}}>
+          <Text fontSize="lg" fontWeight="bold">안녕하세요!</Text>
+          <Text fontSize="md" fontWeight="bold">나만의 이상형을 찾아 볼까요?</Text>
+        </FlexBox>  
+        <FlexBox direction="column" gap="1rem">
+          <Input
+            type="email"
+            placeholder="이메일을 입력해주세요"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            />
+          <Input
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            />
+          </FlexBox>
+          {error ? <Text fontSize="md" color="red">{error}</Text> : null}
+        <Button bgColor="main" label="로그인하기" onClick={handleLogin} width="100%">로그인하기</Button>
+      </FlexBox>
+      <FlexBox direction="column" gap="8rem">
+        <div>
+          <Text fontSize="md">SNS 계정으로 간편하게 시작하기</Text>
+          <ButtonGroup>
+            <img src="/images/google.png" alt="구글 로그인" />
+            <img src="/images/kakao.png" alt="카카오 로그인" />
+            <img src="/images/naver.png" alt="네이버 로그인" />
+          </ButtonGroup>
+        </div>
+        <FlexBox gap="1rem">
+          <Text fontSize="md">이상형 찾기가 처음이라면?</Text>
+          <Button label="회원가입" bgColor="sub" width="auto" height="auto" onClick={() => navigate('signup')}>가입하기</Button>
+        </FlexBox>
+      </FlexBox>
+    </Main>
+
   );
 };
 

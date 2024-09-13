@@ -1,55 +1,45 @@
 import React from "react";
 import styled from "styled-components";
+import { ColorMap } from "./ColorMap";
 
+export interface ButtonProps{
+    label?: string;
+    width?: string;
+    height?: string;
+    bgColor?: "main" | "sub" | "kakao" | "naver" | "white" ;
+    children?: React.ReactNode;
+    onClick?: () => void
+  }
 
-export interface StyleProps {
-  $backgroundColor?: "#A860F6" | "#D1D5DB" | "#facc15" | "#10B981" | "white";
-  $hoverColor?: "#D4B7F4" | "#E5E7EB" | "#fde047" | "#34D399" | "#F4F5F7";
-  $textColor?: "white" | "#374151";
-  width?: "12rem" | "16rem" | "4rem";
-  height?: "3rem" | "4rem";
-  $textSize?: "1rem";
-}
-
-export interface ButtonProps extends StyleProps{
-  label: string;
-  type?: "submit" | "button";
-  onClick?: () => void
-}
-
-const Button = styled.button<
-  Pick<
-    ButtonProps,
-    | "$backgroundColor"
-    | "$hoverColor"
-    | "$textColor"
-    | "width"
-    | "height"
-    | "$textSize"
-  >
->`
-  background-color: ${(props) => props.$backgroundColor || "#007BFF"};
-  color: ${(props) => props.$textColor || "white"};
-  font-size: ${(props) => props.$textSize || "1rem"};
-  width: ${(props) => props.width || "12rem"};
-  height: ${(props) => props.height || "3rem"};
-  padding: 0.5rem 1rem;
+const ButtonStyle = styled.button<ButtonProps>`
+  background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : ColorMap['main'].background};
+  color: white;
+  font-size: 1rem;
+  width: ${(props) => props.width || 'auto'};
+  height: ${(props) => props.height || 'auto'};
+  padding: 0.5rem 0;
   border-radius: 0.375rem;
+  border: none;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.$hoverColor};
+    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].hover : ColorMap['main'].hover};
   }
     
   &:active {
-  background-color: ${(props) => props.$backgroundColor || "#007BFF"};
+    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : ColorMap['main'].background};
   }
 `;
 
-function StyledButton({ label, type = "button", ...props }: ButtonProps) {
+export const Button = ({children, label, ...props }: ButtonProps) => {
+  const ariaLabel = typeof children === 'string' ? children : label;
   return (
-    <Button type={type} {...props}>
-      {label}
-    </Button>
+    <ButtonStyle 
+      aria-label={ariaLabel}
+      role={"button"}
+      {...props}
+    >
+      {children}
+    </ButtonStyle>
   );
 }
-
-export default StyledButton;

@@ -9,6 +9,10 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import NavigateToSurvey from "../components/NavigateToSurvey";
+import { Text } from "../styles/Text";
+import { FlexBox } from "../styles/FlexBox";
+import { GridBox } from "../styles/GridBox";
+import { Card } from "../styles/styled";
 
 interface CardData {
   url: string;
@@ -58,39 +62,40 @@ const MyPage = () => {
   }, [currentUser, navigate]);
 
   return (
-    <main className="flex flex-col items-center space-y-8 bg-bg py-16">
-      <h1 className="text-3xl font-bold">
+    <FlexBox direction="column">
+      <Text fontSize="xl" fontWeight="bold" style={{padding: "1rem 0"}}>
         {currentUser?.email}님의 이상형 리스트 입니다.
-      </h1>
+      </Text>
       <NavigateToSurvey label="새로운 이상형 찾기" />
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <GridBox>
         {cards.map((card, index) => (
-          <div
+          <Card
             key={index}
-            className="w-[250px]"
             onClick={() =>
               navigate(`${card.resultUrl}`, {
                 state: { profile: card.profile },
               })
             }
           >
-            <div className="p-4">
+            <FlexBox direction="column" gap="16px">
               <img
                 src={card.url}
                 alt={card.fileName}
-                className="w-full h-auto"
+                style={{ width: "100%", height: "auto", borderRadius: "0.375rem 0.375rem 0 0"}}
               />
-              <div className="mt-4 space-y-1 text-center">
-                {card.hashTags?.map((hashTag, index) => (
-                  <i key={index}>#{hashTag} </i>
-                ))}
-                <b>{card.createdAt.toLocaleDateString()}</b>
-              </div>
-            </div>
-          </div>
+              <FlexBox direction="column" gap="16px">
+                <FlexBox direction="column">
+                    {card.hashTags?.map((hashTag, index) => (
+                      <span key={index} style={{padding: "6px 12px", backgroundColor: "rgba(112, 110, 244, 0.3)", display: "inline-block", borderRadius: "34px"}}>#{hashTag}</span>
+                    ))}
+                </FlexBox>
+                <Text fontWeight="bold">{card.createdAt.toLocaleDateString()}</Text>
+              </FlexBox>
+            </FlexBox>
+          </Card>
         ))}
-      </section>
-    </main>
+      </GridBox>
+    </FlexBox>
   );
 };
 

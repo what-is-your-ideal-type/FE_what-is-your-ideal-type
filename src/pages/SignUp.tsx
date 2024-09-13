@@ -1,11 +1,14 @@
-import Button from "../components/Button";
-import { mainButtonArgs, authButtonArgs } from "../components/ButtonArgs";
 import Input from "../components/Input";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, AuthError } from "firebase/auth";
 import { auth, db, USERS_COLLECTION } from "../firebase";
 import { doc, setDoc, query, where, getDocs } from "firebase/firestore";
+import { Button } from "../components/Button";
+import { Main } from "../styles/styled";
+import { FlexBox } from "../styles/FlexBox";
+import { Text } from "../styles/Text";
+import { Header } from "../components/Header";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -31,8 +34,7 @@ const SignUp = () => {
     });
   };
 
-  const handleSignUp = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSignUp = async () => {
     if (password !== confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
@@ -76,43 +78,41 @@ const SignUp = () => {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-bg p-4">
-      <section className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-16">
-        <section className="flex flex-col items-center space-y-8">
-          <div className="flex items-center justify-center w-48 h-48 bg-white rounded-full">
-            <span className="text-2xl font-bold">Logo</span>
-          </div>
-          <Button label="로그인 없이 시작" type="button" {...mainButtonArgs} />
-        </section>
-        <section>
-          <form
-            onSubmit={handleSignUp}
-            className="flex flex-col items-center p-8 space-y-4 bg-[#e9e7e2] rounded-lg"
-          >
-            <Input
-              type="email"
-              placeholder="이메일을 입력해주세요"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호를 입력해주세요"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호를 한번 더 입력해주세요"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            {error && <p className="text-red-700">{error}</p>}
-            <Button label="회원가입하기" type="submit" {...authButtonArgs} />
-          </form>
-        </section>
-      </section>
-    </main>
+    <>
+      <Header></Header>
+      <Main>
+        <FlexBox direction="column" gap="32px">
+          <FlexBox direction="column" gap="10px" style={{alignItems: "flex-start", width: "100%"}}>
+            <Text fontSize="lg" fontWeight="bold">회원가입</Text>
+            <Text fontSize="md">이상형을 찾기 위한 여정 시작</Text>
+          </FlexBox>
+            <FlexBox direction="column" gap="12px">
+              <Input
+                type="email"
+                placeholder="이메일을 입력해주세요"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                />
+              <Input
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+              <Input
+                type="password"
+                placeholder="비밀번호를 한번 더 입력해주세요"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              {error ? <Text color="red">{error}</Text> : null}
+            </FlexBox>
+            <div style={{paddingTop: "32px", width: "100%"}}>
+              <Button label="회원가입하기" bgColor="main" onClick={handleSignUp}>회원가입하기</Button>
+            </div>
+        </FlexBox>
+      </Main>
+    </>
   );
 };
 
