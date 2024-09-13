@@ -6,37 +6,39 @@ export interface ButtonProps{
     label?: string;
     width?: string;
     height?: string;
-    bgColor?: "main" | "sub" | "kakao" | "naver" | "white" ;
+    bgColor?: "main" | "sub" | "white" ;
     children?: React.ReactNode;
+    style?: React.CSSProperties; 
     onClick?: () => void
   }
 
 const ButtonStyle = styled.button<ButtonProps>`
-  background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : ColorMap['main'].background};
+  background-color: ${({bgColor}) => bgColor ? ColorMap[bgColor].background : ColorMap['main'].background};
   color: white;
   font-size: 1rem;
-  width: ${(props) => props.width || 'auto'};
-  height: ${(props) => props.height || 'auto'};
-  padding: 0.5rem 0;
+  width: ${({width}) => width || 'auto'};
+  height: ${({height}) => height || 'auto'};
+  padding: ${({ children }) => typeof children === 'string' ? '0.8rem 0' : '0'};
   border-radius: 0.375rem;
   border: none;
   transition: background-color 0.2s ease-in-out;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].hover : ColorMap['main'].hover};
+    background-color: ${({bgColor}) => bgColor ? ColorMap[bgColor].hover : ColorMap['main'].hover};
   }
     
   &:active {
-    background-color: ${(props) => props.bgColor ? ColorMap[props.bgColor].background : ColorMap['main'].background};
+    background-color: ${({bgColor}) => bgColor ? ColorMap[bgColor].background : ColorMap['main'].background};
   }
 `;
 
-export const Button = ({children, label, ...props }: ButtonProps) => {
+export const Button = ({children, label, style, ...props }: ButtonProps) => {
   const ariaLabel = typeof children === 'string' ? children : label;
   return (
     <ButtonStyle 
       aria-label={ariaLabel}
       role={"button"}
+      style={style}
       {...props}
     >
       {children}

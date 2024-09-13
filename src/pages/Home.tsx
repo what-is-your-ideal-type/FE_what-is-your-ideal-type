@@ -62,26 +62,26 @@ const Home = () => {
             />
           </FlexBox>
           {error ? <Text fontSize="md" color="red">{error}</Text> : null}
-        <Button bgColor="main" label="로그인하기" onClick={handleLogin}>로그인하기</Button>
+        <Button bgColor="main" label="로그인하기" width="100%"onClick={handleLogin}>로그인하기</Button>
       </FlexBox>
       <FlexBox direction="column" gap="8rem">
         <div>
           <Text fontSize="md">SNS 계정으로 간편하게 시작하기</Text>
           <ButtonGroup>
-            <Button label="구글 로그인" width="auto" height="auto">
-              <img src="/images/google.png" alt="구글 로그인" />
+            <Button label="구글 로그인" bgColor="white">
+              <img src="/images/google.png" alt="구글 로그인"/>
             </Button>
-            <Button label="카카오 로그인" width="auto" height="auto">
+            <Button label="카카오 로그인" bgColor="white">
               <img src="/images/kakao.png" alt="카카오 로그인" />
             </Button>
-            <Button label="네이버 로그인" width="auto" height="auto">
+            <Button label="네이버 로그인" bgColor="white">
               <img src="/images/naver.png" alt="네이버 로그인" />
             </Button>
           </ButtonGroup>
         </div>
         <FlexBox gap="1rem">
           <Text fontSize="md">이상형 찾기가 처음이라면?</Text>
-          <Button label="회원가입" bgColor="sub" width="auto" height="auto" onClick={() => navigate('signup')}>가입하기</Button>
+          <Button label="회원가입" bgColor="sub" onClick={() => navigate('signup')}>가입하기</Button>
         </FlexBox>
       </FlexBox>
     </Main>
