@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 export interface InputProps {
-  type: string;
+  type: "email" | "password";
   placeholder: string;
-  value: string | "email" | "password" | "confirmPassword";
+  value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

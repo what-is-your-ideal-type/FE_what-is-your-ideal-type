@@ -37,7 +37,7 @@ export const Button = ({children, label, style, ...props }: ButtonProps) => {
   return (
     <ButtonStyle 
       aria-label={ariaLabel}
-      role={"button"}
+      role="button"
       style={style}
       {...props}
     >
