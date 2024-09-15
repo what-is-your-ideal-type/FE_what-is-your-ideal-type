@@ -9,8 +9,8 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import NavigateToSurvey from "../components/NavigateToSurvey";
-import { Text } from "../styles/Text";
-import { FlexBox } from "../styles/FlexBox";
+import { Text } from "../components/Text";
+import { FlexBox } from "../components/FlexBox";
 import { GridBox } from "../styles/GridBox";
 import { Card } from "../styles/styled";
 

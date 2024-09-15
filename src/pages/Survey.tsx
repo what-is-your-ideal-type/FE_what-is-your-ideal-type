@@ -7,9 +7,10 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { Header } from "../components/Header";
-import { Main, ProgressBar } from "../styles/styled";
-import { FlexBox } from "../styles/FlexBox";
-import { Text } from "../styles/Text";
+import { ProgressBar } from "../styles/styled";
+import { FlexBox } from "../components/FlexBox";
+import { Text } from "../components/Text";
+import { Main } from "../components/Main";
 
 const Survey = () => {
   const location = useLocation();

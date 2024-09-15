@@ -6,9 +6,9 @@ import Kakaoshare from "../components/KakaoShare";
 import NavigateToSurvey from "../components/NavigateToSurvey";
 import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
 import { Button } from "../components/Button";
-import { Text } from "../styles/Text";
-import { FlexBox } from "../styles/FlexBox";
-import { Main } from "../styles/styled";
+import { Text } from "../components/Text";
+import { FlexBox } from "../components/FlexBox";
+import { Main } from "../components/Main";
 import { parseProfile } from "../services/profileGenerator";
 
 interface Profile {
