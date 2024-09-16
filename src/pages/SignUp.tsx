@@ -5,9 +5,9 @@ import { createUserWithEmailAndPassword, AuthError } from "firebase/auth";
 import { auth, db, USERS_COLLECTION } from "../firebase";
 import { doc, setDoc, query, where, getDocs } from "firebase/firestore";
 import { Button } from "../components/Button";
-import { Main } from "../components/Main";
-import { FlexBox } from "../components/FlexBox";
-import { Text } from "../components/Text";
+import { Main } from "../styles/styled";
+import { FlexBox } from "../styles/FlexBox";
+import { Text } from "../styles/Text";
 import { Header } from "../components/Header";
 
 const SignUp = () => {

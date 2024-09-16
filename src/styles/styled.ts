@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import { ColorMap } from "../components/ColorMap";
 
+export const Main = styled.main<{ gap?: string }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: white;
+  padding: 16px;
+  gap: ${(props) => props.gap || "0px"};
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
 export const InnerSection = styled.section`
   display: flex;
   flex-direction: column;

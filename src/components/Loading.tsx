@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { LinearProgress, Box } from "@mui/material";
-import { Main } from "./Main";
-import { Text } from "./Text";
-import { FlexBox } from "./FlexBox";
+import { LinearProgress, Typography, Box } from "@mui/material";
+import { Main } from "../styles/styled";
+import { Text } from "../styles/Text";
+import { FlexBox } from "../styles/FlexBox";
 
 export const Loading = () => {
   const [progress, setProgress] = useState(0);

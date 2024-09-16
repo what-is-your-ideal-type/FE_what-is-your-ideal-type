@@ -29,11 +29,7 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
     }
   };
 
-  return (
-    <div style={{padding: "1rem 0", width: "70%"}}>
-      <Button width="100%" onClick={handleSurveyNavigation}>{label}</Button>
-    </div>
-)
+  return <Button onClick={handleSurveyNavigation}>{label}</Button>
 };
 
 export default NavigateToSurvey;

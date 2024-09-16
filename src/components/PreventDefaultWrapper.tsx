@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexBox } from "./FlexBox";
+import { FlexBox } from "../styles/FlexBox";
 
 interface PreventDefaultWrapperProps {
   children: React.ReactNode;

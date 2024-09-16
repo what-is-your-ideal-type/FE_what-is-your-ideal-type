@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useMediaQuery } from "usehooks-ts";
 import { Button } from "./Button";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { Text } from "./Text";
+import { Text } from "../styles/Text";
 
 const StyledHeader = styled.header`
   width: 100%;
