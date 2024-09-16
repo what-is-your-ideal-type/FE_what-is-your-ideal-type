@@ -2,7 +2,7 @@ import { FlexBox } from "../components/ui/FlexBox"
 import React, { useState } from "react"
 import { Text } from "../components/ui/Text"
 import { Main } from "../components/ui/Main"
-import { Button } from "../components/Button"
+import { Button } from "../components/ui/Button"
 import { Header } from "../components/ui/Header"
 import { useNavigate } from "react-router-dom"
 
