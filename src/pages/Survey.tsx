@@ -3,14 +3,14 @@ import {
   SurveyTypes,
   surveyContentsMen,
   surveyContentsWomen,
-} from "../components/Survey";
+} from "../components/utils/Survey";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "../components/Button";
-import { Header } from "../components/Header";
+import { Button } from "../components/ui/Button";
+import { Header } from "../components/ui/Header";
 import { ProgressBar } from "../styles/styled";
-import { FlexBox } from "../components/FlexBox";
-import { Text } from "../components/Text";
-import { Main } from "../components/Main";
+import { FlexBox } from "../components/ui/FlexBox";
+import { Text } from "../components/ui/Text";
+import { Main } from "../components/ui/Main";
 
 const Survey = () => {
   const location = useLocation();

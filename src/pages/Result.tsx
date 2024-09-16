@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Picture from "../components/Picture";
-import Kakaoshare from "../components/KakaoShare";
-import NavigateToSurvey from "../components/NavigateToSurvey";
-import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
-import { Button } from "../components/Button";
-import { Text } from "../components/Text";
-import { FlexBox } from "../components/FlexBox";
-import { Main } from "../components/Main";
+import Picture from "../components/ui/Picture";
+import Kakaoshare from "../components/functional/KakaoShare";
+import NavigateToSurvey from "../components/functional/NavigateToSurvey";
+import { PreventDefaultWrapper } from "../components/functional/PreventDefaultWrapper";
+import { Button } from "../components/ui/Button";
+import { Text } from "../components/ui/Text";
+import { FlexBox } from "../components/ui/FlexBox";
+import { Main } from "../components/ui/Main";
 import { parseProfile } from "../services/profileGenerator";
 
 interface Profile {

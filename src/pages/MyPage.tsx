@@ -8,12 +8,12 @@ import {
 } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import NavigateToSurvey from "../components/NavigateToSurvey";
-import { Text } from "../components/Text";
-import { FlexBox } from "../components/FlexBox";
+import NavigateToSurvey from "../components/functional/NavigateToSurvey";
+import { Text } from "../components/ui/Text";
+import { FlexBox } from "../components/ui/FlexBox";
 import { GridBox } from "../styles/GridBox";
 import { Card } from "../styles/styled";
-import { Main } from "../components/Main";
+import { Main } from "../components/ui/Main";
 
 interface CardData {
   url: string;
