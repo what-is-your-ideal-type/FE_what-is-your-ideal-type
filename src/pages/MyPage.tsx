@@ -9,10 +9,11 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import NavigateToSurvey from "../components/NavigateToSurvey";
-import { Text } from "../styles/Text";
-import { FlexBox } from "../styles/FlexBox";
+import { Text } from "../components/Text";
+import { FlexBox } from "../components/FlexBox";
 import { GridBox } from "../styles/GridBox";
 import { Card } from "../styles/styled";
+import { Main } from "../components/Main";
 
 interface CardData {
   url: string;
@@ -62,40 +63,42 @@ const MyPage = () => {
   }, [currentUser, navigate]);
 
   return (
-    <FlexBox direction="column">
-      <Text fontSize="xl" fontWeight="bold" style={{padding: "1rem 0"}}>
-        {currentUser?.email}님의 이상형 리스트 입니다.
-      </Text>
-      <NavigateToSurvey label="새로운 이상형 찾기" />
-      <GridBox>
-        {cards.map((card, index) => (
-          <Card
-            key={index}
-            onClick={() =>
-              navigate(`${card.resultUrl}`, {
-                state: { profile: card.profile },
-              })
-            }
-          >
-            <FlexBox direction="column" gap="16px">
-              <img
-                src={card.url}
-                alt={card.fileName}
-                style={{ width: "100%", height: "auto", borderRadius: "0.375rem 0.375rem 0 0"}}
-              />
+    <Main>
+      <FlexBox direction="column">
+        <Text fontSize="xl" fontWeight="bold" style={{padding: "1rem 0"}}>
+          {currentUser?.email}님의 이상형 리스트 입니다.
+        </Text>
+        <NavigateToSurvey label="새로운 이상형 찾기" />
+        <GridBox>
+          {cards.map((card, index) => (
+            <Card
+              key={index}
+              onClick={() =>
+                navigate(`${card.resultUrl}`, {
+                  state: { profile: card.profile },
+                })
+              }
+            >
               <FlexBox direction="column" gap="16px">
-                <FlexBox direction="column">
-                    {card.hashTags?.map((hashTag, index) => (
-                      <span key={index} style={{padding: "6px 12px", backgroundColor: "rgba(112, 110, 244, 0.3)", display: "inline-block", borderRadius: "34px"}}>#{hashTag}</span>
-                    ))}
+                <img
+                  src={card.url}
+                  alt={card.fileName}
+                  style={{ width: "100%", height: "auto", borderRadius: "0.375rem 0.375rem 0 0"}}
+                />
+                <FlexBox direction="column" gap="16px">
+                  <FlexBox direction="column">
+                      {card.hashTags?.map((hashTag, index) => (
+                        <span key={index} style={{padding: "6px 12px", backgroundColor: "rgba(112, 110, 244, 0.3)", display: "inline-block", borderRadius: "34px"}}>#{hashTag}</span>
+                      ))}
+                  </FlexBox>
+                  <Text fontWeight="bold">{card.createdAt.toLocaleDateString()}</Text>
                 </FlexBox>
-                <Text fontWeight="bold">{card.createdAt.toLocaleDateString()}</Text>
               </FlexBox>
-            </FlexBox>
-          </Card>
-        ))}
-      </GridBox>
-    </FlexBox>
+            </Card>
+          ))}
+        </GridBox>
+      </FlexBox>
+    </Main>
   );
 };
 

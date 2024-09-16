@@ -7,9 +7,10 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { Header } from "../components/Header";
-import { Main, ProgressBar } from "../styles/styled";
-import { FlexBox } from "../styles/FlexBox";
-import { Text } from "../styles/Text";
+import { ProgressBar } from "../styles/styled";
+import { FlexBox } from "../components/FlexBox";
+import { Text } from "../components/Text";
+import { Main } from "../components/Main";
 
 const Survey = () => {
   const location = useLocation();
@@ -32,7 +33,9 @@ const Survey = () => {
     if(check){
       navigate("/generate", { state: { prompts: prompts, hashTags: hashtags } });
     }else{
-      return
+      setprompts((prev) => prev.slice(0, prev.length - 1)); 
+      setHashTags((prev) => prev.slice(0, prev.length - 1));
+      setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
     }
   };
 
@@ -62,7 +65,7 @@ const Survey = () => {
       <div style={{position: "absolute", top: "0", width: "100%"}}>
         <Header></Header>
           <ProgressBar
-            value={currentQuestionIndex ? currentQuestionIndex : 0}
+            value={currentSurvey.length > 0 ? ((currentQuestionIndex) / currentSurvey.length) * 100  : 0}
             ></ProgressBar>
       </div>
         <Main>
@@ -70,7 +73,7 @@ const Survey = () => {
           <FlexBox direction="column" gap="72px">
             <Text fontSize="lg" fontWeight="bold">{currentSurvey[currentQuestionIndex].question}</Text>
             <FlexBox direction="column" gap="10px">
-              {currentSurvey[currentQuestionIndex].options.map((option, index) => (
+              {currentSurvey[currentQuestionIndex].options.map((option) => (
                 <div
                   key={option.label}
                   className="mb-2 flex justify-center items-center"
@@ -79,11 +82,11 @@ const Survey = () => {
                     width="344px"
                     height="52px"
                     onClick={() => {
-                      currentQuestionIndex === currentSurvey.length - 1 
-                      ? handleSubmit() 
-                      : handleOptionChange(option.value, option.label)
-                    }
-                    }
+                      handleOptionChange(option.value, option.label);
+                      if (currentQuestionIndex === currentSurvey.length - 1) {
+                        handleSubmit();
+                      }
+                    }}
                   >{option.label}</Button>
                 </div>
               ))}

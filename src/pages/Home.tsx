@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Button } from "../components/Button"
+import { Main } from "../components/Main";
 import Input from "../components/Input";
 import { useAuth } from "../contexts/AuthContext";
-import { ButtonGroup, Main } from "../styles/styled";
-import { FlexBox } from "../styles/FlexBox";
-import { Text } from "../styles/Text";
+import { ButtonGroup } from "../styles/styled";
+import { FlexBox } from "../components/FlexBox";
+import { Text } from "../components/Text";
 import { FirebaseError } from "firebase/app";
+import { useResponsive } from "../hooks/useResponsive";
 
 const Home = () => {
   const navigate = useNavigate();
+  const isMobile= useResponsive();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -41,7 +44,7 @@ const Home = () => {
   };
 
   return (
-    <Main gap="8rem">
+    <Main isMobile={isMobile} gap="8rem">
       <FlexBox direction="column" gap="2rem">
         <FlexBox direction="column" gap="1rem" style={{alignItems: "flex-start", width: "100%"}}>
           <Text fontSize="lg" fontWeight="bold">안녕하세요!</Text>
