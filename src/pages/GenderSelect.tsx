@@ -1,9 +1,9 @@
-import { FlexBox } from "../components/FlexBox"
+import { FlexBox } from "../components/ui/FlexBox"
 import React, { useState } from "react"
-import { Text } from "../components/Text"
-import { Main } from "../components/Main"
+import { Text } from "../components/ui/Text"
+import { Main } from "../components/ui/Main"
 import { Button } from "../components/Button"
-import { Header } from "../components/Header"
+import { Header } from "../components/ui/Header"
 import { useNavigate } from "react-router-dom"
 
 const GenderSelect = () => {

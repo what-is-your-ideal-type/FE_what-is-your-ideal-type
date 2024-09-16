@@ -1,7 +1,7 @@
 // stories/Button.stories.tsx
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
-import { Header } from "../components/Header";
+import { Header } from "../components/ui/Header";
 
 export default {
   title: "Header",
