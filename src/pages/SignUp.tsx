@@ -1,14 +1,14 @@
-import Input from "../components/Input";
+import Input from "../components/ui/Input";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, AuthError } from "firebase/auth";
 import { auth, db, USERS_COLLECTION } from "../firebase";
 import { doc, setDoc, query, where, getDocs } from "firebase/firestore";
-import { Button } from "../components/Button";
-import { Main } from "../components/Main";
-import { FlexBox } from "../components/FlexBox";
-import { Text } from "../components/Text";
-import { Header } from "../components/Header";
+import { Button } from "../components/ui/Button";
+import { Main } from "../components/ui/Main";
+import { FlexBox } from "../components/ui/FlexBox";
+import { Text } from "../components/ui/Text";
+import { Header } from "../components/ui/Header";
 
 const SignUp = () => {
   const navigate = useNavigate();

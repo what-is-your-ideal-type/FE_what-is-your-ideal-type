@@ -1,6 +1,6 @@
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
-import { FlexBox } from "../components/FlexBox";
+import { FlexBox } from "../components/ui/FlexBox";
 export default {
   title: "FlexBox",
   component: FlexBox,

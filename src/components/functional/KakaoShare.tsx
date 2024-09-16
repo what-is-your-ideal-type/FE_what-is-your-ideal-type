@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Button } from "./Button";
+import { Button } from "../ui/Button";
 const { Kakao } = window;
 
 const Kakaoshare = () => {

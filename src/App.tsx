@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home, Survey, Result, GenderSelect } from "./pages";
 import { AuthProvider } from "./contexts/AuthContext";
-import Loading from "./components/Loading";
+import Loading from "./components/ui/Loading";
 
 const Generate = lazy(() => import("./pages/Generate"));
 const MyPage = lazy(() => import("./pages/MyPage"));

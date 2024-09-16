@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ColorMap } from "./ColorMap";
+import { ColorMap } from "../utils/ColorMap";
 
 export interface ButtonProps{
     label?: string;

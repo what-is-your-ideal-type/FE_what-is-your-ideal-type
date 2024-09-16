@@ -1,10 +1,10 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../components/ui/Loading";
 import { useEffect } from "react";
 import { imageGenerate } from "../services/imageGenerator";
 import { profileGenerate } from "../services/profileGenerator";
-import { convertToWebP } from "../services/convertToWebP";
+import { convertToWebP } from "../components/functional/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
 import { useAuth } from "../contexts/AuthContext";
 import { getCountAndTimeLeft, incrementCount } from "../services/countService";

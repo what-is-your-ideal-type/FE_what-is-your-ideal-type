@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { getCountAndTimeLeft } from "../services/countService";
-import { useAuth } from "../contexts/AuthContext";
-import { Button } from "./Button";
+import { getCountAndTimeLeft } from "../../services/countService";
+import { useAuth } from "../../contexts/AuthContext";
+import { Button } from "../ui/Button";
 
 interface NavigateToSurveyProps {
   label: string;
@@ -29,7 +29,11 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
     }
   };
 
-  return <Button onClick={handleSurveyNavigation}>{label}</Button>
+  return (
+    <div style={{padding: "1rem 0", width: "70%"}}>
+      <Button width="100%" onClick={handleSurveyNavigation}>{label}</Button>
+    </div>
+)
 };
 
 export default NavigateToSurvey;
