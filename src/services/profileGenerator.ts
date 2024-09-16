@@ -8,7 +8,7 @@ const openai = new OpenAI({
 export async function profileGenerate(order: string[]) {
   const prompt = `Create a realistic and coherent profile with the following characteristics: ${order.join(
     ", ",
-  )}. Generate a name, age, occupation, personality traits, and hobbies for this profile. Please provide the response in Korean.`;
+  )}. Generate a name, age, occupation, personality traits, and hobbies for this profile. Please provide the response in a valid JSON format with keys "name", "age", "occupation", "personality  ", and "hobbies". The response should be in Korean.`;
 
   try {
     const response = await openai.chat.completions.create({
@@ -37,6 +37,7 @@ interface Profile {
   personality: string;
   hobbies: string;
 }
+
 // 문자열을 객체로 변환하는 함수
 export const parseProfile = (responseText: string): Profile => {
   const profile = {
