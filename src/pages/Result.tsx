@@ -31,7 +31,7 @@ const Result = () => {
   const isLogin = currentUser.currentUser;
 
   useEffect(() => {
-    const result = parseProfile(profile);
+    const result = JSON.parse(profile);
     setImageProfile(result);
   }, [profile]);
 
@@ -99,8 +99,8 @@ const Result = () => {
     <Main>
       <FlexBox direction="column" gap="47px">
         <FlexBox direction="column" gap="2px">
-          <Text fontWeight="bold">26세 나현아</Text>
-          <Text fontSize="lg" fontWeight="bold">패션 인플루언서</Text>
+          <Text fontWeight="bold">{imageProfile?.age} {imageProfile?.name}</Text>
+          <Text fontSize="lg" fontWeight="bold">{imageProfile?.occupation}</Text>
         </FlexBox>
           <PreventDefaultWrapper>
             <Picture imageUrl={imageUrl} altText="이상형 이미지" />
@@ -108,6 +108,8 @@ const Result = () => {
       </FlexBox>
       <FlexBox direction="column">
         <Text fontWeight="bold">{prompt}</Text>
+        <Text fontWeight="bold">성격: {imageProfile?.personality}</Text>
+        <Text fontWeight="bold">취미: {imageProfile?.hobbies}</Text>
 
         {isLogin ? (
           <>
