@@ -47,6 +47,20 @@ const Result = () => {
     setPrompt(decodedPrompts);
   }, [url, prompts]);
 
+  // 뒤로가기 방지
+  useEffect(() => {
+    const blockBackButton = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", blockBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", blockBackButton);
+    };
+  }, []);
+
   const handleDownload = async () => {
     try {
       const response = await fetch(imageUrl);
@@ -99,12 +113,16 @@ const Result = () => {
     <Main>
       <FlexBox direction="column" gap="47px">
         <FlexBox direction="column" gap="2px">
-          <Text fontWeight="bold">{imageProfile?.age} {imageProfile?.name}</Text>
-          <Text fontSize="lg" fontWeight="bold">{imageProfile?.occupation}</Text>
+          <Text fontWeight="bold">
+            {imageProfile?.age} {imageProfile?.name}
+          </Text>
+          <Text fontSize="lg" fontWeight="bold">
+            {imageProfile?.occupation}
+          </Text>
         </FlexBox>
-          <PreventDefaultWrapper>
-            <Picture imageUrl={imageUrl} altText="이상형 이미지" />
-          </PreventDefaultWrapper>
+        <PreventDefaultWrapper>
+          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
+        </PreventDefaultWrapper>
       </FlexBox>
       <FlexBox direction="column">
         <Text fontWeight="bold">{prompt}</Text>
@@ -113,7 +131,9 @@ const Result = () => {
 
         {isLogin ? (
           <>
-            <Button onClick={() => handleNavigate("/mypage")}>마이 페이지</Button>
+            <Button onClick={() => handleNavigate("/mypage")}>
+              마이 페이지
+            </Button>
             <NavigateToSurvey label="이상형 다시 찾기" />
           </>
         ) : (
