@@ -17,6 +17,15 @@ const Generate = () => {
 
   useEffect(() => {
     const { prompts, hashTags } = location.state;
+
+    // 뒤로가기 방지
+    const blockBackButton = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", blockBackButton);
+
     const processAndNavigate = async () => {
       try {
         // 이미지 생성
@@ -60,6 +69,7 @@ const Generate = () => {
         }
 
         navigate(resultUrl, {
+          replace: true, // 현재 페이지를 대체
           state: { fileName: firebaseFileName, profile: profile },
         });
 
@@ -70,6 +80,11 @@ const Generate = () => {
       }
     };
     processAndNavigate();
+
+    // 언마운트 시 뒤로가기 이벤트리스너 제거
+    return () => {
+      window.removeEventListener("popstate", blockBackButton);
+    };
   }, []);
 
   return <Loading />;
