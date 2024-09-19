@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://oaidalleapiprodscus.blob.core.windows.net",
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@emotion/css": "^11.13.0",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
@@ -20,8 +21,9 @@
     "openai": "^4.52.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.1",
-    "react-scripts": "5.0.1",
+    "react-refresh": "^0.11.0",
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "^5.0.1",
     "style-loader": "^4.0.0",
     "styled-components": "^6.1.11",
     "typescript": "^4.9.5",
@@ -30,9 +32,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -58,6 +60,8 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.0",
+    "@craco/types": "^7.1.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@storybook/addon-actions": "^8.1.11",
     "@storybook/addon-docs": "^8.1.11",
     "@storybook/addon-essentials": "^8.1.11",
