@@ -8,7 +8,8 @@ import { convertToWebP } from "../components/functional/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
 import { useAuth } from "../contexts/AuthContext";
 import { getCountAndTimeLeft, incrementCount } from "../services/countService";
-import { saveResultUrlToFirebase } from "../services/saveResultUrlToFirebase";
+import { collection, doc, getDoc, getDocs, setDoc, DocumentData } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Generate = () => {
   const location = useLocation();
@@ -28,6 +29,8 @@ const Generate = () => {
 
     const processAndNavigate = async () => {
       try {
+        
+        if(!currentUser) return
         // 이미지 생성
         const data = await imageGenerate(prompts);
         const responseUrl = data?.url;
@@ -41,36 +44,54 @@ const Generate = () => {
           throw new Error("Failed to convert to WebP");
         }
 
+        const imageUrl = await uploadImageToFirebase(webP);
+
         // 이미지 관련 profile 생성
         const profile = await profileGenerate(prompts);
         if (!profile) {
           throw new Error("Failed to get profile");
         }
 
+
         // Firebase에 이미지 및 프로필 저장
-        const [firebaseUrl, firebaseFileName, imageDocId] =
-          await uploadImageToFirebase(webP, hashTags, profile);
 
-        if (!firebaseUrl) {
-          throw new Error("Failed to upload and download Image to Firebase");
-        }
+        const postsRef = collection(db, "posts");
+        const postsSnapShot = await getDocs(postsRef);
+        // 모든 문서의 ID를 배열로 추출
+        const postsIds = postsSnapShot.docs.map(doc => doc.id);
 
-        const addHashTags = hashTags.map((v: string) => "#" + v);
-        const newPrompts = addHashTags.join(" ");
-        const resultUrl = `/result/${encodeURIComponent(newPrompts)}/${encodeURIComponent(firebaseUrl)}`;
+        // ID를 숫자로 변환 후, 가장 큰 값 찾기
+        const lastPostId = postsIds[postsIds.length - 1]
 
-        // 결과 페이지 url 저장
-        if (currentUser) {
-          await saveResultUrlToFirebase({
-            user: currentUser,
-            imageDocId: imageDocId,
-            resultUrl: resultUrl,
-          });
-        }
+        // 새 문서 ID 생성 (마지막 ID + 1)
+        const newPostId = (Number(lastPostId) + 1).toString().padStart(4, '0');
+        
+        await setDoc(doc(db, "posts", newPostId), {
+          id: newPostId,
+          userId: currentUser.uid,
+          email: currentUser.email,
+          imageUrl: imageUrl,
+          createdAt: new Date(),
+          hashTags: hashTags,
+          profile: profile
+        });
+        
+        const userRef = doc(db, "users", currentUser.uid); 
+        const userSnapShot = await getDoc(userRef);
+
+        if(!userSnapShot.exists()) return
+
+        const userData = userSnapShot.data()
+        const newPostList = [...(userData.postList || []), newPostId];
+
+        await setDoc(doc(db, "users", currentUser.uid), {
+          postList: newPostList
+        },{merge: true});
+
+        const resultUrl = `/result/${newPostId}`;
 
         navigate(resultUrl, {
           replace: true, // 현재 페이지를 대체
-          state: { fileName: firebaseFileName, profile: profile },
         });
 
         const { count, limit } = await getCountAndTimeLeft(currentUser);

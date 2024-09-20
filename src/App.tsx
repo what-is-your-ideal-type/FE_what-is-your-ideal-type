@@ -33,7 +33,7 @@ const App = () => {
               </Suspense>
             }
           />
-          <Route path="/result/:prompts/:url" element={<Result />} />
+          <Route path="/result/:postId" element={<Result />} />
           <Route
             path="/mypage"
             element={

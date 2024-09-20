@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Picture from "../components/ui/Picture";
 import Kakaoshare from "../components/functional/KakaoShare";
@@ -9,9 +9,11 @@ import { Button } from "../components/ui/Button";
 import { Text } from "../components/ui/Text";
 import { FlexBox } from "../components/ui/FlexBox";
 import { Main } from "../components/ui/Main";
-import { parseProfile } from "../services/profileGenerator";
+import { doc, getDoc, DocumentData } from "firebase/firestore";
+import { db } from "../firebase";
 
-interface Profile {
+
+interface ProfileTypes {
   name: string;
   age: number;
   occupation: string;
@@ -19,33 +21,40 @@ interface Profile {
   hobbies: string;
 }
 
+
 const Result = () => {
-  const { prompts, url } = useParams();
-  const [imageUrl, setImageUrl] = useState("");
-  const [prompt, setPrompt] = useState("");
-  const [imageProfile, setImageProfile] = useState<Profile | null>(null);
+  const { postId } = useParams();
+  const [post, setPost] = useState<DocumentData | null>(null)
+  const [profile, setProfile] = useState<ProfileTypes | null>(null)
   const currentUser = useAuth();
-  const location = useLocation();
-  const { fileName, profile } = location.state || {};
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const isLogin = currentUser.currentUser;
 
   useEffect(() => {
-    const result = JSON.parse(profile);
-    setImageProfile(result);
-  }, [profile]);
+    const fetchPost = async () => {
+      if (postId) {
+        try {
+          const postDocRef = doc(db, "posts", postId);
+          const postSnapshot = await getDoc(postDocRef);
+
+          if (!postSnapshot.exists()) return
+          
+          setPost(postSnapshot.data());
+        } catch (error) {
+          console.error("Error fetching document: ", error);
+        }
+      }
+    };
+
+    fetchPost();
+  }, [postId]);
 
   useEffect(() => {
-    if (prompts === undefined || url === undefined) {
-      return;
-    }
+    if(!post) return
 
-    const replacedURL = url.replace("/o/images/", "/o/images%2F");
-    const decodedPrompts = decodeURIComponent(prompts);
-
-    setImageUrl(replacedURL);
-    setPrompt(decodedPrompts);
-  }, [url, prompts]);
+    const jsonData = JSON.parse(post.profile)
+    setProfile(jsonData)
+  },[post])
 
   // 뒤로가기 방지
   useEffect(() => {
@@ -63,7 +72,7 @@ const Result = () => {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(imageUrl);
+      const response = await fetch(post?.imageUrl);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -83,7 +92,7 @@ const Result = () => {
           const url = window.URL.createObjectURL(blob!);
           const a = document.createElement("a");
           a.href = url;
-          a.download = fileName || "download_image.webp";
+          a.download = "download_image.webp";
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -105,33 +114,28 @@ const Result = () => {
     }
   };
 
-  const handleNavigate = (pagePath: string) => {
-    navigate(pagePath);
-  };
-
   return (
     <Main>
       <FlexBox direction="column" gap="47px">
         <FlexBox direction="column" gap="2px">
           <Text fontWeight="bold">
-            {imageProfile?.age} {imageProfile?.name}
+            {profile?.age} {profile?.name}
           </Text>
           <Text fontSize="lg" fontWeight="bold">
-            {imageProfile?.occupation}
+            {profile?.occupation}
           </Text>
         </FlexBox>
         <PreventDefaultWrapper>
-          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
+          <Picture imageUrl={post?.imageUrl} altText="이상형 이미지" />
         </PreventDefaultWrapper>
       </FlexBox>
       <FlexBox direction="column">
-        <Text fontWeight="bold">{prompt}</Text>
-        <Text fontWeight="bold">성격: {imageProfile?.personality}</Text>
-        <Text fontWeight="bold">취미: {imageProfile?.hobbies}</Text>
+        <Text fontWeight="bold">성격: {profile?.personality}</Text>
+        <Text fontWeight="bold">취미: {profile?.hobbies}</Text>
 
         {isLogin ? (
           <>
-            <Button onClick={() => handleNavigate("/mypage")}>
+            <Button onClick={() => navigate("/mypage")}>
               마이 페이지
             </Button>
             <NavigateToSurvey label="이상형 다시 찾기" />
@@ -141,7 +145,7 @@ const Result = () => {
             <p className="text-gray">
               사진을 저장하고 기록하고 싶다면 로그인 해보세요
             </p>
-            <Button onClick={() => handleNavigate("/")}>로그인</Button>
+            <Button onClick={() => navigate("/")}>로그인</Button>
           </>
         )}
         <PreventDefaultWrapper>
