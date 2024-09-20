@@ -8,7 +8,7 @@ import { convertToWebP } from "../components/functional/convertToWebP";
 import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
 import { useAuth } from "../contexts/AuthContext";
 import { getCountAndTimeLeft, incrementCount } from "../services/countService";
-import { collection, doc, getDoc, getDocs, setDoc, DocumentData } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 const Generate = () => {
