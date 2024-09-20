@@ -8,18 +8,20 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-export async function imageGenerate(order: string[]) {
-  const fixPrompt = [
-    "passport-style",
-    "realistic",
-    "professional",
-    "plain light-colored background",
-    "soft lighting",
-    "natural",
-    "polished",
-    "refined",
-  ];
-  const prompt = "korean, " + order.join(", ") + fixPrompt.join(", ");
+type orderType = {
+  gender: string;
+  age: string;
+  bodyShape: string;
+  faceShape: string;
+  skinTone: string;
+  eyesShape: string;
+  hairStyle: string;
+  hairColor: string;
+  outfit: string;
+};
+
+export async function imageGenerate(order: orderType) {
+  const prompt = `Create a realistic and passport-style image.  The subject is a Korean ${order.gender} in ${order.gender === "man" ? "his " : "her "} ${order.age} with a ${order.bodyShape} physique and a ${order.faceShape}. ${order.gender === "man" ? "He " : "She "} has ${order.skinTone}, distinguishing ${order.eyesShape}, and a ${order.hairStyle} cut with ${order.hairColor}. ${order.gender === "man" ? "He " : "She "} is wearing a ${order.outfit} outfit. The image is set against a plain light-colored background with soft lighting, exuding a natural, polished, and refined look`;
 
   try {
     const response = await openai.images.generate({

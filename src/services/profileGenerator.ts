@@ -5,10 +5,20 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-export async function profileGenerate(order: string[]) {
-  const prompt = `Create a realistic and coherent profile with the following characteristics: ${order.join(
-    ", ",
-  )}. Generate a name, age, occupation, personality traits, and hobbies for this profile. Please provide the response in a valid JSON format with keys "name", "age", "occupation", "personality  ", and "hobbies". The response should be in Korean.`;
+type orderType = {
+  gender: string;
+  age: string;
+  bodyShape: string;
+  faceShape: string;
+  skinTone: string;
+  eyesShape: string;
+  hairStyle: string;
+  hairColor: string;
+  outfit: string;
+};
+
+export async function profileGenerate(order: orderType) {
+  const prompt = `Create a realistic profile for a ${order.age} ${order.gender} with a ${order.bodyShape} body and a ${order.faceShape} face. The person has ${order.skinTone} skin, ${order.eyesShape} eyes, and ${order.hairStyle} hair in ${order.hairColor} color. They are wearing a ${order.outfit}. Generate a name, age, occupation, personality traits, andhobbies for this profile. Provide the response in a valid JSON format with keys "name", "age", "occupation", "personality", and "hobbies". The response should be in Korean.`;
 
   try {
     const response = await openai.chat.completions.create({

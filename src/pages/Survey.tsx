@@ -19,7 +19,7 @@ const Survey = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [prompts, setprompts] = useState<string[]>([]);
   const [hashtags, setHashTags] = useState<string[]>([]);
-
+  const gender = location.state;
 
 
   const handleOptionChange = (valueEng: string, valueKor: string) => {
@@ -30,8 +30,20 @@ const Survey = () => {
 
   const handleSubmit = () => {
     const check = confirm('이상형을 생성하겠습니까?')
+    const promptObj = {
+      "gender": gender,
+      "age": prompts[0],
+      "bodyShape": prompts[1],
+      "faceShape": prompts[2],
+      "skinTone": prompts[3],
+      "eyesShape": prompts[4],
+      "hairStyle": prompts[5],
+      "hairColor": prompts[6],
+      "outfit": prompts[7]
+    }
+
     if(check){
-      navigate("/generate", { state: { prompts: prompts, hashTags: hashtags } });
+      navigate("/generate", { state: { prompts: promptObj, hashTags: hashtags } });
     }else{
       setprompts((prev) => prev.slice(0, prev.length - 1)); 
       setHashTags((prev) => prev.slice(0, prev.length - 1));
@@ -39,14 +51,7 @@ const Survey = () => {
     }
   };
 
-  const handleBack = () => {
-      setprompts((prev) => prev.slice(0, prev.length - 1));
-      setHashTags((prev) => prev.slice(0, prev.length - 1));
-      setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
-  };
-
   useEffect(() => {
-    const gender = location.state;
     if(!gender){
       alert('성별을 먼저 선택해주세요')
       navigate('/genderselect')
@@ -59,6 +64,14 @@ const Survey = () => {
     }
 
   }, [location]);
+
+
+  useEffect(() => {
+    if (currentSurvey.length > 0 && currentQuestionIndex >= 0 && currentQuestionIndex === currentSurvey.length) {
+      handleSubmit();
+    }
+  }, [currentQuestionIndex, currentSurvey.length]);
+  
 
   return (
     <>
@@ -83,9 +96,6 @@ const Survey = () => {
                     height="52px"
                     onClick={() => {
                       handleOptionChange(option.value, option.label);
-                      if (currentQuestionIndex === currentSurvey.length - 1) {
-                        handleSubmit();
-                      }
                     }}
                   >{option.label}</Button>
                 </div>
