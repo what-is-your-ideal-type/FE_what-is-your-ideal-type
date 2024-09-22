@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { IMAGES_COLLECTION } from "../firebase";
 import {
-  query,
-  getDocs,
-  QuerySnapshot,
-  DocumentData,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +11,11 @@ import { FlexBox } from "../components/ui/FlexBox";
 import { GridBox } from "../styles/GridBox";
 import { Card } from "../styles/styled";
 import { Main } from "../components/ui/Main";
+import { db } from "../firebase";
 
 interface CardData {
-  url: string;
+  imageUrl: string;
+  id: string;
   createdAt: Date;
   fileName: string;
   hashTags?: string[] | null;
@@ -29,38 +28,59 @@ const MyPage = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    if (currentUser) {
-      console.log("User in MyPage: ", currentUser);
-      const uid = currentUser.uid;
-      const q = query(IMAGES_COLLECTION(uid));
-      getDocs(q)
-        .then((querySnapshot: QuerySnapshot<DocumentData>) => {
-          const newCards: CardData[] = [];
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const cardData: CardData = {
-              url: data.url,
-              createdAt: data.createdAt.toDate(),
-              fileName: data.fileName,
-              hashTags: data.hashTags,
-              resultUrl: data.resultUrl,
-              profile: data.profile,
-            };
-            newCards.push(cardData);
-          });
-          newCards.sort(
-            (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-          );
-          setCards((prevCards) => [...prevCards, ...newCards]);
-        })
-        .catch((error) => {
-          throw new Error("Error fetching documents: ", error);
-        });
-    } else {
-      alert("로그인이 필요한 서비스입니다. 홈으로 이동합니다.");
-      navigate("/");
+    const getCardsData = async () => {
+      try{
+        if (currentUser) {
+          const uid = currentUser.uid;
+
+
+          const docRef = doc(db, "users", uid);
+          const usersSnapShot = await getDoc(docRef);
+          const userData = usersSnapShot.data();
+          
+          if(!userData) return
+
+          const postList = userData.postList
+
+          const fetchCardsData = async () => {
+            try {
+              const fetchedCards = await Promise.all(
+                postList.map(async (num: string) => {
+                  const postRef = doc(db, "posts", num);
+                  const postSnapShot = await getDoc(postRef);
+                  const data = postSnapShot.data();
+          
+                  if (!data) return null; // 데이터를 가져오지 못한 경우 null 반환
+          
+                  return {
+                    imageUrl: data.imageUrl,
+                    createdAt: data.createdAt.toDate(), // Timestamp를 Date 객체로 변환
+                    fileName: data.fileName,
+                    hashTags: data.hashTags,
+                    resultUrl: `${window.location.href}/result/${data.id}`,
+                    profile: data.profile,
+                    id: data.id
+                  };
+                })
+              );
+          
+              // null 값이 있을 수 있으므로 필터링
+              setCards(fetchedCards);
+            } catch (error) {
+              console.error("Error fetching cards data:", error);
+            }
+          };
+          fetchCardsData()
+        } else {
+          alert("로그인이 필요한 서비스입니다. 홈으로 이동합니다.");
+          navigate("/");
+        }
+      }catch(error){
+        console.error(error)
+      }
     }
-  }, [currentUser, navigate]);
+    getCardsData()
+  }, [currentUser]);
 
   return (
     <Main>
@@ -74,14 +94,12 @@ const MyPage = () => {
             <Card
               key={index}
               onClick={() =>
-                navigate(`${card.resultUrl}`, {
-                  state: { profile: card.profile },
-                })
+                navigate(`/result/${card.id}`)
               }
             >
               <FlexBox direction="column" gap="16px">
                 <img
-                  src={card.url}
+                  src={card.imageUrl}
                   alt={card.fileName}
                   style={{ width: "100%", height: "auto", borderRadius: "0.375rem 0.375rem 0 0"}}
                 />
