@@ -92,7 +92,7 @@ const Result = () => {
           const url = window.URL.createObjectURL(blob!);
           const a = document.createElement("a");
           a.href = url;
-          a.download = "download_image.webp";
+          a.download = `img_${postId}.webp`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
