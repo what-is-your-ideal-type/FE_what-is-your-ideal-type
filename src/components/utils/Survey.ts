@@ -21,6 +21,7 @@ export const surveyContentsWomen: SurveyTypes[] = [
       { label: "마른 체형", value: "slim" },
       { label: "통통한 체형", value: "chubby" },
       { label: "근육질 체형", value: "muscular" },
+      { label: "상관 없음", value: "average body" },
     ],
   },
   {
@@ -28,23 +29,20 @@ export const surveyContentsWomen: SurveyTypes[] = [
     options: [
       { label: "둥근형", value: "round face" },
       { label: "계란형", value: "oval face" },
-      { label: "하트형", value: "heart-shaped face" },
-      { label: "긴 얼굴형", value: "oblong face" },
-      { label: "역삼각형", value: "inverted triangle face" },
       { label: "각진형", value: "angular face" },
+      { label: "상관 없음", value: "natural face" },
     ],
   },
   {
     question: "원하는 피부색을 골라주세요",
     options: [
-      { label: "엑스트라 화이트 톤", value: "white skin" },
       { label: "밝고 환한 밀크 톤", value: "bright milk skin" },
-      { label: "차분한 아이보리 톤", value: "calm ivory skin" },
       {
         label: "자연스러운 미디엄 다크 톤",
         value: "natural medium dark skin",
       },
       { label: "태닝한 듯 건강한 다크 톤", value: "tanned dark skin" },
+      { label: "상관 없음", value: "natural skin tone" },
     ],
   },
   {
@@ -53,6 +51,7 @@ export const surveyContentsWomen: SurveyTypes[] = [
       { label: "매력만점 무쌍", value: "monolid eyes" },
       { label: "자연스러운 속쌍", value: "double eyelid eyes" },
       { label: "쌍커풀 짙은 큰 눈", value: "deep double eyelid eyes" },
+      { label: "상관 없음", value: "simple eyes" },
     ],
   },
   {
@@ -62,7 +61,7 @@ export const surveyContentsWomen: SurveyTypes[] = [
       { label: "귀여운 단발", value: "bob" },
       { label: "자연스러운 중단발", value: "medium length" },
       { label: "청순한 긴생머리", value: "long straight" },
-      { label: "여신 웨이브", value: "long curly" },
+      { label: "상관 없음", value: "natural straight hair" },
     ],
   },
   {
@@ -73,6 +72,7 @@ export const surveyContentsWomen: SurveyTypes[] = [
       { label: "개성 있는 금발", value: "blonde hair" },
       { label: "강렬한 빨간머리", value: "red hair" },
       { label: "자유로운 영혼, 컬러풀 헤어", value: "colorful hair" },
+      { label: "상관 없음", value: "natural color hair" },
     ],
   },
   {
@@ -83,6 +83,7 @@ export const surveyContentsWomen: SurveyTypes[] = [
       { label: "힙한 mz룩", value: "hip hop style" },
       { label: "편한 트레이닝복", value: "sports style" },
       { label: "페스티벌룩", value: "festival style" },
+      { label: "상관 없음", value: "simple casual style" },
     ],
   },
 ];
@@ -104,6 +105,7 @@ export const surveyContentsMen: SurveyTypes[] = [
       { label: "마른 체형", value: "slim" },
       { label: "통통한 체형", value: "chubby" },
       { label: "근육질 체형", value: "muscular" },
+      { label: "상관 없음", value: "natural face" },
     ],
   },
   {
@@ -115,19 +117,19 @@ export const surveyContentsMen: SurveyTypes[] = [
       { label: "긴 얼굴형", value: "oblong face" },
       { label: "역삼각형", value: "inverted triangle face" },
       { label: "각진형", value: "angular face" },
+      { label: "상관 없음", value: "natural face" },
     ],
   },
   {
     question: "원하는 피부색을 골라주세요",
     options: [
-      { label: "엑스트라 화이트 톤", value: "extra white skin" },
       { label: "밝고 환한 밀크 톤", value: "bright milk skin" },
-      { label: "차분한 아이보리 톤", value: "calm ivory skin" },
       {
         label: "자연스러운 미디엄 다크 톤",
         value: "natural medium dark skin",
       },
       { label: "태닝한 듯 건강한 다크 톤", value: "tanned dark skin" },
+      { label: "상관 없음", value: "natural skin tone" },
     ],
   },
   {
@@ -136,6 +138,7 @@ export const surveyContentsMen: SurveyTypes[] = [
       { label: "매력만점 무쌍", value: "monolid eyes" },
       { label: "자연스러운 속쌍", value: "double eyelid eyes" },
       { label: "쌍커풀 짙은 큰 눈", value: "deep double eyelid eyes" },
+      { label: "상관 없음", value: "simple eyes" },
     ],
   },
   {
@@ -146,6 +149,7 @@ export const surveyContentsMen: SurveyTypes[] = [
       { label: "한껏 꾸민 포마드", value: "pompadour" },
       { label: "뽀글이 펌", value: "poppy perm" },
       { label: "느낌 있는 장발", value: "long" },
+      { label: "상관 없음", value: "natural straight hair" },
     ],
   },
   {
@@ -156,6 +160,7 @@ export const surveyContentsMen: SurveyTypes[] = [
       { label: "개성 있는 금발", value: "blonde hair" },
       { label: "강렬한 빨간머리", value: "red hair" },
       { label: "자유로운 영혼, 컬러풀 헤어", value: "colorful hair" },
+      { label: "상관 없음", value: "natural color hair" },
     ],
   },
   {
@@ -166,6 +171,7 @@ export const surveyContentsMen: SurveyTypes[] = [
       { label: "힙한 mz룩", value: "hip hop style" },
       { label: "편한 트레이닝복", value: "sports style" },
       { label: "페스티벌룩", value: "festival style" },
+      { label: "상관 없음", value: "simple casual style" },
     ],
   },
 ];
