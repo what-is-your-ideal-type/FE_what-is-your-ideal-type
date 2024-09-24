@@ -1,5 +1,5 @@
 export const ColorMap: {
-  [key: string]: { background: string; hover: string };
+  [key: string]: { background: string; hover?: string };
 } = {
   main: {
     background: "#706EF4",
@@ -20,5 +20,8 @@ export const ColorMap: {
   white: {
     background: "white",
     hover: "#f0f0f0",
+  },
+  disabled: {
+    background: "#b1b5c1",
   },
 };
