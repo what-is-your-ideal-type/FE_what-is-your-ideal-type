@@ -12,8 +12,12 @@ export const Text = styled.p<{
   fontSize?: "xs" | "sm" | "md" | "lg" | "xl";
   fontWeight?: string;
   color?: string;
+  marginRight?: string;
+  marginLeft?: string;
 }>`
   color: ${({ color = "inherit" }) => color};
   font-size: ${({ fontSize = "md" }) => fontSizes[fontSize]};
   font-weight: ${({ fontWeight = "normal" }) => fontWeight};
+  margin-right: ${({ marginRight }) => marginRight};
+  margin-left: ${({ marginLeft }) => marginLeft};
 `;
