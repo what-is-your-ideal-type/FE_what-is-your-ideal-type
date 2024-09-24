@@ -18,7 +18,7 @@ import {
 import EmailVerificationModal from "../components/functional/EmailVerificationModal";
 
 const SignUp = () => {
-  const [isModalOpen, setModalOpen] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

@@ -25,7 +25,7 @@ const EmailVerificationModal = ({
 
     sendEmailVerification(currentUser)
       .then(() => {
-        alert("이메일 인증 메일이 발송되었습니다.");
+        alert("이메일 인증 메일이 발송되었습니다. 이메일을 확인해주세요.");
       })
       .catch((error) => {
         console.error("이메일 전송 오류:", error);
