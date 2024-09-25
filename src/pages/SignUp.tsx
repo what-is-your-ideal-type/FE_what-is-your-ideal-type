@@ -81,7 +81,7 @@ const SignUp = () => {
         case "auth/internal-error":
           return setError("잘못된 요청입니다.");
         default:
-          return alert("회원가입에 실패 하였습니다. 다시 시도해주세요.");
+          return alert("회원가입에 실패했습니다. 다시 시도해주세요.");
       }
     }
   };
@@ -136,7 +136,7 @@ const SignUp = () => {
             )}
             <Input
               type="password"
-              placeholder="비밀번호를 한번 더 입력해주세요"
+              placeholder="비밀번호를 한 번 더 입력해주세요"
               value={confirmPassword}
               onChange={(e) => handleConfirmPasswordChange(e.target.value)}
             />

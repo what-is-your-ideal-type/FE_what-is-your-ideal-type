@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import { Button } from "../components/ui/Button"
+import { Button } from "../components/ui/Button";
 import { Main } from "../components/ui/Main";
 import Input from "../components/ui/Input";
 import { useAuth } from "../contexts/AuthContext";
@@ -11,13 +11,15 @@ import { FlexBox } from "../components/ui/FlexBox";
 import { Text } from "../components/ui/Text";
 import { FirebaseError } from "firebase/app";
 import { useResponsive } from "../hooks/useResponsive";
+import FindPasswordModal from "../components/functional/FindPasswordModal";
 
 const Home = () => {
   const navigate = useNavigate();
-  const isMobile= useResponsive();
+  const isMobile = useResponsive();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const { setCurrentUser } = useAuth();
 
@@ -46,33 +48,62 @@ const Home = () => {
   return (
     <Main isMobile={isMobile} gap="8rem">
       <FlexBox direction="column" gap="2rem">
-        <FlexBox direction="column" gap="1rem" style={{alignItems: "flex-start", width: "100%"}}>
-          <Text fontSize="lg" fontWeight="bold">안녕하세요!</Text>
-          <Text fontSize="md" fontWeight="bold">나만의 이상형을 찾아 볼까요?</Text>
-        </FlexBox>  
+        <FlexBox
+          direction="column"
+          gap="1rem"
+          style={{ alignItems: "flex-start", width: "100%" }}
+        >
+          <Text fontSize="lg" fontWeight="bold">
+            안녕하세요!
+          </Text>
+          <Text fontSize="md" fontWeight="bold">
+            나만의 이상형을 찾아 볼까요?
+          </Text>
+        </FlexBox>
         <FlexBox direction="column" gap="1rem">
           <Input
             type="email"
             placeholder="이메일을 입력해주세요"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            />
+          />
           <Input
             type="password"
             placeholder="비밀번호를 입력해주세요"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            />
-          </FlexBox>
-          {error ? <Text fontSize="md" color="red">{error}</Text> : null}
-        <Button bgColor="main" label="로그인하기" width="100%"onClick={handleLogin}>로그인하기</Button>
+          />
+        </FlexBox>
+        {error ? (
+          <Text fontSize="md" color="red">
+            {error}
+          </Text>
+        ) : null}
+        <button
+          style={{ marginRight: "0.5rem", marginLeft: "auto" }}
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          비밀번호 찾기
+        </button>
+        <Button
+          bgColor="main"
+          label="로그인하기"
+          width="100%"
+          onClick={handleLogin}
+        >
+          로그인하기
+        </Button>
       </FlexBox>
       <FlexBox direction="column" gap="8rem">
         <div>
-          <Text fontSize="md">SNS 계정으로 간편하게 시작하기</Text>
+          <Text style={{ marginBottom: "12px" }} fontSize="md">
+            SNS 계정으로 간편하게 시작하기
+          </Text>
           <ButtonGroup>
             <Button label="구글 로그인" bgColor="white">
-              <img src="/images/google.png" alt="구글 로그인"/>
+              <img src="/images/google.png" alt="구글 로그인" />
             </Button>
             <Button label="카카오 로그인" bgColor="white">
               <img src="/images/kakao.png" alt="카카오 로그인" />
@@ -84,9 +115,26 @@ const Home = () => {
         </div>
         <FlexBox gap="1rem">
           <Text fontSize="md">이상형 찾기가 처음이라면?</Text>
-          <Button label="회원가입" bgColor="sub" onClick={() => navigate('signup')}>가입하기</Button>
+          <Button
+            label="회원가입"
+            style={{
+              color: "#706EF4",
+              background: "inherit",
+              fontWeight: "bold",
+              borderBottom: "1px solid",
+              borderRadius: "0px",
+              padding: "0px",
+            }}
+            onClick={() => navigate("signup")}
+          >
+            가입하기
+          </Button>
         </FlexBox>
       </FlexBox>
+      <FindPasswordModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+      />
     </Main>
   );
 };
