@@ -13,5 +13,5 @@ export const Main = styled.main<MainProps>`
   min-height: 100vh;
   background-color: white;
   padding: 16px;
-  gap: ${({ gap }) => gap || "0px"};
+  gap: ${({ gap, isMobile }) => (isMobile ? "1.5rem" : gap || "0px")};
 `;
