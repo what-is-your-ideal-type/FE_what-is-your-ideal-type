@@ -18,7 +18,9 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
     if (count < limit) {
       navigate("/genderselect");
     } else if (!currentUser) {
-      const confirmed = confirm("기본 이미지 생성 횟수를 초과했습니다. 로그인을 위해 로그인 페이지로 이동합니다.")
+      const confirmed = confirm(
+        "기본 이미지 생성 횟수를 초과했습니다. 로그인을 위해 로그인 페이지로 이동합니다.",
+      );
       if (confirmed) {
         navigate("/");
       }
@@ -30,10 +32,12 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
   };
 
   return (
-    <div style={{padding: "1rem 0", width: "70%"}}>
-      <Button width="100%" onClick={handleSurveyNavigation}>{label}</Button>
+    <div style={{ padding: "1rem 0", width: "100%" }}>
+      <Button width="100%" onClick={handleSurveyNavigation}>
+        {label}
+      </Button>
     </div>
-)
+  );
 };
 
 export default NavigateToSurvey;
