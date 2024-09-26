@@ -4,7 +4,11 @@ import { Main } from "./Main";
 import { Text } from "./Text";
 import { FlexBox } from "./FlexBox";
 
-export const Loading = () => {
+interface LoadingProps {
+  progressState: number;
+}
+
+export const Loading = ({ progressState }: LoadingProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -26,11 +30,14 @@ export const Loading = () => {
         <Text fontSize="lg" fontWeight="bold">
           이상형을 찾고 있어요!
         </Text>
+        <Text fontSize="md" fontWeight="bold">
+          잠시만 기다려주세요.
+        </Text>
         <FlexBox direction="column" gap="10px" style={{ width: "100%" }}>
           <Box sx={{ width: "100%", mt: 3 }}>
             <LinearProgress
               variant="determinate"
-              value={progress}
+              value={progressState}
               sx={{
                 height: 20,
                 borderRadius: 8,
@@ -41,7 +48,6 @@ export const Loading = () => {
               }}
             />
           </Box>
-          <Text fontWeight="bold">{progress}%</Text>
         </FlexBox>
       </FlexBox>
     </Main>
