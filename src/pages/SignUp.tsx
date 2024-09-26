@@ -62,7 +62,6 @@ const SignUp = () => {
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
-
     try {
       // 회원가입 처리
       const user = await signUpWithEmail(email, password);
