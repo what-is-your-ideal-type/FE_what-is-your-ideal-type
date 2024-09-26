@@ -12,6 +12,7 @@ import { Text } from "../components/ui/Text";
 import { FirebaseError } from "firebase/app";
 import { useResponsive } from "../hooks/useResponsive";
 import FindPasswordModal from "../components/functional/FindPasswordModal";
+import NavigateToSurvey from "../components/functional/NavigateToSurvey";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -95,6 +96,7 @@ const Home = () => {
         >
           로그인하기
         </Button>
+        <NavigateToSurvey label="로그인 없이 시작" />
       </FlexBox>
       <FlexBox direction="column" gap="8rem">
         <div>
