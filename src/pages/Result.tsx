@@ -11,7 +11,7 @@ import { FlexBox } from "../components/ui/FlexBox";
 import { Main } from "../components/ui/Main";
 import { doc, getDoc, DocumentData } from "firebase/firestore";
 import { db } from "../firebase";
-
+import { Header } from "../components/ui/Header";
 
 interface ProfileTypes {
   name: string;
@@ -21,13 +21,12 @@ interface ProfileTypes {
   hobbies: string;
 }
 
-
 const Result = () => {
   const { postId } = useParams();
-  const [post, setPost] = useState<DocumentData | null>(null)
-  const [profile, setProfile] = useState<ProfileTypes | null>(null)
+  const [post, setPost] = useState<DocumentData | null>(null);
+  const [profile, setProfile] = useState<ProfileTypes | null>(null);
   const currentUser = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const isLogin = currentUser.currentUser;
 
   useEffect(() => {
@@ -37,8 +36,8 @@ const Result = () => {
           const postDocRef = doc(db, "posts", postId);
           const postSnapshot = await getDoc(postDocRef);
 
-          if (!postSnapshot.exists()) return
-          
+          if (!postSnapshot.exists()) return;
+
           setPost(postSnapshot.data());
         } catch (error) {
           console.error("Error fetching document: ", error);
@@ -50,11 +49,11 @@ const Result = () => {
   }, [postId]);
 
   useEffect(() => {
-    if(!post) return
+    if (!post) return;
 
-    const jsonData = JSON.parse(post.profile)
-    setProfile(jsonData)
-  },[post])
+    const jsonData = JSON.parse(post.profile);
+    setProfile(jsonData);
+  }, [post]);
 
   // 뒤로가기 방지
   useEffect(() => {
@@ -115,52 +114,53 @@ const Result = () => {
   };
 
   return (
-    <Main>
-      <FlexBox direction="column" gap="47px">
-        <FlexBox direction="column" gap="2px">
-          <Text fontWeight="bold">
-            {profile?.age} {profile?.name}
-          </Text>
-          <Text fontSize="lg" fontWeight="bold">
-            {profile?.occupation}
-          </Text>
+    <>
+      <Header></Header>
+      <Main>
+        <FlexBox direction="column" gap="47px">
+          <FlexBox direction="column" gap="2px">
+            <Text fontWeight="bold">
+              {profile?.age} {profile?.name}
+            </Text>
+            <Text fontSize="lg" fontWeight="bold">
+              {profile?.occupation}
+            </Text>
+          </FlexBox>
+          <PreventDefaultWrapper>
+            <Picture imageUrl={post?.imageUrl} altText="이상형 이미지" />
+          </PreventDefaultWrapper>
         </FlexBox>
-        <PreventDefaultWrapper>
-          <Picture imageUrl={post?.imageUrl} altText="이상형 이미지" />
-        </PreventDefaultWrapper>
-      </FlexBox>
-      <FlexBox direction="column">
-        <Text fontWeight="bold">성격: {profile?.personality}</Text>
-        <Text fontWeight="bold">취미: {profile?.hobbies}</Text>
+        <FlexBox direction="column">
+          <Text fontWeight="bold">성격: {profile?.personality}</Text>
+          <Text fontWeight="bold">취미: {profile?.hobbies}</Text>
 
-        {isLogin ? (
-          <>
-            <Button onClick={() => navigate("/mypage")}>
-              마이 페이지
-            </Button>
-            <NavigateToSurvey label="이상형 다시 찾기" />
-          </>
-        ) : (
-          <>
-            <p className="text-gray">
-              사진을 저장하고 기록하고 싶다면 로그인 해보세요
-            </p>
-            <Button onClick={() => navigate("/")}>로그인</Button>
-          </>
-        )}
-        <PreventDefaultWrapper>
-          {isLogin && (
-            <Button onClick={handleDownload}>
-              <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
-            </Button>
+          {isLogin ? (
+            <>
+              <Button onClick={() => navigate("/mypage")}>마이 페이지</Button>
+              <NavigateToSurvey label="이상형 다시 찾기" />
+            </>
+          ) : (
+            <>
+              <p className="text-gray">
+                사진을 저장하고 기록하고 싶다면 로그인 해보세요
+              </p>
+              <Button onClick={() => navigate("/")}>로그인</Button>
+            </>
           )}
-          <Button onClick={handleShare}>
-            <img src="/images/icon-share.png" alt="공유 아이콘" />
-          </Button>
-          <Kakaoshare />
-        </PreventDefaultWrapper>
-      </FlexBox>
-    </Main>
+          <PreventDefaultWrapper>
+            {isLogin && (
+              <Button onClick={handleDownload}>
+                <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
+              </Button>
+            )}
+            <Button onClick={handleShare}>
+              <img src="/images/icon-share.png" alt="공유 아이콘" />
+            </Button>
+            <Kakaoshare />
+          </PreventDefaultWrapper>
+        </FlexBox>
+      </Main>
+    </>
   );
 };
 
