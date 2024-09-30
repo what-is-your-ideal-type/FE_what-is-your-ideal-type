@@ -95,7 +95,7 @@ const Generate = () => {
         if (!userSnapShot.exists()) return;
 
         const userData = userSnapShot.data();
-        const newPostList = [...(userData.postList || []), newPostId];
+        const newPostList = [newPostId, ...(userData.postList || [])];
         await setDoc(
           doc(db, "users", currentUser.uid),
           {
