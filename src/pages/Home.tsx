@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
 import { Button } from "../components/ui/Button";
 import { Main } from "../components/ui/Main";
 import Input from "../components/ui/Input";
@@ -13,7 +11,8 @@ import { FirebaseError } from "firebase/app";
 import { useResponsive } from "../hooks/useResponsive";
 import FindPasswordModal from "../components/functional/FindPasswordModal";
 import NavigateToSurvey from "../components/functional/NavigateToSurvey";
-
+import { loginWithGoogle } from "../services/auth/loginWithGoogle";
+import { loginWithEmail } from "../services/auth/loginWithEmail";
 const Home = () => {
   const navigate = useNavigate();
   const isMobile = useResponsive();
@@ -24,17 +23,14 @@ const Home = () => {
 
   const { setCurrentUser } = useAuth();
 
-  const handleLogin = async () => {
+  const handleLoginWithEmail = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log("User logged in: ", userCredential.user);
-      setCurrentUser(userCredential.user);
-      alert("로그인에 성공했습니다.");
-      navigate("/mypage");
+      const userCredential = await loginWithEmail(email, password);
+      if (userCredential) {
+        setCurrentUser(userCredential.user);
+        alert("로그인에 성공했습니다.");
+        navigate("/mypage");
+      }
     } catch (error) {
       const firebaseError = error as FirebaseError;
       switch (firebaseError.code) {
@@ -43,6 +39,19 @@ const Home = () => {
         default:
           return setError("입력 정보를 확인해주세요");
       }
+    }
+  };
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      const credential = await loginWithGoogle();
+      if (credential) {
+        setCurrentUser(credential.user);
+        alert("로그인에 성공했습니다.");
+        navigate("/mypage");
+      }
+    } catch (error) {
+      console.error("Error handleLoginWithGoogle: ", error);
     }
   };
 
@@ -92,7 +101,7 @@ const Home = () => {
           bgColor="main"
           label="로그인하기"
           width="100%"
-          onClick={handleLogin}
+          onClick={handleLoginWithEmail}
         >
           로그인하기
         </Button>
@@ -104,7 +113,11 @@ const Home = () => {
             SNS 계정으로 간편하게 시작하기
           </Text>
           <ButtonGroup>
-            <Button label="구글 로그인" bgColor="white">
+            <Button
+              label="구글 로그인"
+              bgColor="white"
+              onClick={handleLoginWithGoogle}
+            >
               <img src="/images/google.png" alt="구글 로그인" />
             </Button>
             <Button label="카카오 로그인" bgColor="white">
