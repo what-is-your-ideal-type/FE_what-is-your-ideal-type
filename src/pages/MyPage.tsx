@@ -10,6 +10,7 @@ import { Card } from "../styles/styled";
 import { Main } from "../components/ui/Main";
 import { db } from "../firebase";
 import { Header } from "../components/ui/Header";
+import { Dropdown } from "../components/ui/Dropdown";
 
 interface CardData {
   imageUrl: string;
@@ -23,8 +24,11 @@ interface CardData {
 
 const MyPage = () => {
   const [cards, setCards] = useState<CardData[]>([]);
+  const [initialCards, setInitialCards] = useState<CardData[]>([]);
+  const [dropdownSpan, setDropdownSpan] = useState<string>('최신 순')
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     const getCardsData = async () => {
       try {
@@ -63,6 +67,7 @@ const MyPage = () => {
 
               // null 값이 있을 수 있으므로 필터링
               setCards(fetchedCards);
+              setInitialCards(fetchedCards)
             } catch (error) {
               console.error("Error fetching cards data:", error);
             }
@@ -79,6 +84,14 @@ const MyPage = () => {
     getCardsData();
   }, [currentUser]);
 
+  useEffect(() => {
+    if(dropdownSpan === "최신 순"){
+      setCards(initialCards)
+    }else{
+      setCards((prevCards) => [...prevCards].reverse())
+    }
+  },[dropdownSpan])
+
   return (
     <>
       <Header></Header>
@@ -87,6 +100,7 @@ const MyPage = () => {
           <Text fontSize="xl" fontWeight="bold" style={{ padding: "1rem 0" }}>
             {currentUser?.email}님의 이상형 리스트 입니다.
           </Text>
+          <Dropdown dropdownSpan={dropdownSpan} setDropdownSpan={setDropdownSpan}/>
           <NavigateToSurvey label="새로운 이상형 찾기" />
           <GridBox>
             {cards.map((card, index) => (
