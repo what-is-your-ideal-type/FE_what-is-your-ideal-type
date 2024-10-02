@@ -1,38 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import { useMediaQuery } from "usehooks-ts";
 import { Button } from "./Button";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Text } from "./Text";
 import { useAuth } from "../../contexts/AuthContext";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
+import { useMediaQuery } from "usehooks-ts";
 
 const StyledHeader = styled.header`
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 0 50px;
+  justify-content: flex-end;
+  padding: 20px 50px;
   align-items: center;
   top: 0;
-
-  @media (max-width: 768px) {
-    justify-content: flex-start;
-    padding: 0 10px;
-  }
 `;
 
-interface HeaderComponentType {
-  navigate: NavigateFunction;
-}
-
-const MobileComponent = ({ navigate }: HeaderComponentType) => (
-  <Button bgColor="white" width="auto" onClick={() => navigate("/")}>
-    <img src="/images/chervon_left.png" alt="chervon_left.png" />
-  </Button>
-);
-
-const DeskTopComponent = ({ navigate }: HeaderComponentType) => {
+export const Header = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   const handleLogout = async () => {
@@ -48,17 +35,7 @@ const DeskTopComponent = ({ navigate }: HeaderComponentType) => {
   };
 
   return (
-    <>
-      <Button
-        bgColor="white"
-        label="홈"
-        width="auto"
-        onClick={() => navigate("/")}
-      >
-        <Text fontSize="lg" fontWeight="bold" color="black">
-          홈
-        </Text>
-      </Button>
+    <StyledHeader>
       {currentUser ? (
         <Button
           bgColor="white"
@@ -66,7 +43,7 @@ const DeskTopComponent = ({ navigate }: HeaderComponentType) => {
           width="auto"
           onClick={handleLogout}
         >
-          <Text fontSize="lg" fontWeight="bold" color="black">
+          <Text fontSize={isMobile ? 'md' : 'lg'} fontWeight="bold" color="black">
             로그아웃
           </Text>
         </Button>
@@ -75,27 +52,12 @@ const DeskTopComponent = ({ navigate }: HeaderComponentType) => {
           bgColor="white"
           label="로그인"
           width="auto"
-          onClick={() => navigate("signin")}
+          onClick={() => navigate("/")}
         >
-          <Text fontSize="lg" fontWeight="bold" color="black">
+          <Text fontSize={isMobile ? 'md' : 'lg'} fontWeight="bold" color="black">
             로그인
           </Text>
         </Button>
-      )}
-    </>
-  );
-};
-
-export const Header = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const navigate = useNavigate();
-
-  return (
-    <StyledHeader>
-      {isMobile ? (
-        <MobileComponent navigate={navigate} />
-      ) : (
-        <DeskTopComponent navigate={navigate} />
       )}
     </StyledHeader>
   );
