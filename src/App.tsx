@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home, Survey, Result, GenderSelect } from "./pages";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -8,8 +9,11 @@ const Generate = lazy(() => import("./pages/Generate"));
 const MyPage = lazy(() => import("./pages/MyPage"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 
+const queryClient = new QueryClient()
+
 const App = () => {
   return (
+    <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <Router>
         <Routes>
@@ -45,6 +49,7 @@ const App = () => {
         </Routes>
       </Router>
     </AuthProvider>
+    </QueryClientProvider>
   );
 };
 export default App;
