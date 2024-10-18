@@ -13,6 +13,7 @@ import FindPasswordModal from "../components/functional/FindPasswordModal";
 import NavigateToSurvey from "../components/functional/NavigateToSurvey";
 import { loginWithGoogle } from "../services/auth/loginWithGoogle";
 import { loginWithEmail } from "../services/auth/loginWithEmail";
+
 const Home = () => {
   const navigate = useNavigate();
   const isMobile = useResponsive();
@@ -20,7 +21,6 @@ const Home = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isModalOpen, setModalOpen] = useState(false);
-
   const { setCurrentUser } = useAuth();
 
   const handleLoginWithEmail = async () => {
@@ -53,6 +53,18 @@ const Home = () => {
     } catch (error) {
       console.error("Error handleLoginWithGoogle: ", error);
     }
+  };
+
+  const handleLoginWithKakao = () => {
+    console.log("handleLoginWithKakao called");
+    const kakao = (window as any).Kakao;
+    if (!kakao.isInitialized()) {
+      kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+      console.log("Kakao SDK initialized with API Key:", process.env.REACT_APP_KAKAO_API_KEY);
+    }
+    kakao.Auth.authorize({
+      redirectUri: `${window.location.origin}/auth/kakao`,
+    });
   };
 
   return (
@@ -120,7 +132,11 @@ const Home = () => {
             >
               <img src="/images/google.png" alt="구글 로그인" />
             </Button>
-            <Button label="카카오 로그인" bgColor="white">
+            <Button
+              label="카카오 로그인"
+              bgColor="white"
+              onClick={handleLoginWithKakao}
+            >
               <img src="/images/kakao.png" alt="카카오 로그인" />
             </Button>
             <Button label="네이버 로그인" bgColor="white">
