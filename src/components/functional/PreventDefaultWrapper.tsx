@@ -1,4 +1,5 @@
 import React from "react";
+import { FlexBox } from "../ui/FlexBox";
 
 interface PreventDefaultWrapperProps {
   children: React.ReactNode;
@@ -12,12 +13,13 @@ export const PreventDefaultWrapper = ({
   };
 
   return (
-    <div
+    <FlexBox
       onContextMenu={handlePreventDefault}
       onDragStart={handlePreventDefault}
       onTouchStart={handlePreventDefault}
+      gap="20px"
     >
       {children}
-    </div>
+    </FlexBox>
   );
 };
