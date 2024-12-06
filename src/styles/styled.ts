@@ -40,7 +40,6 @@ export const ErrorMessage = styled.p`
 
 export const Card = styled.div`
   width: 225px;
-  background-color: #d1d5db;
   border-radius: 0.375rem;
   cursor: pointer;
 `;

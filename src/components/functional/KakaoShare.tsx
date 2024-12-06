@@ -36,8 +36,16 @@ const Kakaoshare = () => {
   };
 
   return (
-    <Button onClick={shareKakao}>
-      <img src="/images/kakao.png" alt="카카오톡 공유 아이콘" />
+    <Button
+      style={{
+        padding: "0.8rem",
+        width: "120px",
+        fontWeight: "bold",
+        fontSize: "13px",
+      }}
+      onClick={shareKakao}
+    >
+      카톡으로 공유하기
     </Button>
   );
 };

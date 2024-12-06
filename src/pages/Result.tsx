@@ -12,6 +12,7 @@ import { Main } from "../components/ui/Main";
 import { doc, getDoc, DocumentData } from "firebase/firestore";
 import { db } from "../firebase";
 import { Header } from "../components/ui/Header";
+import { useResponsive } from "../hooks/useResponsive";
 
 interface ProfileTypes {
   name: string;
@@ -23,6 +24,7 @@ interface ProfileTypes {
 
 const Result = () => {
   const { postId } = useParams();
+  const isMobile = useResponsive();
   const [post, setPost] = useState<DocumentData | null>(null);
   const [profile, setProfile] = useState<ProfileTypes | null>(null);
   const currentUser = useAuth();
@@ -116,48 +118,100 @@ const Result = () => {
   return (
     <>
       <Header></Header>
-      <Main>
-        <FlexBox direction="column" gap="47px">
-          <FlexBox direction="column" gap="2px">
-            <Text fontWeight="bold">
-              {profile?.age} {profile?.name}
-            </Text>
-            <Text fontSize="lg" fontWeight="bold">
-              {profile?.occupation}
-            </Text>
-          </FlexBox>
-          <PreventDefaultWrapper>
+      <FlexBox
+        direction="column"
+        style={{
+          backgroundColor: "#EFEFEF",
+          justifyContent: "center",
+          height: "8rem",
+        }}
+      >
+        <Text fontSize="xl" fontWeight="bold" marginBottom="0.8rem">
+          AI 이상형 생성 결과...{" "}
+        </Text>
+        <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
+      </FlexBox>
+      <Main isMobile={isMobile}>
+        <PreventDefaultWrapper>
+          <FlexBox direction="column">
             <Picture imageUrl={post?.imageUrl} altText="이상형 이미지" />
-          </PreventDefaultWrapper>
-        </FlexBox>
-        <FlexBox direction="column">
-          <Text fontWeight="bold">성격: {profile?.personality}</Text>
-          <Text fontWeight="bold">취미: {profile?.hobbies}</Text>
-
-          {isLogin ? (
-            <>
-              <Button onClick={() => navigate("/mypage")}>마이 페이지</Button>
-              <NavigateToSurvey label="이상형 다시 찾기" />
-            </>
-          ) : (
-            <>
-              <p className="text-gray">
-                사진을 저장하고 기록하고 싶다면 로그인 해보세요
-              </p>
-              <Button onClick={() => navigate("/")}>로그인</Button>
-            </>
-          )}
-          <PreventDefaultWrapper>
             {isLogin && (
-              <Button onClick={handleDownload}>
-                <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
+              <Button
+                bgColor="white"
+                style={{
+                  color: "black",
+                  padding: "0.8rem",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                }}
+                onClick={handleDownload}
+              >
+                ⤓ 내 이상형 사진 소장하기
               </Button>
             )}
-            <Button onClick={handleShare}>
-              <img src="/images/icon-share.png" alt="공유 아이콘" />
-            </Button>
-            <Kakaoshare />
-          </PreventDefaultWrapper>
+          </FlexBox>
+        </PreventDefaultWrapper>
+        <FlexBox
+          direction="column"
+          style={{ display: "block", marginLeft: "2rem" }}
+          className="w-full md:w-1/2 mt-4 md:mt-0 md:ml-4"
+        >
+          <Text fontWeight="bold" fontSize="xl" marginBottom="0.8rem">
+            {profile?.age} {profile?.name}
+          </Text>
+          <Text fontSize="xxl" fontWeight="bold" marginBottom="1.5rem">
+            {profile?.occupation}
+          </Text>
+          <Text fontWeight="bold" marginBottom="0.8rem">
+            당신의 이상형은 {profile?.personality}
+          </Text>
+          <Text fontWeight="bold" marginBottom="1.5rem">
+            취미는{" "}
+            {Array.isArray(profile?.hobbies)
+              ? profile?.hobbies.join(", ")
+              : profile?.hobbies}
+            입니다.
+          </Text>
+          <Text fontWeight="bold" marginBottom="2rem">
+            이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
+          </Text>
+          <FlexBox style={{ marginBottom: "2rem" }}>
+            {isLogin ? (
+              <>
+                <NavigateToSurvey label="이상형 다시 찾기" />
+              </>
+            ) : (
+              <>
+                <p className="text-gray">
+                  사진을 저장하고 기록하고 싶다면 로그인 해보세요
+                </p>
+                <Button onClick={() => navigate("/")}>로그인</Button>
+              </>
+            )}
+          </FlexBox>
+          <FlexBox direction="column">
+            {isLogin && (
+              <Text fontSize="sm" marginBottom="1rem">
+                ▼ 결과를 친구에게 공유해 보세요! ▼
+              </Text>
+            )}
+            <PreventDefaultWrapper>
+              <Button
+                style={{
+                  padding: "0.8rem",
+                  color: "#706EF4",
+                  fontWeight: "bold",
+                  fontSize: "13px",
+                  width: "120px",
+                }}
+                bgColor="sub"
+                onClick={handleShare}
+              >
+                링크 복사하기
+              </Button>
+              <Kakaoshare />
+            </PreventDefaultWrapper>
+          </FlexBox>
         </FlexBox>
       </Main>
     </>

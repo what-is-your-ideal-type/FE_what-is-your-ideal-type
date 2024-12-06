@@ -6,6 +6,10 @@ export const ColorMap: {
     hover: "#5b5dd7",
   },
   sub: {
+    background: "#D4D3FC",
+    hover: "#DDDDFF",
+  },
+  gray: {
     background: "#D1D5DB",
     hover: "#b1b5c1",
   },

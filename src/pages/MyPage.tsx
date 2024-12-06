@@ -14,9 +14,19 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 const MyPage = () => {
   const { currentUser } = useAuth();
-  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
+
+  const extractOccupation = (profileData: string) => {
+    try {
+      const profileObj = JSON.parse(profileData);
+      return profileObj.occupation || "직업 정보 없음";
+    } catch (error) {
+      console.error("프로필 파싱 중 오류 발생:", error);
+      return "직업 정보 없음";
+    }
+  };
 
   const getCardsData = async (pageParam: number) => {
     try {
@@ -28,7 +38,10 @@ const MyPage = () => {
 
         if (!userData) return { cards: [], nextPage: undefined };
 
-        const postList = userData.postList.slice(pageParam * 4, pageParam * 4 + 4);
+        const postList = userData.postList.slice(
+          pageParam * 4,
+          pageParam * 4 + 4,
+        );
 
         const fetchedCards = await Promise.all(
           postList.map(async (num: string) => {
@@ -37,6 +50,7 @@ const MyPage = () => {
             const data = postSnapShot.data();
 
             if (!data) return null;
+            console.log(data);
 
             return {
               imageUrl: data.imageUrl,
@@ -50,12 +64,12 @@ const MyPage = () => {
           }),
         );
 
-        const validCards = fetchedCards.filter(card => card !== null);
+        const validCards = fetchedCards.filter((card) => card !== null);
 
         return {
           cards: validCards,
           nextPage: validCards.length === 4 ? pageParam + 1 : undefined,
-        }
+        };
       } else {
         alert("로그인이 필요한 서비스입니다. 홈으로 이동합니다.");
         navigate("/");
@@ -65,18 +79,17 @@ const MyPage = () => {
     }
   };
 
-  const { data, isLoading, hasNextPage, fetchNextPage } =
-		useInfiniteQuery({
-			queryKey: ["posts"],
-			queryFn: ({ pageParam }) => getCardsData(pageParam as number),
-			initialPageParam: 0,
-			getNextPageParam: (lastPage) => {
-        return lastPage?.nextPage ?? null;
-			},
-		});
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: ({ pageParam }) => getCardsData(pageParam as number),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage?.nextPage ?? null;
+    },
+  });
 
   // 카드 데이터 처리
-  const cards = data?.pages.flatMap(page => page?.cards) || [];
+  const cards = data?.pages.flatMap((page) => page?.cards) || [];
 
   useEffect(() => {
     const loadMore = (entries: IntersectionObserverEntry[]) => {
@@ -114,71 +127,84 @@ const MyPage = () => {
   return (
     <>
       <Header />
+      <FlexBox
+        direction="column"
+        style={{
+          backgroundColor: "#EFEFEF",
+          justifyContent: "center",
+          height: "8rem",
+          marginBottom: "2rem",
+        }}
+      >
+        <Text fontSize="xl" fontWeight="bold" style={{ padding: "1rem 0" }}>
+          {currentUser?.email}님의 마이페이지
+        </Text>
+      </FlexBox>
       <Main>
         <FlexBox direction="column">
-          <Text fontSize="xl" fontWeight="bold" style={{ padding: "1rem 0" }}>
-            {currentUser?.email}님의 이상형 리스트 입니다.
-          </Text>
-          <NavigateToSurvey label="새로운 이상형 찾기" />
+          <FlexBox
+            style={{ justifyContent: "space-between", marginBottom: "2rem" }}
+          >
+            <Text fontSize="xl" fontWeight="bold">
+              나의 이상형 리스트
+            </Text>
+          </FlexBox>
           <GridBox>
             {cards.map((card, index) => (
-              <Card key={index} onClick={() => navigate(`/result/${card.id}`)}>
-                <FlexBox direction="column" gap="16px">
-                  {/* 이미지가 로드될 때까지 회색 박스를 유지 */}
-                  <div style={{ position: 'relative', width: '100%', height: '200px' }}>
-                    {!isImageLoaded && (
-                      <div
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          backgroundColor: '#e0e0e0',
-                          borderRadius: "0.375rem 0.375rem 0 0",
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                        }}
-                      />
-                    )}
-                    <img
-                      src={card.imageUrl}
-                      alt={card.fileName}
+              <Card
+                key={index}
+                onClick={() => navigate(`/result/${card.id}`)}
+                style={{ flexDirection: "column", marginBottom: "12px" }}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    paddingTop: "100%",
+                    marginBottom: "12px",
+                  }}
+                >
+                  {!isImageLoaded && (
+                    <div
                       style={{
-                        width: "100%",
-                        height: "auto",
-                        borderRadius: "0.375rem 0.375rem 0 0",
-                        display: isImageLoaded ? "block" : "none", // 이미지가 로드될 때만 표시
-                        position: 'absolute', // 회색 박스와 겹치도록
+                        position: "absolute",
                         top: 0,
                         left: 0,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#ffffff",
+                        borderRadius: "8px",
                       }}
-                      onLoad={() => setIsImageLoaded(true)} // 이미지가 로드되면 상태 갱신
                     />
-                  </div>
-                  <FlexBox direction="column" gap="16px">
-                    <FlexBox direction="column">
-                      {card.hashTags?.map((hashTag: string, index:number) => (
-                        <span
-                          key={index}
-                          style={{
-                            padding: "6px 12px",
-                            backgroundColor: "rgba(112, 110, 244, 0.3)",
-                            display: "inline-block",
-                            borderRadius: "34px",
-                          }}
-                        >
-                          #{hashTag}
-                        </span>
-                      ))}
-                    </FlexBox>
-                    <Text fontWeight="bold">
-                      {card.createdAt.toLocaleDateString()}
-                    </Text>
-                  </FlexBox>
-                </FlexBox>
+                  )}
+                  <img
+                    src={card.imageUrl}
+                    alt={card.fileName}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      display: isImageLoaded ? "block" : "none",
+                    }}
+                    onLoad={() => setIsImageLoaded(true)}
+                  />
+                </div>
+                <div className="text-center py-2">
+                  <Text fontSize="md" fontWeight="bold">
+                    {extractOccupation(card.profile)}
+                  </Text>
+                </div>
               </Card>
             ))}
           </GridBox>
-          {hasNextPage && <div id="infinityQueryTrigger" style={{ height: '20px' }}></div>}
+          <NavigateToSurvey label="새로운 이상형 찾기" />
+          {hasNextPage && (
+            <div id="infinityQueryTrigger" style={{ height: "20px" }}></div>
+          )}
         </FlexBox>
       </Main>
     </>
