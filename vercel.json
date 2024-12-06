@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://oaidalleapiprodscus.blob.core.windows.net/:path*"
+    },
+    {
+      "source": "/__/auth/:path*",
+      "destination": "https://ideal-type-8ba18.firebaseapp.com/__/auth/:path*"
+    }
+  ]
+}

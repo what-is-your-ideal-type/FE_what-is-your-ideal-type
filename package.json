@@ -40,7 +40,8 @@
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_8c1688be921585c"
+    "chromatic": "npx chromatic --project-token=chpt_8c1688be921585c",
+    "vercel": "vercel dev"
   },
   "eslintConfig": {
     "extends": [
@@ -83,6 +84,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.1.11",
+    "vercel": "^34.3.1",
     "webpack": "^5.92.1"
   }
 }
