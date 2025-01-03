@@ -8,7 +8,7 @@ export const loginWithEmail = async (email: string, password: string) => {
       email,
       password,
     );
-    console.log("User logged in: ", userCredential.user);
+    return userCredential;
   } catch (error) {
     console.error("Failed to login with email: ", error);
   }

@@ -16,11 +16,19 @@ import { FirebaseError } from "firebase/app";
 //   }
 // };
 
+// export const loginWithGoogle = async () => {
+//   const provider = new GoogleAuthProvider();
+//   try {
+//     await signInWithRedirect(auth, provider);
+//   } catch (error) {
+//     console.error("Error during Google login: ", error);
+//   }
+// };
+
 export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   try {
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const credential = await signInWithPopup(auth, provider);
     return credential;
   } catch (error) {
     console.error("Error during Google login: ", error);

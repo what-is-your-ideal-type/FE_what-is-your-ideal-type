@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Button from "../components/Button";
-import { mainButtonArgs } from "../components/ButtonArgs";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Picture from "../components/Picture";
-import Kakaoshare from "../components/KakaoShare";
-import NavigateToSurvey from "../components/NavigateToSurvey";
-import { PreventDefaultWrapper } from "../components/PreventDefaultWrapper";
-import { parseProfile } from "../services/profileGenerator";
+import Picture from "../components/ui/Picture";
+import Kakaoshare from "../components/functional/KakaoShare";
+import NavigateToSurvey from "../components/functional/NavigateToSurvey";
+import { PreventDefaultWrapper } from "../components/functional/PreventDefaultWrapper";
+import { Button } from "../components/ui/Button";
+import { Text } from "../components/ui/Text";
+import { FlexBox } from "../components/ui/FlexBox";
+import { Main } from "../components/ui/Main";
+import { doc, getDoc, DocumentData } from "firebase/firestore";
+import { db } from "../firebase";
+import { Header } from "../components/ui/Header";
+import { useResponsive } from "../hooks/useResponsive";
 
-interface Profile {
+interface ProfileTypes {
   name: string;
   age: number;
   occupation: string;
@@ -18,36 +23,57 @@ interface Profile {
 }
 
 const Result = () => {
-  const { prompts, url } = useParams();
-  const [imageUrl, setImageUrl] = useState("");
-  const [prompt, setPrompt] = useState("");
-  const [imageProfile, setImageProfile] = useState<Profile | null>(null);
+  const { postId } = useParams();
+  const isMobile = useResponsive();
+  const [post, setPost] = useState<DocumentData | null>(null);
+  const [profile, setProfile] = useState<ProfileTypes | null>(null);
   const currentUser = useAuth();
-  const location = useLocation();
-  const { fileName, profile } = location.state || {};
   const navigate = useNavigate();
   const isLogin = currentUser.currentUser;
 
   useEffect(() => {
-    const result = parseProfile(profile);
-    setImageProfile(result);
-  }, [profile]);
+    const fetchPost = async () => {
+      if (postId) {
+        try {
+          const postDocRef = doc(db, "posts", postId);
+          const postSnapshot = await getDoc(postDocRef);
+
+          if (!postSnapshot.exists()) return;
+
+          setPost(postSnapshot.data());
+        } catch (error) {
+          console.error("Error fetching document: ", error);
+        }
+      }
+    };
+
+    fetchPost();
+  }, [postId]);
 
   useEffect(() => {
-    if (prompts === undefined || url === undefined) {
-      return;
-    }
+    if (!post) return;
 
-    const replacedURL = url.replace("/o/images/", "/o/images%2F");
-    const decodedPrompts = decodeURIComponent(prompts);
+    const jsonData = JSON.parse(post.profile);
+    setProfile(jsonData);
+  }, [post]);
 
-    setImageUrl(replacedURL);
-    setPrompt(decodedPrompts);
-  }, [url, prompts]);
+  // 뒤로가기 방지
+  useEffect(() => {
+    const blockBackButton = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", blockBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", blockBackButton);
+    };
+  }, []);
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(imageUrl);
+      const response = await fetch(post?.imageUrl);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -67,7 +93,7 @@ const Result = () => {
           const url = window.URL.createObjectURL(blob!);
           const a = document.createElement("a");
           a.href = url;
-          a.download = fileName || "download_image.webp";
+          a.download = `img_${postId}.webp`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -89,66 +115,106 @@ const Result = () => {
     }
   };
 
-  const handleNavigate = (pagePath: string) => {
-    navigate(pagePath);
-  };
-
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-bg">
-      <div className="flex flex-col items-center px-4 space-y-4 max-w-lg">
-        <h2 className="font-bold text-2xl">이런 스타일을 찾으셨나요?</h2>
+    <>
+      <Header></Header>
+      <FlexBox
+        direction="column"
+        style={{
+          backgroundColor: "#EFEFEF",
+          justifyContent: "center",
+          height: "8rem",
+        }}
+      >
+        <Text fontSize="xl" fontWeight="bold" marginBottom="0.8rem">
+          AI 이상형 생성 결과...{" "}
+        </Text>
+        <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
+      </FlexBox>
+      <Main isMobile={isMobile}>
         <PreventDefaultWrapper>
-          <Picture imageUrl={imageUrl} altText="이상형 이미지" />
+          <FlexBox direction="column">
+            <Picture imageUrl={post?.imageUrl} altText="이상형 이미지" />
+            {isLogin && (
+              <Button
+                bgColor="white"
+                style={{
+                  color: "black",
+                  padding: "0.8rem",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                }}
+                onClick={handleDownload}
+              >
+                ⤓ 내 이상형 사진 소장하기
+              </Button>
+            )}
+          </FlexBox>
         </PreventDefaultWrapper>
-      </div>
-      <div className="flex flex-col items-center px-4 space-y-4 md:space-y-8 max-w-lg">
-        {!imageProfile ? (
-          <h3 className="font-bold pt-8">{prompt}</h3>
-        ) : (
-          <div className="font-bold pt-8">
-            <p>이름: {imageProfile.name}</p>
-            <p>나이: {imageProfile.age}</p>
-            <p>직업: {imageProfile.occupation}</p>
-            <p>성격: {imageProfile.personality}</p>
-            <p>취미: {imageProfile.hobbies}</p>
-          </div>
-        )}
-        {isLogin ? (
-          <>
-            <Button
-              label={"마이페이지"}
-              type="button"
-              {...mainButtonArgs}
-              onClick={() => handleNavigate("/mypage")}
-            />
-            <NavigateToSurvey label="이상형 다시 찾기" />
-          </>
-        ) : (
-          <>
-            <p className="text-gray">
-              사진을 저장하고 기록하고 싶다면 로그인 해보세요
-            </p>
-            <Button
-              label="로그인"
-              type="button"
-              {...mainButtonArgs}
-              onClick={() => handleNavigate("/")}
-            />
-          </>
-        )}
-        <PreventDefaultWrapper>
-          {isLogin && (
-            <button onClick={handleDownload} className="size-8 mr-6">
-              <img src="/images/icon-photo.png" alt="사진저장 아이콘" />
-            </button>
-          )}
-          <button className="size-8 mr-6" onClick={handleShare}>
-            <img src="/images/icon-share.png" alt="공유 아이콘" />
-          </button>
-          <Kakaoshare />
-        </PreventDefaultWrapper>
-      </div>
-    </div>
+        <FlexBox
+          direction="column"
+          style={{ display: "block", marginLeft: "2rem" }}
+          className="w-full md:w-1/2 mt-4 md:mt-0 md:ml-4"
+        >
+          <Text fontWeight="bold" fontSize="xl" marginBottom="0.8rem">
+            {profile?.age} {profile?.name}
+          </Text>
+          <Text fontSize="xxl" fontWeight="bold" marginBottom="1.5rem">
+            {profile?.occupation}
+          </Text>
+          <Text fontWeight="bold" marginBottom="0.8rem">
+            당신의 이상형은 {profile?.personality}
+          </Text>
+          <Text fontWeight="bold" marginBottom="1.5rem">
+            취미는{" "}
+            {Array.isArray(profile?.hobbies)
+              ? profile?.hobbies.join(", ")
+              : profile?.hobbies}
+            입니다.
+          </Text>
+          <Text fontWeight="bold" marginBottom="2rem">
+            이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
+          </Text>
+          <FlexBox style={{ marginBottom: "2rem" }}>
+            {isLogin ? (
+              <>
+                <NavigateToSurvey label="이상형 다시 찾기" />
+              </>
+            ) : (
+              <>
+                <p className="text-gray">
+                  사진을 저장하고 기록하고 싶다면 로그인 해보세요
+                </p>
+                <Button onClick={() => navigate("/")}>로그인</Button>
+              </>
+            )}
+          </FlexBox>
+          <FlexBox direction="column">
+            {isLogin && (
+              <Text fontSize="sm" marginBottom="1rem">
+                ▼ 결과를 친구에게 공유해 보세요! ▼
+              </Text>
+            )}
+            <PreventDefaultWrapper>
+              <Button
+                style={{
+                  padding: "0.8rem",
+                  color: "#706EF4",
+                  fontWeight: "bold",
+                  fontSize: "13px",
+                  width: "120px",
+                }}
+                bgColor="sub"
+                onClick={handleShare}
+              >
+                링크 복사하기
+              </Button>
+              <Kakaoshare />
+            </PreventDefaultWrapper>
+          </FlexBox>
+        </FlexBox>
+      </Main>
+    </>
   );
 };
 
