@@ -4,7 +4,7 @@ export const maxDuration = 300;
 export const dynamic = "force-dynamic";
 
 const openai = new OpenAI({
-  apiKey: process.env.REACT_APP_OPEN_AI_API_KEY,
+  apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 

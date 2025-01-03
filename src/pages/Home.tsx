@@ -118,7 +118,7 @@ const Home = () => {
               bgColor="white"
               onClick={handleLoginWithGoogle}
             >
-              <img src="/images/google.png" alt="구글 로그인" />
+              <img src="/src/assets/images/google.png" alt="구글 로그인" />
             </Button>
             <Button label="카카오 로그인" bgColor="white">
               <img src="/images/kakao.png" alt="카카오 로그인" />
