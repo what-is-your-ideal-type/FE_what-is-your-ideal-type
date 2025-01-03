@@ -1,6 +1,9 @@
 export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
-    url = url.replace("https://oaidalleapiprodscus.blob.core.windows.net", "");
+    url = url.replace(
+      "https://oaidalleapiprodscus.blob.core.windows.net",
+      "/api",
+    );
 
     const response = await fetch(url);
     const blob = await response.blob();
