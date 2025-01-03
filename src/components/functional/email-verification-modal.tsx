@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendEmailVerification } from "firebase/auth";
-import { useAuth } from "../../contexts/AuthContext";
-import Modal from "../ui/Modal";
+import { useAuth } from "../../contexts/auth-context";
+import Modal from "../ui/modal";
 
 interface EmailVerificationModalProps {
   isOpen: boolean;

@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/auth-context";
 import { useNavigate } from "react-router-dom";
-import NavigateToSurvey from "../components/functional/NavigateToSurvey";
-import { Text } from "../components/ui/Text";
-import { FlexBox } from "../components/ui/FlexBox";
-import { GridBox } from "../styles/GridBox";
+import NavigateToSurvey from "../components/functional/navigate-to-survey-props";
+import { Text } from "../components/ui/text";
+import { FlexBox } from "../components/ui/flexbox";
+import { GridBox } from "../styles/gridbox";
 import { Card } from "../styles/styled";
-import { Main } from "../components/ui/Main";
+import { Main } from "../components/ui/main";
 import { db } from "../firebase";
-import { Header } from "../components/ui/Header";
+import { Header } from "../components/ui/header";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const MyPage = () => {

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import Loading from "../components/ui/Loading";
-import { profileGenerate } from "../services/profileGenerator";
-import { convertToWebP } from "../components/functional/convertToWebP";
-import { uploadImageToFirebase } from "../services/uploadImageToFirebase";
-import { useAuth } from "../contexts/AuthContext";
+import Loading from "../components/ui/loading";
+import { profileGenerate } from "../services/profile-generate";
+import { convertToWebP } from "../components/functional/convert-to-webp";
+import { uploadImageToFirebase } from "../services/upload-image-to-firebase";
+import { useAuth } from "../contexts/auth-context";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { imageGenerate } from "../services/imageGenerator";
-import { getCountAndTimeLeft, incrementCount } from "../services/countService";
+import { imageGenerate } from "../services/image-generate";
+import { getCountAndTimeLeft, incrementCount } from "../services/count-service";
 
 const Generate = () => {
   const location = useLocation();

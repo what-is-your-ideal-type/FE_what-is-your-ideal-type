@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ColorMap } from "../components/utils/ColorMap";
+import { ColorMap } from "../components/utils/color-map";
 
 export const InnerSection = styled.section`
   display: flex;

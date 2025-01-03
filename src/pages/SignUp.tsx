@@ -1,21 +1,21 @@
-import Input from "../components/ui/Input";
+import Input from "../components/ui/input";
 import React, { useCallback, useState } from "react";
 import { AuthError } from "firebase/auth";
-import { Button } from "../components/ui/Button";
-import { Main } from "../components/ui/Main";
-import { FlexBox } from "../components/ui/FlexBox";
-import { Text } from "../components/ui/Text";
-import { Header } from "../components/ui/Header";
+import { Button } from "../components/ui/button";
+import { Main } from "../components/ui/main";
+import { FlexBox } from "../components/ui/flexbox";
+import { Text } from "../components/ui/text";
+import { Header } from "../components/ui/header";
 import {
   validateConfirmPassword,
   validateEmail,
   validatePassword,
-} from "../components/utils/Validation";
+} from "../components/utils/validation";
 import {
   saveUserInfo,
   signUpWithEmail,
-} from "../services/auth/signupWithEmail";
-import EmailVerificationModal from "../components/functional/EmailVerificationModal";
+} from "../services/auth/signup-with-email";
+import EmailVerificationModal from "../components/functional/email-verification-modal";
 
 const SignUp = () => {
   const [isModalOpen, setModalOpen] = useState(false);

@@ -2,12 +2,12 @@ import React, { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Home, Survey, Result, GenderSelect } from "./pages";
-import { AuthProvider } from "./contexts/AuthContext";
-import Loading from "./components/ui/Loading";
+import { AuthProvider } from "./contexts/auth-context";
+import Loading from "./components/ui/loading";
 
-const Generate = lazy(() => import("./pages/Generate"));
-const MyPage = lazy(() => import("./pages/MyPage"));
-const SignUp = lazy(() => import("./pages/SignUp"));
+const Generate = lazy(() => import("./pages/generate"));
+const MyPage = lazy(() => import("./pages/mypage"));
+const SignUp = lazy(() => import("./pages/signup"));
 
 const queryClient = new QueryClient()
 
