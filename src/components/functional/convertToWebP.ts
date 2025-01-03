@@ -1,47 +1,51 @@
 export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
-      url = url.replace(
-          "https://oaidalleapiprodscus.blob.core.windows.net",
-          "",
-      );
+    url = url.replace("https://oaidalleapiprodscus.blob.core.windows.net", "");
 
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(blob);
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(blob);
 
-      return new Promise((resolve, reject) => {
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            
-            const ctx = canvas.getContext('2d');
+    return new Promise((resolve, reject) => {
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
 
-              if (!ctx) {
-                  throw new Error("이미지 생성 중 오류 발생")
-              }
+        const ctx = canvas.getContext("2d");
 
-            canvas.width = 512
-            canvas.height = 512
-            const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
-            const width = img.width * scale;
-            const height = img.height * scale;
+        if (!ctx) {
+          throw new Error("이미지 생성 중 오류 발생");
+        }
 
-            const x = (canvas.width - width) / 2;
-            const y = (canvas.height - height) / 2;
+        canvas.width = 512;
+        canvas.height = 512;
+        const scale = Math.min(
+          canvas.width / img.width,
+          canvas.height / img.height,
+        );
+        const width = img.width * scale;
+        const height = img.height * scale;
 
-            ctx.drawImage(img, x, y, width, height);
+        const x = (canvas.width - width) / 2;
+        const y = (canvas.height - height) / 2;
 
-            canvas.toBlob((webpBlob) => {
-                if (!webpBlob) {
-                reject(new Error("WebP Blob 생성 중 오류 발생"));
-                return;
-                }
-                resolve(webpBlob);
-            }, 'image/webp', 0.5);
-        };
-      });
+        ctx.drawImage(img, x, y, width, height);
+
+        canvas.toBlob(
+          (webpBlob) => {
+            if (!webpBlob) {
+              reject(new Error("WebP Blob 생성 중 오류 발생"));
+              return;
+            }
+            resolve(webpBlob);
+          },
+          "image/webp",
+          0.5,
+        );
+      };
+    });
   } catch (error) {
-      console.error('Error converting to WebP:', error);
-      throw error;
+    console.error("Error converting to WebP:", error);
+    throw error;
   }
 };
