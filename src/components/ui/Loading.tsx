@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { LinearProgress, Box } from "@mui/material";
-import { Main } from "./Main";
-import { Text } from "./Text";
-import { FlexBox } from "./FlexBox";
+import { Main } from "./main";
+import { Text } from "./text";
+import { FlexBox } from "./flexbox";
 
 interface LoadingProps {
   progressState: number;

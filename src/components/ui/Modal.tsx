@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../ui/Button";
+import { Button } from "./button";
 
 interface ModalProps {
   isOpen: boolean;

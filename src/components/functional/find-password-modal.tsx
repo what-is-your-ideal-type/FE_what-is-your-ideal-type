@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
-import Input from "../ui/Input";
-import Modal from "../ui/Modal";
-import { Text } from "../ui/Text";
+import Input from "../ui/input";
+import Modal from "../ui/modal";
+import { Text } from "../ui/text";
 
 interface FindPasswordModalProps {
   isOpen: boolean;

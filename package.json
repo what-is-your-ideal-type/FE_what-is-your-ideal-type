@@ -33,6 +33,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "build:test": "vite build && rm -rf dist",
     "serve": "vite preview"
   },  
   "eslintConfig": {

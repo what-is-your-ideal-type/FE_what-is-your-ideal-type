@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { getCountAndTimeLeft } from "../../services/countService";
-import { useAuth } from "../../contexts/AuthContext";
-import { Button } from "../ui/Button";
+import { getCountAndTimeLeft } from "../../services/count-service";
+import { useAuth } from "../../contexts/auth-context";
+import { Button } from "../ui/button";
 
 interface NavigateToSurveyProps {
   label: string;

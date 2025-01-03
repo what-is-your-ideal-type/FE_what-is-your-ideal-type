@@ -3,14 +3,14 @@ import {
   SurveyTypes,
   surveyContentsMen,
   surveyContentsWomen,
-} from "../components/utils/Survey";
+} from "../components/utils/survey";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { Header } from "../components/ui/Header";
+import { Button } from "../components/ui/button";
+import { Header } from "../components/ui/header";
 import { ProgressBar } from "../styles/styled";
-import { FlexBox } from "../components/ui/FlexBox";
-import { Text } from "../components/ui/Text";
-import { Main } from "../components/ui/Main";
+import { FlexBox } from "../components/ui/flexbox";
+import { Text } from "../components/ui/text";
+import { Main } from "../components/ui/main";
 import styled, { keyframes } from "styled-components";
 
 const slideInRight = keyframes`

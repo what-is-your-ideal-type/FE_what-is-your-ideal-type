@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
+import { Button } from "./button";
 import { Link, useNavigate } from "react-router-dom";
-import { Text } from "./Text";
-import { useAuth } from "../../contexts/AuthContext";
+import { Text } from "./text";
+import { useAuth } from "../../contexts/auth-context";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import { useMediaQuery } from "usehooks-ts";
-import { FlexBox } from "./FlexBox";
+import { FlexBox } from "./flexbox";
 
 const StyledHeader = styled.header`
   width: 100%;
