@@ -1,5 +1,2 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/h"
-
-echo "Running format before committing..."
-npm run format || (echo "❌ Format failed" && exit 1)
