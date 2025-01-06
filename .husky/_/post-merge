@@ -1,2 +1,14 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/h"
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Checking for package.json changes..."
+
+# Check if package.json has changed
+changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+
+check_run() {
+    echo "$changed_files" | grep -q "$1" && eval "$2"
+}
+
+# If package.json or package-lock.json changed, run npm install
+check_run "package.json\|package-lock.json" "echo '📦 Dependencies changed. Running npm install...' && npm install"
