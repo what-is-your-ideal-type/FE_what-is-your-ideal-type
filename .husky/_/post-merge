@@ -1,14 +1,20 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "🔍 Checking for package.json changes..."
+echo "🔍 병합 후 파일 변경 확인 중..."
 
-# Check if package.json has changed
+# 변경된 파일 목록 가져오기
 changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
 
-check_run() {
-    echo "$changed_files" | grep -q "$1" && eval "$2"
-}
+# package.json이나 package-lock.json이 변경되었는지 확인
+if echo "$changed_files" | grep -E "package(-lock)?.json" > /dev/null ; then
+    echo "📦 패키지 파일이 변경되었습니다!"
+    echo "⚙️ npm install 실행 중..."
+    npm install
+    echo "✅ 패키지 설치 완료!"
+else
+    echo "✨ 패키지 파일에 변경사항이 없습니다."
+fi
 
-# If package.json or package-lock.json changed, run npm install
-check_run "package.json\|package-lock.json" "echo '📦 Dependencies changed. Running npm install...' && npm install"
+echo "✅ 병합 후 검사가 완료되었습니다!"
+exit 0
