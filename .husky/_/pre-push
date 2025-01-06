@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "✨ 코드 스타일 검사를 시작합니다..."
+npm run format:check || (
+    echo "🔄 코드 스타일을 수정하고 있습니다..."
+    npm run format
+    echo "⚠️ 코드 스타일이 맞지 않습니다. 자동으로 수정했으니 다시 커밋해주세요."
+    exit 1
+)
+
+echo "🚀 배포 테스트를 시작합니다..."
+npm run build:test || (echo "❌ 빌드에 실패했습니다." && exit 1)
+
+echo "✅ 모든 검사가 완료되었습니다!"
