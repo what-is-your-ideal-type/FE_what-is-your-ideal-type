@@ -34,7 +34,8 @@
     "start": "vite",
     "build": "vite build",
     "build:test": "vite build && rm -rf dist",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "prepare": "husky install"
   },  
   "eslintConfig": {
     "extends": [
@@ -69,7 +70,7 @@
     "@storybook/react": "^8.1.11",
     "@storybook/react-webpack5": "^8.1.11",
     "@storybook/test": "^8.1.11",
-    "@tanstack/eslint-plugin-query": "^5.58.1",
+    "@tanstack/esplugin-query": "^5.58.1",
     "@types/storybook__react": "^5.2.1",
     "@vitejs/plugin-react": "^4.3.4",
     "chromatic": "^11.5.4",
