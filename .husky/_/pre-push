@@ -3,7 +3,6 @@
 
 echo "Running pre-push checks..."
 
-# push 전 빌드 테스트
 echo "📦 Building the project..."
 npm run build:test || {
     echo "❌ Build failed. Please fix the build errors before pushing."
