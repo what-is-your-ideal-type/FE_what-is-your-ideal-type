@@ -12,5 +12,3 @@ npm run build:test || {
 
 echo "✅ Pre-push checks passed!"
 exit 0
-
-# test
