@@ -4,3 +4,4 @@
 echo "📦 Starting package installation after pull/merge..."
 npm install
 echo "✅ Package installation completed!"
+# test
