@@ -1,6 +1,17 @@
 export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
-    url = url.replace("https://oaidalleapiprodscus.blob.core.windows.net", "");
+    console.log("변환 시작:", url); // 디버깅
+
+    const baseUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:5173/proxy"
+        : "https://oaidalleapiprodscus.blob.core.windows.net";
+
+    url = url.replace(
+      "https://oaidalleapiprodscus.blob.core.windows.net",
+      baseUrl,
+    );
+    console.log("수정된 URL:", url); // 디버깅
 
     const response = await fetch(url);
     const blob = await response.blob();
