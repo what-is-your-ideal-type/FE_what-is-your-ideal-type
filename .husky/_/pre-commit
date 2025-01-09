@@ -2,3 +2,5 @@
 . "$(dirname "$0")/h"
 
 npx lint-staged
+
+echo "pre-commit"
