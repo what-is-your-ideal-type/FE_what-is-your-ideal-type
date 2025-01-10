@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
+    open: true,
     proxy: {
       // /"proxy"로 시작하는 프록시 요청
       "/proxy": {
@@ -14,4 +15,5 @@ export default defineConfig({
       },
     },
   },
+  
 });
