@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/husky.sh"
 
-npx lint-staged
 
-echo "pre-commit"
+echo "🔍 Linting the project..."
+npx lint-staged
+echo "✅ Linting completed!"
+exit 0

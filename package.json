@@ -35,7 +35,7 @@
     "build": "vite build",
     "build:test": "vite build && rm -rf dist",
     "preview": "vite preview",
-    "prepare": "husky && husky install"
+    "lint": "eslint-staged"
   },
   "eslintConfig": {
     "extends": [
@@ -88,8 +88,8 @@
       "eslint --fix",
       "prettier --write"
     ],
-  "*.{json,css,scss,md}": [
-    "prettier --write"
-  ]
-}
+    "*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
+  }
 }

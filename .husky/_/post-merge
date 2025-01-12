@@ -1,2 +1,7 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/h"
+. "$(dirname "$0")/husky.sh"
+
+echo "📦 Starting package installation after pull/merge..."
+npm install
+echo "✅ Package installation completed!"
+exit 0
