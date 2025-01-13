@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 import Loading from '../components/ui/Loading';
@@ -10,13 +10,12 @@ import {doc, setDoc, getDoc} from 'firebase/firestore';
 import {db} from '../firebase';
 import {imageGenerate} from '../services/image-generate';
 import {getCountAndTimeLeft, incrementCount} from '../services/count-service';
-import {useGuestMode} from '../hooks/use-guest-mode';
 
 const Generate = () => {
   const location = useLocation();
-  const [guestMode, setGuestMode] = useGuestMode();
   const navigate = useNavigate();
   const {currentUser} = useAuth();
+  const [progressState, setProgressState] = useState<number>(0);
 
   useEffect(() => {
     const {prompts, hashTags} = location.state;
@@ -30,9 +29,30 @@ const Generate = () => {
 
     const processAndNavigate = async () => {
       try {
+        let currentProgress = 0;
         const newPostId = uuidv4();
 
+        // 진행률을 부드럽게 업데이트하는 함수
+        const updateProgressSmoothly = async (
+          targetProgress: number,
+          duration: number,
+        ) => {
+          const totalSteps = Math.floor(duration / 100);
+          const progressIncrement =
+            (targetProgress - currentProgress) / totalSteps;
+
+          for (let i = 0; i < totalSteps; i++) {
+            currentProgress = Math.min(
+              currentProgress + progressIncrement,
+              targetProgress,
+            );
+            setProgressState(Math.round(currentProgress));
+            await new Promise((resolve) => setTimeout(resolve, 200));
+          }
+        };
+
         // 1. 이미지 생성 시작
+        await updateProgressSmoothly(50, 8000);
         const data = await imageGenerate(prompts);
         const responseUrl = data?.url;
         if (!responseUrl) throw new Error('이미지 URL 생성 실패');
@@ -42,38 +62,26 @@ const Generate = () => {
         if (!webP) throw new Error('WebP 변환 실패');
 
         const imageUploadPromise = uploadImageToFirebase(webP);
+        await updateProgressSmoothly(70, 2000);
         const imageUrl = await imageUploadPromise;
         if (!imageUrl) throw new Error('이미지 업로드 실패');
 
         // 3. 프로필 생성
         const profilePromise = profileGenerate(prompts);
+        await updateProgressSmoothly(90, 2000);
         const profile = await profilePromise;
         if (!profile) throw new Error('프로필 생성 실패');
 
         // 4. Firebase에 게시물 저장
-        if (guestMode === 'true') {
-          await setDoc(doc(db, 'anonymous_posts', newPostId), {
-            id: newPostId,
-            createdAt: new Date(),
-            imageUrl: imageUrl,
-            profile: profile,
-            hashTags: hashTags,
-            prompts: prompts,
-            userId: null,
-            email: null,
-          });
-        } else {
-          await setDoc(doc(db, 'posts', newPostId), {
-            id: newPostId,
-            createdAt: new Date(),
-            imageUrl: imageUrl,
-            profile: profile,
-            hashTags: hashTags,
-            prompts: prompts,
-            userId: currentUser?.uid,
-            email: currentUser?.email,
-          });
-        }
+        await setDoc(doc(db, 'posts', newPostId), {
+          id: newPostId,
+          userId: currentUser?.uid || null,
+          email: currentUser?.email || null,
+          imageUrl: imageUrl,
+          createdAt: new Date(),
+          hashTags: hashTags,
+          profile: profile,
+        });
 
         // 5. 사용자 문서 업데이트 (로그인된 경우)
         if (currentUser) {
@@ -98,6 +106,7 @@ const Generate = () => {
         }
 
         // 7. 최종 진행률 업데이트 및 결과 페이지 이동
+        await updateProgressSmoothly(100, 1000);
         if (!imageUrl || !profile) {
           throw new Error('이미지 URL 또는 프로필이 누락되었습니다.');
         }
@@ -120,7 +129,7 @@ const Generate = () => {
 
   return (
     <>
-      <Loading progressState={0} />
+      <Loading progressState={progressState} />
     </>
   );
 };
