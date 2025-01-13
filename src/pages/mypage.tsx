@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { useAuth } from "../contexts/auth-context";
-import { useNavigate } from "react-router-dom";
-import NavigateToSurvey from "../components/functional/navigate-to-survey-props";
-import { Text } from "../components/ui/text";
-import { FlexBox } from "../components/ui/flexbox";
-import { GridBox } from "../styles/gridbox";
-import { Card } from "../styles/styled";
-import { Main } from "../components/ui/main";
-import { db } from "../firebase";
-import { Header } from "../components/ui/header";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import React, {useEffect, useRef, useState} from 'react';
+import {doc, getDoc} from 'firebase/firestore';
+import {useAuth} from '../contexts/auth-context';
+import {useNavigate} from 'react-router-dom';
+import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
+import {Text} from '../components/ui/text';
+import {FlexBox} from '../components/ui/flexbox';
+import {GridBox} from '../styles/gridbox';
+import {Card} from '../styles/styled';
+import {Main} from '../components/ui/main';
+import {db} from '../firebase';
+import {Header} from '../components/ui/header';
+import {useInfiniteQuery} from '@tanstack/react-query';
 
 const MyPage = () => {
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
@@ -21,10 +21,10 @@ const MyPage = () => {
   const extractOccupation = (profileData: string) => {
     try {
       const profileObj = JSON.parse(profileData);
-      return profileObj.occupation || "직업 정보 없음";
+      return profileObj.occupation || '직업 정보 없음';
     } catch (error) {
-      console.error("프로필 파싱 중 오류 발생:", error);
-      return "직업 정보 없음";
+      console.error('프로필 파싱 중 오류 발생:', error);
+      return '직업 정보 없음';
     }
   };
 
@@ -32,11 +32,11 @@ const MyPage = () => {
     try {
       if (currentUser) {
         const uid = currentUser.uid;
-        const docRef = doc(db, "users", uid);
+        const docRef = doc(db, 'users', uid);
         const usersSnapShot = await getDoc(docRef);
         const userData = usersSnapShot.data();
 
-        if (!userData) return { cards: [], nextPage: undefined };
+        if (!userData) return {cards: [], nextPage: undefined};
 
         const postList = userData.postList.slice(
           pageParam * 4,
@@ -45,7 +45,7 @@ const MyPage = () => {
 
         const fetchedCards = await Promise.all(
           postList.map(async (num: string) => {
-            const postRef = doc(db, "posts", num);
+            const postRef = doc(db, 'posts', num);
             const postSnapShot = await getDoc(postRef);
             const data = postSnapShot.data();
 
@@ -71,17 +71,17 @@ const MyPage = () => {
           nextPage: validCards.length === 4 ? pageParam + 1 : undefined,
         };
       } else {
-        alert("로그인이 필요한 서비스입니다. 홈으로 이동합니다.");
-        navigate("/");
+        alert('로그인이 필요한 서비스입니다. 홈으로 이동합니다.');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: ({ pageParam }) => getCardsData(pageParam as number),
+  const {data, isLoading, hasNextPage, fetchNextPage} = useInfiniteQuery({
+    queryKey: ['posts'],
+    queryFn: ({pageParam}) => getCardsData(pageParam as number),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage?.nextPage ?? null;
@@ -104,11 +104,11 @@ const MyPage = () => {
 
     observer.current = new IntersectionObserver(loadMore, {
       root: null, // 뷰포트를 기준으로 함
-      rootMargin: "0px",
+      rootMargin: '0px',
       threshold: 1.0, // 100% 가시성이 있어야 트리거
     });
 
-    const target = document.getElementById("infinityQueryTrigger"); // 추가할 엘리먼트의 ID
+    const target = document.getElementById('infinityQueryTrigger'); // 추가할 엘리먼트의 ID
     if (target) {
       observer.current.observe(target);
     }
@@ -128,24 +128,24 @@ const MyPage = () => {
     <>
       <Header />
       <FlexBox
-        direction="column"
+        direction='column'
         style={{
-          backgroundColor: "#EFEFEF",
-          justifyContent: "center",
-          height: "8rem",
-          marginBottom: "2rem",
+          backgroundColor: '#EFEFEF',
+          justifyContent: 'center',
+          height: '8rem',
+          marginBottom: '2rem',
         }}
       >
-        <Text fontSize="xl" fontWeight="bold" style={{ padding: "1rem 0" }}>
+        <Text fontSize='xl' fontWeight='bold' style={{padding: '1rem 0'}}>
           {currentUser?.email}님의 마이페이지
         </Text>
       </FlexBox>
       <Main>
-        <FlexBox direction="column">
+        <FlexBox direction='column'>
           <FlexBox
-            style={{ justifyContent: "space-between", marginBottom: "2rem" }}
+            style={{justifyContent: 'space-between', marginBottom: '2rem'}}
           >
-            <Text fontSize="xl" fontWeight="bold">
+            <Text fontSize='xl' fontWeight='bold'>
               나의 이상형 리스트
             </Text>
           </FlexBox>
@@ -154,26 +154,26 @@ const MyPage = () => {
               <Card
                 key={index}
                 onClick={() => navigate(`/result/${card.id}`)}
-                style={{ flexDirection: "column", marginBottom: "12px" }}
+                style={{flexDirection: 'column', marginBottom: '12px'}}
               >
                 <div
                   style={{
-                    position: "relative",
-                    width: "100%",
-                    paddingTop: "100%",
-                    marginBottom: "12px",
+                    position: 'relative',
+                    width: '100%',
+                    paddingTop: '100%',
+                    marginBottom: '12px',
                   }}
                 >
                   {!isImageLoaded && (
                     <div
                       style={{
-                        position: "absolute",
+                        position: 'absolute',
                         top: 0,
                         left: 0,
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#ffffff",
-                        borderRadius: "8px",
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: '#ffffff',
+                        borderRadius: '8px',
                       }}
                     />
                   )}
@@ -181,29 +181,29 @@ const MyPage = () => {
                     src={card.imageUrl}
                     alt={card.fileName}
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       top: 0,
                       left: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      display: isImageLoaded ? "block" : "none",
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px',
+                      display: isImageLoaded ? 'block' : 'none',
                     }}
                     onLoad={() => setIsImageLoaded(true)}
                   />
                 </div>
-                <div className="text-center py-2">
-                  <Text fontSize="md" fontWeight="bold">
+                <div className='text-center py-2'>
+                  <Text fontSize='md' fontWeight='bold'>
                     {extractOccupation(card.profile)}
                   </Text>
                 </div>
               </Card>
             ))}
           </GridBox>
-          <NavigateToSurvey label="새로운 이상형 찾기" />
+          <NavigateToSurvey label='새로운 이상형 찾기' />
           {hasNextPage && (
-            <div id="infinityQueryTrigger" style={{ height: "20px" }}></div>
+            <div id='infinityQueryTrigger' style={{height: '20px'}}></div>
           )}
         </FlexBox>
       </Main>
