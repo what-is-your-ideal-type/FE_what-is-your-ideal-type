@@ -105,7 +105,7 @@ const Home = () => {
         >
           로그인하기
         </Button>
-        <NavigateToSurvey label='로그인 없이 시작' isGuestMode={true} />
+        <NavigateToSurvey label='로그인 없이 시작' />
       </FlexBox>
       <FlexBox direction='column' gap='8rem'>
         <div>
