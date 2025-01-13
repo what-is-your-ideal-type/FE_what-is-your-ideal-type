@@ -20,5 +20,6 @@ module.exports = {
   rules: {
     "@tanstack/query/exhaustive-deps": "error",
     "@tanstack/query/stable-query-client": "error",
+    "react/react-in-jsx-scope": "off",
   },
 };
