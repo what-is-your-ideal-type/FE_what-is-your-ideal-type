@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 import {
   SurveyTypes,
   surveyContentsMen,
   surveyContentsWomen,
-} from "../components/utils/Survey";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
-import { Header } from "../components/ui/header";
-import { ProgressBar } from "../styles/styled";
-import { FlexBox } from "../components/ui/flexbox";
-import { Text } from "../components/ui/text";
-import { Main } from "../components/ui/main";
-import styled, { keyframes } from "styled-components";
+} from '../components/utils/survey';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {Button} from '../components/ui/button';
+import {Header} from '../components/ui/header';
+import {ProgressBar} from '../styles/styled';
+import {FlexBox} from '../components/ui/flexbox';
+import {Text} from '../components/ui/text';
+import {Main} from '../components/ui/main';
+import styled, {keyframes} from 'styled-components';
 
 const slideInRight = keyframes`
   from {
@@ -44,7 +44,7 @@ const Survey = () => {
   };
 
   const handleSubmit = () => {
-    const check = confirm("이상형을 생성하겠습니까?");
+    const check = confirm('이상형을 생성하겠습니까?');
     const promptObj = {
       gender: gender,
       age: prompts[0],
@@ -57,8 +57,8 @@ const Survey = () => {
       outfit: prompts[7],
     };
     if (check) {
-      navigate("/generate", {
-        state: { prompts: promptObj, hashTags: hashtags },
+      navigate('/generate', {
+        state: {prompts: promptObj, hashTags: hashtags},
       });
     } else {
       setprompts((prev) => prev.slice(0, prev.length - 1));
@@ -69,10 +69,10 @@ const Survey = () => {
 
   useEffect(() => {
     if (!gender) {
-      alert("성별을 먼저 선택해주세요");
-      navigate("/genderselect");
+      alert('성별을 먼저 선택해주세요');
+      navigate('/genderselect');
     }
-    if (gender === "man") {
+    if (gender === 'man') {
       setCurrentSurvey(surveyContentsMen);
     } else {
       setCurrentSurvey(surveyContentsWomen);
@@ -91,7 +91,7 @@ const Survey = () => {
 
   return (
     <>
-      <div style={{ position: "absolute", top: "0", width: "100%" }}>
+      <div style={{position: 'absolute', top: '0', width: '100%'}}>
         <Header />
         <ProgressBar
           value={
@@ -105,19 +105,19 @@ const Survey = () => {
         {currentSurvey[currentQuestionIndex] ? (
           // Assign a unique key based on the current question index
           <QuestionContainer key={currentQuestionIndex}>
-            <FlexBox direction="column" gap="72px">
-              <Text fontSize="lg" fontWeight="bold">
+            <FlexBox direction='column' gap='72px'>
+              <Text fontSize='lg' fontWeight='bold'>
                 {currentSurvey[currentQuestionIndex].question}
               </Text>
-              <FlexBox direction="column" gap="10px">
+              <FlexBox direction='column' gap='10px'>
                 {currentSurvey[currentQuestionIndex].options.map((option) => (
                   <div
                     key={option.label}
-                    className="mb-2 flex justify-center items-center"
+                    className='mb-2 flex justify-center items-center'
                   >
                     <Button
-                      width="344px"
-                      height="52px"
+                      width='344px'
+                      height='52px'
                       onClick={() => {
                         handleOptionChange(option.value, option.label);
                       }}

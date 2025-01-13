@@ -1,18 +1,20 @@
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Button} from '../components/ui/button';
-import {Main} from '../components/ui/main';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/ui/button';
+import { Main } from '../components/ui/main';
 import Input from '../components/ui/input';
-import {useAuth} from '../contexts/auth-context';
-import {ButtonGroup} from '../styles/styled';
-import {FlexBox} from '../components/ui/flexbox';
-import {Text} from '../components/ui/text';
-import {FirebaseError} from 'firebase/app';
-import {useResponsive} from '../hooks/use-responsive';
+import { useAuth } from '../contexts/auth-context';
+import { ButtonGroup } from '../styles/styled';
+import { FlexBox } from '../components/ui/flexbox';
+import { Text } from '../components/ui/text';
+import { FirebaseError } from 'firebase/app';
+import { useResponsive } from '../hooks/use-responsive';
 import FindPasswordModal from '../components/functional/find-password-modal';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
-import {loginWithGoogle} from '../services/auth/login-with-google';
-import {loginWithEmail} from '../services/auth/login-with-email';
+import { loginWithGoogle } from '../services/auth/login-with-google';
+import { loginWithEmail } from '../services/auth/login-with-email';
+import { useGuestMode } from '../hooks/use-guest-mode';
+
 const Home = () => {
   const navigate = useNavigate();
   const isMobile = useResponsive();
@@ -20,8 +22,9 @@ const Home = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isModalOpen, setModalOpen] = useState(false);
+  const [_, setGuestMode] = useGuestMode();
 
-  const {setCurrentUser} = useAuth();
+  const { setCurrentUser } = useAuth();
 
   const handleLoginWithEmail = async () => {
     try {
@@ -29,6 +32,7 @@ const Home = () => {
       if (userCredential) {
         setCurrentUser(userCredential.user);
         alert('로그인에 성공했습니다.');
+        setGuestMode('false');
         navigate('/mypage');
       }
     } catch (error) {
@@ -61,7 +65,7 @@ const Home = () => {
         <FlexBox
           direction='column'
           gap='1rem'
-          style={{alignItems: 'flex-start', width: '100%'}}
+          style={{ alignItems: 'flex-start', width: '100%' }}
         >
           <Text fontSize='lg' fontWeight='bold'>
             안녕하세요!
@@ -90,7 +94,7 @@ const Home = () => {
           </Text>
         ) : null}
         <button
-          style={{marginRight: '0.5rem', marginLeft: 'auto'}}
+          style={{ marginRight: '0.5rem', marginLeft: 'auto' }}
           onClick={() => {
             setModalOpen(true);
           }}
@@ -109,7 +113,7 @@ const Home = () => {
       </FlexBox>
       <FlexBox direction='column' gap='8rem'>
         <div>
-          <Text style={{marginBottom: '12px'}} fontSize='md'>
+          <Text style={{ marginBottom: '12px' }} fontSize='md'>
             SNS 계정으로 간편하게 시작하기
           </Text>
           <ButtonGroup>

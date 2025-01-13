@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/auth-context";
-import Picture from "../components/ui/Picture";
-import Kakaoshare from "../components/functional/kakao-share";
-import NavigateToSurvey from "../components/functional/navigate-to-survey-props";
-import { PreventDefaultWrapper } from "../components/functional/prevent-default-wrapper";
-import { Button } from "../components/ui/button";
-import { Text } from "../components/ui/text";
-import { FlexBox } from "../components/ui/flexbox";
-import { Main } from "../components/ui/main";
-import { doc, getDoc, DocumentData } from "firebase/firestore";
-import { db } from "../firebase";
-import { Header } from "../components/ui/header";
-import { useResponsive } from "../hooks/use-responsive";
+import React, {useEffect, useState} from 'react';
+import {useParams, useNavigate} from 'react-router-dom';
+import {useAuth} from '../contexts/auth-context';
+import Picture from '../components/ui/picture';
+import Kakaoshare from '../components/functional/kakao-share';
+import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
+import {PreventDefaultWrapper} from '../components/functional/prevent-default-wrapper';
+import {Button} from '../components/ui/button';
+import {Text} from '../components/ui/text';
+import {FlexBox} from '../components/ui/flexbox';
+import {Main} from '../components/ui/main';
+import {doc, getDoc, DocumentData} from 'firebase/firestore';
+import {db} from '../firebase';
+import {Header} from '../components/ui/header';
+import {useResponsive} from '../hooks/use-responsive';
 
 interface ProfileTypes {
   name: string;
@@ -23,7 +23,7 @@ interface ProfileTypes {
 }
 
 const Result = () => {
-  const { postId } = useParams();
+  const {postId} = useParams();
   const isMobile = useResponsive();
   const [post, setPost] = useState<DocumentData | null>(null);
   const [profile, setProfile] = useState<ProfileTypes | null>(null);
@@ -35,14 +35,14 @@ const Result = () => {
     const fetchPost = async () => {
       if (postId) {
         try {
-          const postDocRef = doc(db, "posts", postId);
+          const postDocRef = doc(db, 'posts', postId);
           const postSnapshot = await getDoc(postDocRef);
 
           if (!postSnapshot.exists()) return;
 
           setPost(postSnapshot.data());
         } catch (error) {
-          console.error("Error fetching document: ", error);
+          console.error('Error fetching document: ', error);
         }
       }
     };
@@ -60,14 +60,14 @@ const Result = () => {
   // 뒤로가기 방지
   useEffect(() => {
     const blockBackButton = () => {
-      window.history.pushState(null, "", window.location.href);
+      window.history.pushState(null, '', window.location.href);
     };
 
-    window.history.pushState(null, "", window.location.href);
-    window.addEventListener("popstate", blockBackButton);
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', blockBackButton);
 
     return () => {
-      window.removeEventListener("popstate", blockBackButton);
+      window.removeEventListener('popstate', blockBackButton);
     };
   }, []);
 
@@ -75,12 +75,12 @@ const Result = () => {
     try {
       const response = await fetch(post?.imageUrl);
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       const blob = await response.blob();
 
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
 
       const img = new Image();
       img.src = URL.createObjectURL(blob);
@@ -91,27 +91,27 @@ const Result = () => {
         ctx?.drawImage(img, 0, 0);
         canvas.toBlob((blob) => {
           const url = window.URL.createObjectURL(blob!);
-          const a = document.createElement("a");
+          const a = document.createElement('a');
           a.href = url;
           a.download = `img_${postId}.webp`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
-        }, "image/webp");
+        }, 'image/webp');
       };
     } catch (error) {
-      console.error("Error downloading the image: ", error);
+      console.error('Error downloading the image: ', error);
     }
   };
 
   const handleShare = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      alert("링크가 클립보드에 복사되었습니다. 원하는 곳에 붙여넣기 해주세요.");
+      alert('링크가 클립보드에 복사되었습니다. 원하는 곳에 붙여넣기 해주세요.');
     } catch (error) {
-      console.error("Failed to copy link : ", error);
-      alert("링크 복사에 실패했습니다.");
+      console.error('Failed to copy link : ', error);
+      alert('링크 복사에 실패했습니다.');
     }
   };
 
@@ -119,30 +119,30 @@ const Result = () => {
     <>
       <Header></Header>
       <FlexBox
-        direction="column"
+        direction='column'
         style={{
-          backgroundColor: "#EFEFEF",
-          justifyContent: "center",
-          height: "8rem",
+          backgroundColor: '#EFEFEF',
+          justifyContent: 'center',
+          height: '8rem',
         }}
       >
-        <Text fontSize="xl" fontWeight="bold" marginBottom="0.8rem">
-          AI 이상형 생성 결과...{" "}
+        <Text fontSize='xl' fontWeight='bold' marginBottom='0.8rem'>
+          AI 이상형 생성 결과...{' '}
         </Text>
         <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
       </FlexBox>
       <Main isMobile={isMobile}>
         <PreventDefaultWrapper>
-          <FlexBox direction="column">
-            <Picture imageUrl={post?.imageUrl} altText="이상형 이미지" />
+          <FlexBox direction='column'>
+            <Picture imageUrl={post?.imageUrl} altText='이상형 이미지' />
             {isLogin && (
               <Button
-                bgColor="white"
+                bgColor='white'
                 style={{
-                  color: "black",
-                  padding: "0.8rem",
-                  fontSize: "13px",
-                  fontWeight: "bold",
+                  color: 'black',
+                  padding: '0.8rem',
+                  fontSize: '13px',
+                  fontWeight: 'bold',
                 }}
                 onClick={handleDownload}
               >
@@ -152,59 +152,59 @@ const Result = () => {
           </FlexBox>
         </PreventDefaultWrapper>
         <FlexBox
-          direction="column"
-          style={{ display: "block", marginLeft: "2rem" }}
-          className="w-full md:w-1/2 mt-4 md:mt-0 md:ml-4"
+          direction='column'
+          style={{display: 'block', marginLeft: '2rem'}}
+          className='w-full md:w-1/2 mt-4 md:mt-0 md:ml-4'
         >
-          <Text fontWeight="bold" fontSize="xl" marginBottom="0.8rem">
+          <Text fontWeight='bold' fontSize='xl' marginBottom='0.8rem'>
             {profile?.age} {profile?.name}
           </Text>
-          <Text fontSize="xxl" fontWeight="bold" marginBottom="1.5rem">
+          <Text fontSize='xxl' fontWeight='bold' marginBottom='1.5rem'>
             {profile?.occupation}
           </Text>
-          <Text fontWeight="bold" marginBottom="0.8rem">
+          <Text fontWeight='bold' marginBottom='0.8rem'>
             당신의 이상형은 {profile?.personality}
           </Text>
-          <Text fontWeight="bold" marginBottom="1.5rem">
-            취미는{" "}
+          <Text fontWeight='bold' marginBottom='1.5rem'>
+            취미는{' '}
             {Array.isArray(profile?.hobbies)
-              ? profile?.hobbies.join(", ")
+              ? profile?.hobbies.join(', ')
               : profile?.hobbies}
             입니다.
           </Text>
-          <Text fontWeight="bold" marginBottom="2rem">
+          <Text fontWeight='bold' marginBottom='2rem'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
           </Text>
-          <FlexBox style={{ marginBottom: "2rem" }}>
+          <FlexBox style={{marginBottom: '2rem'}}>
             {isLogin ? (
               <>
-                <NavigateToSurvey label="이상형 다시 찾기" />
+                <NavigateToSurvey label='이상형 다시 찾기' />
               </>
             ) : (
               <>
-                <p className="text-gray">
+                <p className='text-gray'>
                   사진을 저장하고 기록하고 싶다면 로그인 해보세요
                 </p>
-                <Button onClick={() => navigate("/")}>로그인</Button>
+                <Button onClick={() => navigate('/')}>로그인</Button>
               </>
             )}
           </FlexBox>
-          <FlexBox direction="column">
+          <FlexBox direction='column'>
             {isLogin && (
-              <Text fontSize="sm" marginBottom="1rem">
+              <Text fontSize='sm' marginBottom='1rem'>
                 ▼ 결과를 친구에게 공유해 보세요! ▼
               </Text>
             )}
             <PreventDefaultWrapper>
               <Button
                 style={{
-                  padding: "0.8rem",
-                  color: "#706EF4",
-                  fontWeight: "bold",
-                  fontSize: "13px",
-                  width: "120px",
+                  padding: '0.8rem',
+                  color: '#706EF4',
+                  fontWeight: 'bold',
+                  fontSize: '13px',
+                  width: '120px',
                 }}
-                bgColor="sub"
+                bgColor='sub'
                 onClick={handleShare}
               >
                 링크 복사하기

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button } from "./button";
+import React, {useState} from 'react';
+import styled from 'styled-components';
+import {Button} from './button';
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -33,7 +33,7 @@ const DropdownItem = styled.li`
 type dropdownProps = {
   dropdownSpan: string;
   setDropdownSpan: (span: string) => void;
-} 
+};
 
 export const Dropdown = ({dropdownSpan, setDropdownSpan}: dropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,15 +49,13 @@ export const Dropdown = ({dropdownSpan, setDropdownSpan}: dropdownProps) => {
 
   return (
     <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>
-        {dropdownSpan}
-      </DropdownButton>
+      <DropdownButton onClick={toggleDropdown}>{dropdownSpan}</DropdownButton>
       {isOpen && (
         <DropdownList>
-          <DropdownItem onClick={() => handleItemClick("최신 순")}>
+          <DropdownItem onClick={() => handleItemClick('최신 순')}>
             최신 순
           </DropdownItem>
-          <DropdownItem onClick={() => handleItemClick("오래된 순")}>
+          <DropdownItem onClick={() => handleItemClick('오래된 순')}>
             오래된 순
           </DropdownItem>
         </DropdownList>

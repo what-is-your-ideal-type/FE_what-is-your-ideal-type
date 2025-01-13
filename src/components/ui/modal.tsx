@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Button } from "./button";
+import React from 'react';
+import styled from 'styled-components';
+import {Button} from './button';
 
 interface ModalProps {
   isOpen: boolean;
@@ -10,30 +10,24 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-const Modal = ({
-  isOpen,
-  isSending,
-  onClose,
-  onClick,
-  children,
-}: ModalProps) => {
+const Modal = ({isOpen, isSending, onClose, onClick, children}: ModalProps) => {
   if (!isOpen) return null;
 
   return (
     <ModalBackdrop>
       <ModalContent>
         {children}
-        <div style={{ marginTop: "20px" }}>
+        <div style={{marginTop: '20px'}}>
           <Button
-            style={{ padding: "0.8rem 0.8rem" }}
+            style={{padding: '0.8rem 0.8rem'}}
             onClick={onClick}
             disabled={isSending}
           >
-            {isSending ? "메일 전송 중..." : "메일 발송"}
+            {isSending ? '메일 전송 중...' : '메일 발송'}
           </Button>
           <Button
-            style={{ padding: "0.8rem 0.8rem", marginLeft: "20px" }}
-            bgColor="sub"
+            style={{padding: '0.8rem 0.8rem', marginLeft: '20px'}}
+            bgColor='sub'
             onClick={onClose}
           >
             닫기

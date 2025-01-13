@@ -1,18 +1,18 @@
-import styled, { css } from "styled-components";
+import styled, {css} from 'styled-components';
 
 interface FlexBoxProps {
-  direction?: "column" | "row";
+  direction?: 'column' | 'row';
   isResponsive?: boolean;
   gap?: string;
 }
 
 export const FlexBox = styled.section<FlexBoxProps>`
   display: flex;
-  flex-direction: ${({ direction }) => direction || "row"};
+  flex-direction: ${({direction}) => direction || 'row'};
   align-items: center;
-  gap: ${({ gap }) => gap || "0px"};
+  gap: ${({gap}) => gap || '0px'};
 
-  ${({ isResponsive = false }) =>
+  ${({isResponsive = false}) =>
     isResponsive &&
     css`
       @media (min-width: 768px) {
