@@ -5,13 +5,13 @@ import Picture from "../components/ui/Picture";
 import Kakaoshare from "../components/functional/kakao-share";
 import NavigateToSurvey from "../components/functional/navigate-to-survey-props";
 import { PreventDefaultWrapper } from "../components/functional/prevent-default-wrapper";
-import { Button } from "../components/ui/Button";
+import { Button } from "../components/ui/button";
 import { Text } from "../components/ui/text";
 import { FlexBox } from "../components/ui/flexbox";
-import { Main } from "../components/ui/Main";
+import { Main } from "../components/ui/main";
 import { doc, getDoc, DocumentData } from "firebase/firestore";
 import { db } from "../firebase";
-import { Header } from "../components/ui/Header";
+import { Header } from "../components/ui/header";
 import { useResponsive } from "../hooks/use-responsive";
 
 interface ProfileTypes {
