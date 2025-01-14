@@ -52,6 +52,7 @@ const Home = () => {
       if (credential) {
         setCurrentUser(credential.user);
         alert('로그인에 성공했습니다.');
+        setGuestMode('false');
         navigate('/mypage');
       }
     } catch (error) {
