@@ -1,12 +1,14 @@
-import React from "react";
-import { FlexBox } from "../ui/flexbox";
+import React from 'react';
+import { FlexBox } from '../ui/flexbox';
 
 interface PreventDefaultWrapperProps {
   children: React.ReactNode;
+  className?: string;
 }
 
 export const PreventDefaultWrapper = ({
   children,
+  className,
 }: PreventDefaultWrapperProps) => {
   const handlePreventDefault = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -17,7 +19,8 @@ export const PreventDefaultWrapper = ({
       onContextMenu={handlePreventDefault}
       onDragStart={handlePreventDefault}
       onTouchStart={handlePreventDefault}
-      gap="20px"
+      gap='sm'
+      className={className}
     >
       {children}
     </FlexBox>

@@ -1,22 +1,22 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
-import {getCountAndTimeLeft} from '../../services/count-service';
-import {useAuth} from '../../contexts/auth-context';
-import {Button} from '../ui/button';
-import {useGuestMode} from '../../hooks/use-guest-mode';
+import { useNavigate } from 'react-router-dom';
+import { getCountAndTimeLeft } from '../../services/count-service';
+import { useAuth } from '../../contexts/auth-context';
+import { Button } from '../ui/button/button';
+import { useGuestMode } from '../../hooks/use-guest-mode';
 
 interface NavigateToSurveyProps {
   label: string;
   isGuestMode?: boolean;
 }
 
-const NavigateToSurvey = ({label, isGuestMode}: NavigateToSurveyProps) => {
+const NavigateToSurvey = ({ label, isGuestMode }: NavigateToSurveyProps) => {
   const navigate = useNavigate();
   const [guestMode, setGuestMode] = useGuestMode();
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
 
   const handleSurveyNavigation = async () => {
-    const {count, limit, timeLeft} = await getCountAndTimeLeft(currentUser);
+    const { count, limit, timeLeft } = await getCountAndTimeLeft(currentUser);
 
     if (isGuestMode) {
       setGuestMode('true');
@@ -39,11 +39,9 @@ const NavigateToSurvey = ({label, isGuestMode}: NavigateToSurveyProps) => {
   };
 
   return (
-    <div style={{padding: '1rem 0', width: '100%'}}>
-      <Button width='100%' onClick={handleSurveyNavigation}>
-        {label}
-      </Button>
-    </div>
+    <Button className='w-full' onClick={handleSurveyNavigation}>
+      {label}
+    </Button>
   );
 };
 

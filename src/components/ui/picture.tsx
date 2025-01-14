@@ -1,20 +1,19 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Image = styled.img`
-  width: 100%;
-  height: auto;
-  max-width: 512px;
-  max-height: 512px;
-  border-radius: 12px;
-`;
+import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 interface PictureProps {
   imageUrl: string;
   altText: string;
+  className?: string;
 }
 
-const Picture = ({imageUrl, altText}: PictureProps) => {
+const Picture = ({ imageUrl, altText, className }: PictureProps) => {
+  const classes = twMerge(
+    clsx('w-full h-auto max-w-lg max-h-lg rounded-xl'),
+    className,
+  );
+
   return (
     <picture>
       <source
@@ -29,7 +28,12 @@ const Picture = ({imageUrl, altText}: PictureProps) => {
                 1024px'
         type='image/webp'
       />
-      <Image src={`${imageUrl}.jpg`} alt={altText} loading='lazy' />
+      <img
+        className={classes}
+        src={`${imageUrl}.jpg`}
+        alt={altText}
+        loading='lazy'
+      />
     </picture>
   );
 };

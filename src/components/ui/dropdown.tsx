@@ -1,41 +1,12 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
-import {Button} from './button';
-
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const DropdownButton = styled(Button)`
-  padding: 10px;
-  font-size: 16px;
-`;
-
-const DropdownList = styled.ul`
-  position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
-
-const DropdownItem = styled.li`
-  padding: 10px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
+import React, { useState } from 'react';
+import { Button } from './button/button';
 
 type dropdownProps = {
   dropdownSpan: string;
   setDropdownSpan: (span: string) => void;
 };
 
-export const Dropdown = ({dropdownSpan, setDropdownSpan}: dropdownProps) => {
+export const Dropdown = ({ dropdownSpan, setDropdownSpan }: dropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -48,18 +19,30 @@ export const Dropdown = ({dropdownSpan, setDropdownSpan}: dropdownProps) => {
   };
 
   return (
-    <DropdownContainer>
-      <DropdownButton onClick={toggleDropdown}>{dropdownSpan}</DropdownButton>
+    <div className='relative inline-block'>
+      <Button
+        className='py-2 px-4 text-base bg-white border border-gray-300 rounded shadow-sm'
+        onClick={toggleDropdown}
+      >
+        {dropdownSpan}
+      </Button>
+
       {isOpen && (
-        <DropdownList>
-          <DropdownItem onClick={() => handleItemClick('최신 순')}>
+        <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg'>
+          <li
+            className='px-4 py-2 cursor-pointer hover:bg-gray-100'
+            onClick={() => handleItemClick('최신 순')}
+          >
             최신 순
-          </DropdownItem>
-          <DropdownItem onClick={() => handleItemClick('오래된 순')}>
+          </li>
+          <li
+            className='px-4 py-2 cursor-pointer hover:bg-gray-100'
+            onClick={() => handleItemClick('오래된 순')}
+          >
             오래된 순
-          </DropdownItem>
-        </DropdownList>
+          </li>
+        </ul>
       )}
-    </DropdownContainer>
+    </div>
   );
 };

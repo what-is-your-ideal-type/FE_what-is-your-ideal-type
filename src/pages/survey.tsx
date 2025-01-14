@@ -1,32 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SurveyTypes,
   surveyContentsMen,
   surveyContentsWomen,
 } from '../components/utils/survey';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {Button} from '../components/ui/button';
-import {Header} from '../components/ui/header';
-import {ProgressBar} from '../styles/styled';
-import {FlexBox} from '../components/ui/flexbox';
-import {Text} from '../components/ui/text';
-import {Main} from '../components/ui/main';
-import styled, {keyframes} from 'styled-components';
-
-const slideInRight = keyframes`
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-`;
-
-const QuestionContainer = styled.div`
-  animation: ${slideInRight} 0.5s ease-in-out;
-`;
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '../components/ui/button/button';
+import { Header } from '../components/ui/header';
+import { ProgressBar } from '../components/ui/progressbar';
+import { FlexBox } from '../components/ui/flexbox';
+import { Text } from '../components/ui/text';
+import { Main } from '../components/ui/main';
 
 const Survey = () => {
   const location = useLocation();
@@ -58,7 +42,7 @@ const Survey = () => {
     };
     if (check) {
       navigate('/generate', {
-        state: {prompts: promptObj, hashTags: hashtags},
+        state: { prompts: promptObj, hashTags: hashtags },
       });
     } else {
       setprompts((prev) => prev.slice(0, prev.length - 1));
@@ -91,7 +75,7 @@ const Survey = () => {
 
   return (
     <>
-      <div style={{position: 'absolute', top: '0', width: '100%'}}>
+      <div className='absolute top-0 w-full'>
         <Header />
         <ProgressBar
           value={
@@ -104,20 +88,19 @@ const Survey = () => {
       <Main>
         {currentSurvey[currentQuestionIndex] ? (
           // Assign a unique key based on the current question index
-          <QuestionContainer key={currentQuestionIndex}>
-            <FlexBox direction='column' gap='72px'>
-              <Text fontSize='lg' fontWeight='bold'>
+          <div key={currentQuestionIndex} className='animate-slideInRight'>
+            <FlexBox direction='column' gap='lg'>
+              <Text fontSize='lg' fontWeight='bold' className='text-center'>
                 {currentSurvey[currentQuestionIndex].question}
               </Text>
-              <FlexBox direction='column' gap='10px'>
+              <FlexBox direction='column' gap='xs'>
                 {currentSurvey[currentQuestionIndex].options.map((option) => (
                   <div
                     key={option.label}
-                    className='mb-2 flex justify-center items-center'
+                    className='flex justify-center items-center'
                   >
                     <Button
-                      width='344px'
-                      height='52px'
+                      className='w-80 h-14'
                       onClick={() => {
                         handleOptionChange(option.value, option.label);
                       }}
@@ -128,7 +111,7 @@ const Survey = () => {
                 ))}
               </FlexBox>
             </FlexBox>
-          </QuestionContainer>
+          </div>
         ) : null}
       </Main>
     </>

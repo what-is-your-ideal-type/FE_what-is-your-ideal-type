@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 export interface InputProps {
   type: 'email' | 'password';
@@ -8,39 +7,27 @@ export interface InputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = styled.input`
-  width: 22rem;
-  height: 3rem;
-  font-size: 1rem;
-  border: 1px solid #d1d3d8;
-  padding: 0.5rem 2.5rem;
-  border-radius: 0.375rem;
-  background-color: white;
-`;
+function StyledInput({ type, placeholder, value, onChange }: InputProps) {
+  const iconSrc =
+    type === 'email' ? 'images/Message_light.png' : 'images/Lock_light.png';
+  const iconAlt = type === 'email' ? 'Email' : 'Password';
 
-const Icon = styled.img`
-  position: absolute;
-  top: 50%;
-  left: 0.5rem;
-  height: 28px;
-  transform: translateY(-50%);
-  width: auto;
-`;
-
-function StyledInput({type, placeholder, value, onChange}: InputProps) {
   return (
-    <div style={{position: 'relative'}}>
-      {type === 'email' ? (
-        <Icon src='images/Message_light.png' alt='Email' />
-      ) : (
-        <Icon src='/images/Lock_light.png' alt='password' />
-      )}
-      <Input
+    <div className='relative w-[22rem]'>
+      {/* 아이콘 */}
+      <img
+        src={iconSrc}
+        alt={iconAlt}
+        className='absolute top-1/2 left-3 h-7 w-auto transform -translate-y-1/2'
+      />
+      {/* 입력 필드 */}
+      <input
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         required
+        className='w-full h-12 text-base border border-gray rounded-lg pl-12 pr-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500'
       />
     </div>
   );
