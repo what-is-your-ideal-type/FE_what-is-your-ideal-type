@@ -1,19 +1,21 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {doc, getDoc} from 'firebase/firestore';
-import {useAuth} from '../contexts/auth-context';
-import {useNavigate} from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { useAuth } from '../contexts/auth-context';
+import { useNavigate } from 'react-router-dom';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
-import {Text} from '../components/ui/text';
-import {FlexBox} from '../components/ui/flexbox';
-import {GridBox} from '../styles/gridbox';
-import {Card} from '../styles/styled';
-import {Main} from '../components/ui/main';
-import {db} from '../firebase';
-import {Header} from '../components/ui/header';
-import {useInfiniteQuery} from '@tanstack/react-query';
+import { Text } from '../components/ui/text';
+import { FlexBox } from '../components/ui/flexbox';
+import { GridBox } from '../components/ui/gridbox';
+import { Card } from '../components/ui/card/card';
+import { Main } from '../components/ui/main';
+import { db } from '../firebase';
+import { Header } from '../components/ui/header';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { CardContent } from '../components/ui/card/card-content';
+import { CardDescription } from '../components/ui/card/card-description';
 
 const MyPage = () => {
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
@@ -36,7 +38,7 @@ const MyPage = () => {
         const usersSnapShot = await getDoc(docRef);
         const userData = usersSnapShot.data();
 
-        if (!userData) return {cards: [], nextPage: undefined};
+        if (!userData) return { cards: [], nextPage: undefined };
 
         const postList = userData.postList.slice(
           pageParam * 4,
@@ -79,9 +81,9 @@ const MyPage = () => {
     }
   };
 
-  const {data, isLoading, hasNextPage, fetchNextPage} = useInfiniteQuery({
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['posts'],
-    queryFn: ({pageParam}) => getCardsData(pageParam as number),
+    queryFn: ({ pageParam }) => getCardsData(pageParam as number),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage?.nextPage ?? null;
@@ -129,82 +131,32 @@ const MyPage = () => {
       <Header />
       <FlexBox
         direction='column'
-        style={{
-          backgroundColor: '#EFEFEF',
-          justifyContent: 'center',
-          height: '8rem',
-          marginBottom: '2rem',
-        }}
+        className='bg-gray-200 justify-center h-32 mb-8'
       >
-        <Text fontSize='xl' fontWeight='bold' style={{padding: '1rem 0'}}>
+        <Text fontSize='xl' fontWeight='bold' className='py-4 text-center'>
           {currentUser?.email}님의 마이페이지
         </Text>
       </FlexBox>
       <Main>
         <FlexBox direction='column'>
-          <FlexBox
-            style={{justifyContent: 'space-between', marginBottom: '2rem'}}
-          >
-            <Text fontSize='xl' fontWeight='bold'>
-              나의 이상형 리스트
-            </Text>
-          </FlexBox>
+          <Text fontSize='xl' fontWeight='bold' className='text-center mb-8'>
+            나의 이상형 리스트
+          </Text>
           <GridBox>
             {cards.map((card, index) => (
-              <Card
-                key={index}
-                onClick={() => navigate(`/result/${card.id}`)}
-                style={{flexDirection: 'column', marginBottom: '12px'}}
-              >
-                <div
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    paddingTop: '100%',
-                    marginBottom: '12px',
-                  }}
-                >
-                  {!isImageLoaded && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: '#ffffff',
-                        borderRadius: '8px',
-                      }}
-                    />
-                  )}
-                  <img
-                    src={card.imageUrl}
-                    alt={card.fileName}
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      borderRadius: '8px',
-                      display: isImageLoaded ? 'block' : 'none',
-                    }}
-                    onLoad={() => setIsImageLoaded(true)}
-                  />
-                </div>
-                <div className='text-center py-2'>
-                  <Text fontSize='md' fontWeight='bold'>
-                    {extractOccupation(card.profile)}
-                  </Text>
-                </div>
+              <Card key={index} onClick={() => navigate(`/result/${card.id}`)}>
+                <CardContent
+                  imageUrl={card.imageUrl}
+                  altText={card.fileName}
+                  isImageLoaded={isImageLoaded}
+                  onLoad={() => setIsImageLoaded(true)}
+                />
+                <CardDescription title={extractOccupation(card.profile)} />
               </Card>
             ))}
           </GridBox>
           <NavigateToSurvey label='새로운 이상형 찾기' />
-          {hasNextPage && (
-            <div id='infinityQueryTrigger' style={{height: '20px'}}></div>
-          )}
+          {hasNextPage && <div id='infinityQueryTrigger' className='h-5'></div>}
         </FlexBox>
       </Main>
     </>

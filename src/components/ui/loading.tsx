@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {LinearProgress, Box} from '@mui/material';
-import {Main} from './main';
-import {Text} from './text';
-import {FlexBox} from './flexbox';
+import React, { useState, useEffect } from 'react';
+import { LinearProgress, Box } from '@mui/material';
+import { Main } from './main';
+import { Text } from './text';
+import { FlexBox } from './flexbox';
 
 interface LoadingProps {
   progressState: number;
 }
 
-export const Loading = ({progressState}: LoadingProps) => {
+export const Loading = ({ progressState }: LoadingProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const Loading = ({progressState}: LoadingProps) => {
 
   return (
     <Main>
-      <FlexBox direction='column' gap='45px'>
+      <FlexBox direction='column' gap='md'>
         <img src='/images/spin.gif' alt='loading' className='w-20 h-20' />
         <Text fontSize='lg' fontWeight='bold'>
           이상형을 찾고 있어요!
@@ -33,8 +33,8 @@ export const Loading = ({progressState}: LoadingProps) => {
         <Text fontSize='md' fontWeight='bold'>
           잠시만 기다려주세요.
         </Text>
-        <FlexBox direction='column' gap='10px' style={{width: '100%'}}>
-          <Box sx={{width: '100%', mt: 3}}>
+        <FlexBox direction='column' gap='xs' className='w-full'>
+          <Box sx={{ width: '100%', mt: 3 }}>
             <LinearProgress
               variant='determinate'
               value={progressState}

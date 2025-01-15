@@ -1,11 +1,11 @@
 import Input from '../components/ui/input';
-import React, {useCallback, useState} from 'react';
-import {AuthError} from 'firebase/auth';
-import {Button} from '../components/ui/button';
-import {Main} from '../components/ui/main';
-import {FlexBox} from '../components/ui/flexbox';
-import {Text} from '../components/ui/text';
-import {Header} from '../components/ui/header';
+import React, { useCallback, useState } from 'react';
+import { AuthError } from 'firebase/auth';
+import { Button } from '../components/ui/button/button';
+import { Main } from '../components/ui/main';
+import { FlexBox } from '../components/ui/flexbox';
+import { Text } from '../components/ui/text';
+import { Header } from '../components/ui/header';
 import {
   validateConfirmPassword,
   validateEmail,
@@ -16,6 +16,7 @@ import {
   signUpWithEmail,
 } from '../services/auth/signup-with-email';
 import EmailVerificationModal from '../components/functional/email-verification-modal';
+import { ErrorMessage } from '../components/ui/error-message';
 
 const SignUp = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -89,50 +90,28 @@ const SignUp = () => {
     <>
       <Header></Header>
       <Main>
-        <FlexBox direction='column' gap='32px'>
-          <FlexBox
-            direction='column'
-            gap='10px'
-            style={{alignItems: 'flex-start', width: '100%'}}
-          >
+        <FlexBox direction='column' gap='md'>
+          <FlexBox direction='column' gap='xs' className='items-start w-full'>
             <Text fontSize='lg' fontWeight='bold'>
               회원가입
             </Text>
             <Text fontSize='md'>이상형을 찾기 위한 여정 시작</Text>
           </FlexBox>
-          <FlexBox direction='column' gap='12px'>
+          <FlexBox direction='column' gap='xs'>
             <Input
               type='email'
               placeholder='이메일을 입력해주세요'
               value={email}
               onChange={(e) => handleEmailChange(e.target.value)}
             />
-            {emailError && (
-              <Text
-                color='red'
-                fontSize='sm'
-                marginRight='auto'
-                marginLeft='0.5rem'
-              >
-                {emailError}
-              </Text>
-            )}
+            {emailError && <ErrorMessage message={emailError} />}
             <Input
               type='password'
               placeholder='비밀번호를 입력해주세요'
               value={password}
               onChange={(e) => handlePasswordChange(e.target.value)}
             />
-            {passwordError && (
-              <Text
-                color='red'
-                fontSize='sm'
-                marginRight='auto'
-                marginLeft='0.5rem'
-              >
-                {passwordError}
-              </Text>
-            )}
+            {passwordError && <ErrorMessage message={passwordError} />}
             <Input
               type='password'
               placeholder='비밀번호를 한 번 더 입력해주세요'
@@ -140,27 +119,15 @@ const SignUp = () => {
               onChange={(e) => handleConfirmPasswordChange(e.target.value)}
             />
             {confirmPasswordError && (
-              <Text
-                color='red'
-                fontSize='sm'
-                marginRight='auto'
-                marginLeft='0.5rem'
-              >
-                {confirmPasswordError}
-              </Text>
+              <ErrorMessage message={confirmPasswordError} />
             )}
             {error ? (
-              <Text
-                color='red'
-                fontSize='sm'
-                marginRight='auto'
-                marginLeft='0.5rem'
-              >
+              <Text color='red' fontSize='sm' className='mr-auto ml-2'>
                 {error}
               </Text>
             ) : null}
           </FlexBox>
-          <div style={{paddingTop: '32px', width: '100%'}}>
+          <div className='w-full pt-8'>
             {!email ||
             !password ||
             !confirmPassword ||
@@ -168,7 +135,7 @@ const SignUp = () => {
             passwordError ||
             confirmPasswordError ? (
               <Button
-                width='100%'
+                className='w-full'
                 label='회원가입하기'
                 bgColor='disabled'
                 disabled={true}
@@ -177,7 +144,7 @@ const SignUp = () => {
               </Button>
             ) : (
               <Button
-                width='100%'
+                className='w-full'
                 label='회원가입하기'
                 bgColor='main'
                 onClick={(e) => handleSignUp(e)}

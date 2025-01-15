@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/button/button';
 import { Main } from '../components/ui/main';
 import Input from '../components/ui/input';
 import { useAuth } from '../contexts/auth-context';
-import { ButtonGroup } from '../styles/styled';
+import { ButtonGroup } from '../components/ui/button/button-group';
 import { FlexBox } from '../components/ui/flexbox';
 import { Text } from '../components/ui/text';
 import { FirebaseError } from 'firebase/app';
@@ -61,13 +61,9 @@ const Home = () => {
   };
 
   return (
-    <Main isMobile={isMobile} gap='8rem'>
-      <FlexBox direction='column' gap='2rem'>
-        <FlexBox
-          direction='column'
-          gap='1rem'
-          style={{ alignItems: 'flex-start', width: '100%' }}
-        >
+    <Main isMobile={isMobile}>
+      <FlexBox direction='column' gap='md'>
+        <FlexBox direction='column' gap='xs' className='items-start w-full'>
           <Text fontSize='lg' fontWeight='bold'>
             안녕하세요!
           </Text>
@@ -75,7 +71,7 @@ const Home = () => {
             나만의 이상형을 찾아 볼까요?
           </Text>
         </FlexBox>
-        <FlexBox direction='column' gap='1rem'>
+        <FlexBox direction='column' gap='sm'>
           <Input
             type='email'
             placeholder='이메일을 입력해주세요'
@@ -94,27 +90,28 @@ const Home = () => {
             {error}
           </Text>
         ) : null}
-        <button
-          style={{ marginRight: '0.5rem', marginLeft: 'auto' }}
+        <Button
+          bgColor='transparent'
+          className='p-0'
           onClick={() => {
             setModalOpen(true);
           }}
         >
           비밀번호 찾기
-        </button>
+        </Button>
         <Button
           bgColor='main'
           label='로그인하기'
-          width='100%'
+          className='w-full'
           onClick={handleLoginWithEmail}
         >
           로그인하기
         </Button>
         <NavigateToSurvey label='로그인 없이 시작' isGuestMode={true} />
       </FlexBox>
-      <FlexBox direction='column' gap='8rem'>
+      <FlexBox direction='column' gap='xl'>
         <div>
-          <Text style={{ marginBottom: '12px' }} fontSize='md'>
+          <Text fontSize='md' className='mb-3 text-center'>
             SNS 계정으로 간편하게 시작하기
           </Text>
           <ButtonGroup>
@@ -133,18 +130,12 @@ const Home = () => {
             </Button>
           </ButtonGroup>
         </div>
-        <FlexBox gap='1rem'>
+        <FlexBox gap='sm'>
           <Text fontSize='md'>이상형 찾기가 처음이라면?</Text>
           <Button
             label='회원가입'
-            style={{
-              color: '#706EF4',
-              background: 'inherit',
-              fontWeight: 'bold',
-              borderBottom: '1px solid',
-              borderRadius: '0px',
-              padding: '0px',
-            }}
+            bgColor='underline'
+            className='font-bold p-0'
             onClick={() => navigate('signup')}
           >
             가입하기

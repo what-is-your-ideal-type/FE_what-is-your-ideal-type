@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {useParams, useNavigate} from 'react-router-dom';
-import {useAuth} from '../contexts/auth-context';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/auth-context';
 import Picture from '../components/ui/picture';
 import Kakaoshare from '../components/functional/kakao-share';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
-import {PreventDefaultWrapper} from '../components/functional/prevent-default-wrapper';
-import {Button} from '../components/ui/button';
-import {Text} from '../components/ui/text';
-import {FlexBox} from '../components/ui/flexbox';
-import {Main} from '../components/ui/main';
-import {doc, getDoc, DocumentData} from 'firebase/firestore';
-import {db} from '../firebase';
-import {Header} from '../components/ui/header';
-import {useResponsive} from '../hooks/use-responsive';
+import { PreventDefaultWrapper } from '../components/functional/prevent-default-wrapper';
+import { Button } from '../components/ui/button/button';
+import { Text } from '../components/ui/text';
+import { FlexBox } from '../components/ui/flexbox';
+import { Main } from '../components/ui/main';
+import { doc, getDoc, DocumentData } from 'firebase/firestore';
+import { db } from '../firebase';
+import { Header } from '../components/ui/header';
+import { useResponsive } from '../hooks/use-responsive';
 
 interface ProfileTypes {
   name: string;
@@ -23,7 +23,7 @@ interface ProfileTypes {
 }
 
 const Result = () => {
-  const {postId} = useParams();
+  const { postId } = useParams();
   const isMobile = useResponsive();
   const [post, setPost] = useState<DocumentData | null>(null);
   const [profile, setProfile] = useState<ProfileTypes | null>(null);
@@ -120,13 +120,9 @@ const Result = () => {
       <Header></Header>
       <FlexBox
         direction='column'
-        style={{
-          backgroundColor: '#EFEFEF',
-          justifyContent: 'center',
-          height: '8rem',
-        }}
+        className='bg-gray-200 justify-center h-32 mb-8 text-center'
       >
-        <Text fontSize='xl' fontWeight='bold' marginBottom='0.8rem'>
+        <Text fontSize='xl' fontWeight='bold' className='py-4'>
           AI 이상형 생성 결과...{' '}
         </Text>
         <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
@@ -138,12 +134,7 @@ const Result = () => {
             {isLogin && (
               <Button
                 bgColor='white'
-                style={{
-                  color: 'black',
-                  padding: '0.8rem',
-                  fontSize: '13px',
-                  fontWeight: 'bold',
-                }}
+                className='text-black p-3 text-sm font-bold'
                 onClick={handleDownload}
               >
                 ⤓ 내 이상형 사진 소장하기
@@ -153,29 +144,28 @@ const Result = () => {
         </PreventDefaultWrapper>
         <FlexBox
           direction='column'
-          style={{display: 'block', marginLeft: '2rem'}}
-          className='w-full md:w-1/2 mt-4 md:mt-0 md:ml-4'
+          className='block w-full md:w-1/2 mt-4 md:mt-0 md:ml-4 ml-8'
         >
-          <Text fontWeight='bold' fontSize='xl' marginBottom='0.8rem'>
+          <Text fontWeight='bold' fontSize='xl' className='mb-3'>
             {profile?.age} {profile?.name}
           </Text>
-          <Text fontSize='xxl' fontWeight='bold' marginBottom='1.5rem'>
+          <Text fontSize='xxl' fontWeight='bold' className='mb-6'>
             {profile?.occupation}
           </Text>
-          <Text fontWeight='bold' marginBottom='0.8rem'>
+          <Text fontWeight='bold' className='mb-3'>
             당신의 이상형은 {profile?.personality}
           </Text>
-          <Text fontWeight='bold' marginBottom='1.5rem'>
+          <Text fontWeight='bold' className='mb-6'>
             취미는{' '}
             {Array.isArray(profile?.hobbies)
               ? profile?.hobbies.join(', ')
               : profile?.hobbies}
             입니다.
           </Text>
-          <Text fontWeight='bold' marginBottom='2rem'>
+          <Text fontWeight='bold' className='mb-8'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
           </Text>
-          <FlexBox style={{marginBottom: '2rem'}}>
+          <FlexBox className='mb-8'>
             {isLogin ? (
               <>
                 <NavigateToSurvey label='이상형 다시 찾기' />
@@ -189,21 +179,15 @@ const Result = () => {
               </>
             )}
           </FlexBox>
-          <FlexBox direction='column'>
+          <FlexBox direction='column' className='text-center'>
             {isLogin && (
-              <Text fontSize='sm' marginBottom='1rem'>
+              <Text fontSize='sm' className='mb-4'>
                 ▼ 결과를 친구에게 공유해 보세요! ▼
               </Text>
             )}
-            <PreventDefaultWrapper>
+            <PreventDefaultWrapper className='justify-center'>
               <Button
-                style={{
-                  padding: '0.8rem',
-                  color: '#706EF4',
-                  fontWeight: 'bold',
-                  fontSize: '13px',
-                  width: '120px',
-                }}
+                className='text-main p-3 font-bold text-xs w-32'
                 bgColor='sub'
                 onClick={handleShare}
               >
