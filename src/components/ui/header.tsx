@@ -27,6 +27,7 @@ export const Header = () => {
 
   return (
     <header className='w-full flex justify-between items-center py-5 px-12'>
+      {/* Text를 isMobile마다 조건부로 스타일을 주어야하는 로직이 계속 보이는데 아예 Text안에서 isMobile일 경우 조정을 해보는 것은 어떨까요? */}
       <Text fontSize={isMobile ? 'md' : 'lg'} fontWeight='bold'>
         AI 이상형 찾기
       </Text>
