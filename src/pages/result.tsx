@@ -144,7 +144,8 @@ const Result = () => {
         </PreventDefaultWrapper>
         <FlexBox
           direction='column'
-          className='block w-full md:w-1/2 mt-4 md:mt-0 md:ml-4 ml-8'
+          style={{ display: 'block', marginLeft: '2rem' }}
+          className='w-full md:w-1/2 mt-4 md:mt-0 md:ml-4'
         >
           <Text fontWeight='bold' fontSize='xl' className='mb-3'>
             {profile?.age} {profile?.name}
@@ -165,7 +166,7 @@ const Result = () => {
           <Text fontWeight='bold' className='mb-8'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
           </Text>
-          <FlexBox className='mb-8'>
+          <FlexBox style={{ marginBottom: '2rem' }}>
             {isLogin ? (
               <>
                 <NavigateToSurvey label='이상형 다시 찾기' />
