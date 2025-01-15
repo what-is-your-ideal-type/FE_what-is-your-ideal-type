@@ -100,7 +100,6 @@ const Survey = () => {
                     className='flex justify-center items-center'
                   >
                     <Button
-                      bgColor='main'
                       className='w-80 h-14'
                       onClick={() => {
                         handleOptionChange(option.value, option.label);

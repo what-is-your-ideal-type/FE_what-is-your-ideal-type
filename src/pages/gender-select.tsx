@@ -47,7 +47,6 @@ const GenderSelect = () => {
             </FlexBox>
           </FlexBox>
           <Button
-            bgColor='main'
             onClick={() => navigate('/survey', { state: checkedValue })}
             className='w-full h-14'
           >
