@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 interface FlexBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: 'column' | 'row';
@@ -34,7 +35,8 @@ export const FlexBox = ({
   );
 
   return (
-    <section className={flexBoxClass} {...props}>
+    // 추가적으로 받은 className들을 twMerge로 머지해도 좋을 것 같습니다!
+    <section className={twMerge(flexBoxClass, className)} {...props}>
       {children}
     </section>
   );

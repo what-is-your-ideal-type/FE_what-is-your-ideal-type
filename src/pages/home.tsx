@@ -114,6 +114,7 @@ const Home = () => {
           <Text fontSize='md' className='mb-3 text-center'>
             SNS 계정으로 간편하게 시작하기
           </Text>
+          {/* Button Group을 여기서만 사용하는데 따로 style props도 넘겨주지 않아서 일반 element로 사용해도 좋을 것 같습니다 */}
           <ButtonGroup>
             <Button
               label='구글 로그인'
