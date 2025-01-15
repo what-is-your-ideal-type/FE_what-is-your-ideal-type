@@ -4,10 +4,6 @@
   "private": true,
   "proxy": "https://oaidalleapiprodscus.blob.core.windows.net",
   "dependencies": {
-    "@emotion/css": "^11.13.0",
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
-    "@mui/material": "^5.16.6",
     "@tanstack/react-query": "^5.62.16",
     "@tanstack/react-query-devtools": "^5.59.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -30,8 +26,7 @@
     "tailwind-merge": "^2.6.0",
     "typescript": "^4.9.5",
     "usehooks-ts": "^3.1.0",
-    "uuid": "^10.0.0",
-    "web-vitals": "^2.1.4"
+    "uuid": "^10.0.0"
   },
   "scripts": {
     "start": "vite",
