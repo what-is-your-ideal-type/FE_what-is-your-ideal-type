@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import { Home, Survey, Result, GenderSelect } from './pages';
 import { AuthProvider, useAuth } from './contexts/auth-context';
-import Loading from './components/ui/loading';
 import ErrorBoundary from './components/functional/error-boudary';
 import { LandingRoute } from './components/functional/landing-route';
 
@@ -68,7 +67,7 @@ const App = () => {
                   path={path}
                   element={
                     suspense ? (
-                      <Suspense fallback={<Loading progressState={0} />}>
+                      <Suspense fallback={<div>Loading...</div>}>
                         {element}
                       </Suspense>
                     ) : (
