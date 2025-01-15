@@ -36,7 +36,11 @@ const Kakaoshare = () => {
   };
 
   return (
-    <Button className='w-32 font-bold p-3 text-xs' onClick={shareKakao}>
+    <Button
+      className='w-32 font-bold p-3 text-xs'
+      bgColor='main'
+      onClick={shareKakao}
+    >
       카톡으로 공유하기
     </Button>
   );

@@ -39,7 +39,7 @@ const NavigateToSurvey = ({ label, isGuestMode }: NavigateToSurveyProps) => {
   };
 
   return (
-    <Button className='w-full' onClick={handleSurveyNavigation}>
+    <Button bgColor='main' className='w-full' onClick={handleSurveyNavigation}>
       {label}
     </Button>
   );
