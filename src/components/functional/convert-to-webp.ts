@@ -1,31 +1,31 @@
 export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
-    console.log("변환 시작:", url); // 디버깅
+    console.log('변환 시작:', url); // 디버깅
 
     const baseUrl =
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:5173/proxy"
-        : "https://oaidalleapiprodscus.blob.core.windows.net";
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5173/proxy'
+        : 'https://oaidalleapiprodscus.blob.core.windows.net';
 
     url = url.replace(
-      "https://oaidalleapiprodscus.blob.core.windows.net",
+      'https://oaidalleapiprodscus.blob.core.windows.net',
       baseUrl,
     );
-    console.log("수정된 URL:", url); // 디버깅
+    console.log('수정된 URL:', url); // 디버깅
 
     const response = await fetch(url);
     const blob = await response.blob();
-    const img = document.createElement("img");
+    const img = document.createElement('img');
     img.src = URL.createObjectURL(blob);
 
     return new Promise((resolve, reject) => {
       img.onload = () => {
-        const canvas = document.createElement("canvas");
+        const canvas = document.createElement('canvas');
 
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
 
         if (!ctx) {
-          throw new Error("이미지 생성 중 오류 발생");
+          throw new Error('이미지 생성 중 오류 발생');
         }
 
         canvas.width = 512;
@@ -45,18 +45,18 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
         canvas.toBlob(
           (webpBlob) => {
             if (!webpBlob) {
-              reject(new Error("WebP Blob 생성 중 오류 발생"));
+              reject(new Error('WebP Blob 생성 중 오류 발생'));
               return;
             }
             resolve(webpBlob);
           },
-          "image/webp",
+          'image/webp',
           0.5,
         );
       };
     });
   } catch (error) {
-    console.error("Error converting to WebP:", error);
+    console.error('Error converting to WebP:', error);
     throw error;
   }
 };
