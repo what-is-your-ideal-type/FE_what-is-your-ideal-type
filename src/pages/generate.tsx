@@ -1,25 +1,27 @@
-import React, {useEffect} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {v4 as uuidv4} from 'uuid';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import Loading from '../components/ui/loading';
-import {profileGenerate} from '../services/profile-generate';
-import {convertToWebP} from '../components/functional/convert-to-webp';
-import {uploadImageToFirebase} from '../services/upload-image-to-firebase';
-import {useAuth} from '../contexts/auth-context';
-import {doc, setDoc, getDoc} from 'firebase/firestore';
-import {db} from '../firebase';
-import {imageGenerate} from '../services/image-generate';
-import {getCountAndTimeLeft, incrementCount} from '../services/count-service';
-import {useGuestMode} from '../hooks/use-guest-mode';
+import { profileGenerate } from '../services/profile-generate';
+import { convertToWebP } from '../components/functional/convert-to-webp';
+import { uploadImageToFirebase } from '../services/upload-image-to-firebase';
+import { useAuth } from '../contexts/auth-context';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { imageGenerate } from '../services/image-generate';
+import { getCountAndTimeLeft, incrementCount } from '../services/count-service';
+import { useGuestMode } from '../hooks/use-guest-mode';
+import LoadingScreen from '../components/ui/loading-screen';
 
 const Generate = () => {
   const location = useLocation();
   const [guestMode, setGuestMode] = useGuestMode();
   const navigate = useNavigate();
-  const {currentUser} = useAuth();
+  const { currentUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const {prompts, hashTags} = location.state;
+    const { prompts, hashTags } = location.state;
 
     const blockBackButton = () => {
       window.history.pushState(null, '', window.location.href);
@@ -88,16 +90,17 @@ const Generate = () => {
               {
                 postList: newPostList,
               },
-              {merge: true},
+              { merge: true },
             );
           }
 
           // 6. 카운트 업데이트
-          const {count, limit} = await getCountAndTimeLeft(currentUser);
+          const { count, limit } = await getCountAndTimeLeft(currentUser);
           await incrementCount(currentUser, count, limit);
         }
 
         // 7. 최종 진행률 업데이트 및 결과 페이지 이동
+        setIsLoading(false);
         if (!imageUrl || !profile) {
           throw new Error('이미지 URL 또는 프로필이 누락되었습니다.');
         }
@@ -119,9 +122,9 @@ const Generate = () => {
   }, [location, currentUser, navigate]);
 
   return (
-    <>
-      <Loading progressState={0} />
-    </>
+    <div className='w-full min-h-screen'>
+      {isLoading && <LoadingScreen isLoading={isLoading} />}
+    </div>
   );
 };
 

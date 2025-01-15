@@ -30,7 +30,7 @@ export const Header = () => {
       <Text fontSize={isMobile ? 'md' : 'lg'} fontWeight='bold'>
         AI 이상형 찾기
       </Text>
-      <FlexBox>
+      <FlexBox className='items-center'>
         {currentUser ? (
           <>
             <Button bgColor='white' label='로그아웃' onClick={handleLogout}>
@@ -38,10 +38,10 @@ export const Header = () => {
                 로그아웃
               </Text>
             </Button>
-            <Text className='mx-3 my-1' fontSize={isMobile ? 'xs' : 'sm'}>
+            <Text className='mx-3' fontSize={isMobile ? 'xs' : 'sm'}>
               |
             </Text>
-            <Link to={'/mypage'}>
+            <Link to='/mypage'>
               <Button bgColor='white' label='마이페이지'>
                 <Text fontSize={isMobile ? 'xs' : 'sm'} color='black'>
                   마이페이지
