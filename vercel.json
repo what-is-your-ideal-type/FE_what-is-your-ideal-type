@@ -1,4 +1,11 @@
 {
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/api/:path*",
