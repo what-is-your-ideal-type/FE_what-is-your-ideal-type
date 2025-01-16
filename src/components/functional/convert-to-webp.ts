@@ -5,7 +5,7 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
     const baseUrl =
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:5173/proxy'
-        : 'https://oaidalleapiprodscus.blob.core.windows.net';
+        : 'https://what-is-your-ideal-type.vercel.app/proxy';
 
     url = url.replace(
       'https://oaidalleapiprodscus.blob.core.windows.net',
