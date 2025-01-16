@@ -1,5 +1,5 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 export const loginWithEmail = async (email: string, password: string) => {
   try {
@@ -10,6 +10,7 @@ export const loginWithEmail = async (email: string, password: string) => {
     );
     return userCredential;
   } catch (error) {
-    console.error("Failed to login with email: ", error);
+    alert('이메일 혹은 비밀번호가 올바르지 않습니다.');
+    return;
   }
 };
