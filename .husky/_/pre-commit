@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/husky.sh"
+
+
+echo "🔍 Linting the project..."
+npx lint-staged
+echo "✅ Linting completed!"
+exit 0
