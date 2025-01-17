@@ -4,8 +4,31 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/proxy/:path*",
+      "destination": "https://oaidalleapiprodscus.blob.core.windows.net/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/proxy/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,OPTIONS"
+        }
+      ]
     }
   ]
 }
