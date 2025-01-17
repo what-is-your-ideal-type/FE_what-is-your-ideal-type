@@ -1,25 +1,36 @@
 export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
-    console.log('변환 시작:', url); // 디버깅
+    console.log('변환 시작:', url);
 
     const baseUrl =
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:5173/proxy'
         : 'https://what-is-your-ideal-type.vercel.app/proxy';
 
-    const cleanUrl = url.replace(
-      'https://oaidalleapiprodscus.blob.core.windows.net/private/',
-      'https://oaidalleapiprodscus.blob.core.windows.net/',
-    );
+    // URL 파싱 및 경로 추출
+    const originalUrl = new URL(url);
+    const pathOnly = originalUrl.pathname + originalUrl.search;
 
-    url = cleanUrl.replace(
-      'https://oaidalleapiprodscus.blob.core.windows.net',
-      baseUrl,
-    );
+    // private 경로 제거
+    const cleanPath = pathOnly.replace('/private/', '/');
 
-    console.log('수정된 URL:', url); // 디버깅
+    // 최종 URL 생성
+    const finalUrl = `${baseUrl}${cleanPath}`;
 
-    const response = await fetch(url);
+    console.log('수정된 URL:', finalUrl);
+
+    const response = await fetch(finalUrl, {
+      headers: {
+        Accept: 'image/png,image/*',
+      },
+    });
+
+    if (!response.ok) {
+      console.error('응답 상태:', response.status);
+      console.error('응답 헤더:', Object.fromEntries(response.headers));
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const blob = await response.blob();
     const img = document.createElement('img');
     img.src = URL.createObjectURL(blob);
@@ -27,7 +38,6 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
     return new Promise((resolve, reject) => {
       img.onload = () => {
         const canvas = document.createElement('canvas');
-
         const ctx = canvas.getContext('2d');
 
         if (!ctx) {
@@ -62,7 +72,7 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
       };
     });
   } catch (error) {
-    console.error('Error converting to WebP:', error);
+    console.error('상세 에러:', error);
     throw error;
   }
 };
