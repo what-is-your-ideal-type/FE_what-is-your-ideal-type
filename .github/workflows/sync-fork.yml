@@ -1,0 +1,38 @@
+name: Sync Fork with Upstream
+
+on:
+  push:
+    # 원본 레포지토리의 main 브랜치와 dev 브랜치에 push가 있을 때 실행
+    branches:
+      - main
+      - dev
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the fork repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}  # 푸시된 브랜치로 체크아웃
+
+      - name: Set up Git
+        run: |
+          git config user.name "joshyeom"
+          git config user.email "jhyeom95@daum.net"
+      
+      - name: Add upstream remote
+        run: git remote add upstream https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type.git
+
+      - name: Fetch upstream changes
+        run: git fetch upstream
+
+      - name: Merge upstream changes into fork
+        run: |
+          # 이미 checkout된 브랜치에서 병합
+          git merge upstream/${{ github.ref_name }}
+
+      - name: Push changes to fork
+        run: |
+          git push origin ${{ github.ref_name }}
