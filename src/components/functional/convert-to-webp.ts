@@ -14,6 +14,12 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
     console.log('수정된 URL:', url); // 디버깅
 
     const response = await fetch(url);
+
+    // 디버깅
+    console.log('응답 상태:', response.status);
+    console.log('Content-Type:', response.headers.get('content-type'));
+    console.log('전체 헤더:', Object.fromEntries(response.headers));
+
     const blob = await response.blob();
     const img = document.createElement('img');
     img.src = URL.createObjectURL(blob);
