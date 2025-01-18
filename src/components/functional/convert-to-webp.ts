@@ -7,27 +7,41 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
         ? 'http://localhost:5173/proxy'
         : 'https://what-is-your-ideal-type.vercel.app/proxy';
 
-    // URL 파싱 및 경로 추출
+    // URL 파싱
     const originalUrl = new URL(url);
-    const pathOnly = originalUrl.pathname + originalUrl.search;
+    console.log('1. 파싱된 URL:', {
+      pathname: originalUrl.pathname,
+      search: originalUrl.search,
+    });
 
-    // private 경로 제거
-    const cleanPath = pathOnly.replace('/private/', '/');
+    // 전체 경로와 쿼리 파라미터를 인코딩
+    const encodedPath = encodeURIComponent(
+      originalUrl.pathname.replace('/private/', '/'),
+    );
+    console.log('2. 인코딩된 경로:', encodedPath);
+    const encodedSearch = encodeURIComponent(originalUrl.search);
+    console.log('3. 인코딩된 쿼리:', encodedSearch);
 
-    // 최종 URL 생성
-    const finalUrl = `${baseUrl}${cleanPath}`;
-
-    console.log('수정된 URL:', finalUrl);
+    // 최종 URL 구성
+    const finalUrl = `${baseUrl}${encodedPath}${encodedSearch}`;
+    console.log('4. 최종 URL:', finalUrl);
 
     const response = await fetch(finalUrl, {
       headers: {
         Accept: 'image/png,image/*',
+        'Cache-Control': 'no-cache',
       },
     });
 
+    // 상세한 응답 정보 로깅
+    console.log('5. 응답 정보:', {
+      status: response.status,
+      statusText: response.statusText,
+      headers: Object.fromEntries(response.headers),
+      url: response.url,
+    });
+
     if (!response.ok) {
-      console.error('응답 상태:', response.status);
-      console.error('응답 헤더:', Object.fromEntries(response.headers));
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
