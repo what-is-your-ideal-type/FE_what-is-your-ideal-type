@@ -4,6 +4,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/proxy/:path*",
+      "destination": "https://oaidalleapiprodscus.blob.core.windows.net/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
