@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import Loading from '../components/ui/loading';
 import { profileGenerate } from '../services/profile-generate';
 import { convertToWebP } from '../components/functional/convert-to-webp';
 import { uploadImageToFirebase } from '../services/upload-image-to-firebase';
