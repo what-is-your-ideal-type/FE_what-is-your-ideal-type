@@ -2,52 +2,31 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
     console.log('변환 시작:', url);
 
-    const baseUrl =
+    // 1. 직접 프록시 URL 구성
+    const proxyUrl = url.replace(
+      'https://oaidalleapiprodscus.blob.core.windows.net',
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:5173/proxy'
-        : 'https://what-is-your-ideal-type.vercel.app/proxy';
-
-    // URL 파싱
-    const originalUrl = new URL(url);
-    console.log('1. 파싱된 URL:', {
-      pathname: originalUrl.pathname,
-      search: originalUrl.search,
-    });
-
-    // 전체 경로와 쿼리 파라미터를 인코딩
-    const encodedPath = encodeURIComponent(
-      originalUrl.pathname.replace('/private/', '/'),
+        : 'https://what-is-your-ideal-type.vercel.app/proxy',
     );
-    console.log('2. 인코딩된 경로:', encodedPath);
-    const encodedSearch = encodeURIComponent(originalUrl.search);
-    console.log('3. 인코딩된 쿼리:', encodedSearch);
 
-    // 최종 URL 구성
-    const finalUrl = `${baseUrl}${encodedPath}${encodedSearch}`;
-    console.log('4. 최종 URL:', finalUrl);
+    console.log('프록시 URL:', proxyUrl);
 
-    const response = await fetch(finalUrl, {
+    // 2. 이미지 가져오기
+    const response = await fetch(proxyUrl, {
       headers: {
-        Accept: 'image/png,image/*',
-        'Cache-Control': 'no-cache',
+        Accept: 'image/*',
       },
-    });
-
-    // 상세한 응답 정보 로깅
-    console.log('5. 응답 정보:', {
-      status: response.status,
-      statusText: response.statusText,
-      headers: Object.fromEntries(response.headers),
-      url: response.url,
     });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    // 3. Blob으로 변환
     const blob = await response.blob();
     const img = document.createElement('img');
-    img.src = URL.createObjectURL(blob);
+    img.crossOrigin = 'anonymous';
 
     return new Promise((resolve, reject) => {
       img.onload = () => {
@@ -55,7 +34,8 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
         const ctx = canvas.getContext('2d');
 
         if (!ctx) {
-          throw new Error('이미지 생성 중 오류 발생');
+          reject(new Error('이미지 생성 중 오류 발생'));
+          return;
         }
 
         canvas.width = 512;
@@ -84,9 +64,15 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
           0.5,
         );
       };
+
+      img.onerror = (error) => {
+        reject(new Error(`이미지 로드 실패: ${error}`));
+      };
+
+      img.src = URL.createObjectURL(blob);
     });
   } catch (error) {
-    console.error('상세 에러:', error);
+    console.error('이미지 변환 에러:', error);
     throw error;
   }
 };
