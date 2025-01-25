@@ -1,28 +1,26 @@
-import {useSyncExternalStore} from 'react';
+import {Cookies} from 'react-cookie'
 
-type GuestModeType = 'true' | 'false';
+const cookies = new Cookies();
 
-const getGuestModeLocalStorage = () => {
-  return localStorage.getItem('GUEST_MODE');
+
+const setCookie = (guestMode: boolean): void => {
+    return cookies.set('GUEST_MODE', guestMode.toString(), {
+        path: '/',
+        maxAge: 24 * 60 * 60, // 기간을 설정하지 않으면 브라우저를 닫을 때 자동 삭제s
+    });
 };
 
-const subscribe = (callback: () => void) => {
-  window.addEventListener('storage', callback);
-  return () => {
-    window.removeEventListener('storage', callback);
-  };
+const getCookie = (name: 'GUEST_MODE'): boolean => {
+    return cookies.get(name);
 };
 
 export const useGuestMode = (): [
-  string | null,
-  (isGuestMode: GuestModeType) => void,
+    boolean,
+    (isGuestMode: boolean) => void,
 ] => {
-  const guestMode = useSyncExternalStore(subscribe, getGuestModeLocalStorage);
-
-  const setGuestMode = (isGuestMode: GuestModeType) => {
-    localStorage.setItem('GUEST_MODE', isGuestMode.toString());
-    window.dispatchEvent(new Event('storage'));
-  };
-
-  return [guestMode, setGuestMode] as const;
+    const guestMode = getCookie('GUEST_MODE');
+    const setGuestMode = (isGuestMode: boolean) => {
+        setCookie(isGuestMode);
+    };
+    return [guestMode, setGuestMode] as const;
 };
