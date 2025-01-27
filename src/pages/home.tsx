@@ -31,8 +31,8 @@ const Home = () => {
       const userCredential = await loginWithEmail(email, password);
       if (userCredential) {
         setCurrentUser(userCredential.user);
+        setGuestMode(false);
         alert('로그인에 성공했습니다.');
-        setGuestMode('false');
         navigate('/mypage');
       }
     } catch (error) {
@@ -51,8 +51,8 @@ const Home = () => {
       const credential = await loginWithGoogle();
       if (credential) {
         setCurrentUser(credential.user);
+        setGuestMode(false);
         alert('로그인에 성공했습니다.');
-        setGuestMode('false');
         navigate('/mypage');
       }
     } catch (error) {
@@ -107,7 +107,7 @@ const Home = () => {
         >
           로그인하기
         </Button>
-        <NavigateToSurvey label='로그인 없이 시작' isGuestMode={true} />
+        <NavigateToSurvey label='로그인 없이 시작'/>
       </FlexBox>
       <FlexBox direction='column' gap='xl'>
         <div>

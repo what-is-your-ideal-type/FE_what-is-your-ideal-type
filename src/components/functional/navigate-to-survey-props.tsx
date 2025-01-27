@@ -1,26 +1,18 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCountAndTimeLeft } from '../../services/count-service';
 import { useAuth } from '../../contexts/auth-context';
 import { Button } from '../ui/button/button';
-import { useGuestMode } from '../../hooks/use-guest-mode';
 
 interface NavigateToSurveyProps {
   label: string;
-  isGuestMode?: boolean;
 }
 
-const NavigateToSurvey = ({ label, isGuestMode }: NavigateToSurveyProps) => {
+const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
   const navigate = useNavigate();
-  const [guestMode, setGuestMode] = useGuestMode();
   const { currentUser } = useAuth();
 
   const handleSurveyNavigation = async () => {
     const { count, limit, timeLeft } = await getCountAndTimeLeft(currentUser);
-
-    if (isGuestMode) {
-      setGuestMode('true');
-    }
 
     if (count < limit) {
       navigate('/genderselect');
