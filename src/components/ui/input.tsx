@@ -1,13 +1,21 @@
+import { register } from 'node:module';
 import React from 'react';
+import { FieldValues, Path } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
 
-export interface InputProps {
+export interface InputProps<T extends FieldValues> {
   type: 'email' | 'password';
   placeholder: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  name: Path<T>;
+  register: UseFormRegister<T>;
 }
 
-function StyledInput({ type, placeholder, value, onChange }: InputProps) {
+function StyledInput<T extends FieldValues>({
+  type,
+  placeholder,
+  name,
+  register
+}: InputProps<T>) {
   const iconSrc =
     type === 'email' ? 'images/Message_light.png' : 'images/Lock_light.png';
   const iconAlt = type === 'email' ? 'Email' : 'Password';
@@ -24,9 +32,8 @@ function StyledInput({ type, placeholder, value, onChange }: InputProps) {
       <input
         type={type}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         required
+        {...register(name)}
         className='w-full h-12 text-base border border-gray rounded-lg pl-12 pr-4 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500'
       />
     </div>
