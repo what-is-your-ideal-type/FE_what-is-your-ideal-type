@@ -7,17 +7,20 @@ import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import { useMediaQuery } from 'usehooks-ts';
 import { FlexBox } from './flexbox';
+import { useGuestMode } from '../../hooks/use-guest-mode';
 
 export const Header = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  const [_, setGuestMode] = useGuestMode();
 
   const handleLogout = async () => {
     const confirmation = window.confirm('로그아웃 하시겠습니까?');
     if (confirmation) {
       try {
         await signOut(auth);
+        setGuestMode(true);
         navigate('/');
       } catch (error) {
         console.error('Logout failed', error);
