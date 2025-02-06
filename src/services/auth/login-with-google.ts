@@ -1,6 +1,5 @@
 import {
   signInWithPopup,
-  signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
 } from 'firebase/auth';

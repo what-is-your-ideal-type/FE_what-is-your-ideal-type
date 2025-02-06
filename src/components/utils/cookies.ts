@@ -7,16 +7,28 @@ export const COOKIE_NAMES = {
 
 const cookies = new Cookies();
 
-export const setCookie = (name: string, value: string, options?: any) => {
-  return cookies.set(name, value, { ...options });
+type CookieOptions = {
+  path?: string;
+  maxAge?: number;
+  secure?: boolean;
+  sameSite?: 'strict' | 'lax' | 'none';
+};
+
+export const setCookie = (
+  name: string,
+  value: string | boolean,
+  options?: CookieOptions,
+) => {
+  // boolean 값은 문자열로 변환하여 저장
+  const valueToStore = typeof value === 'boolean' ? String(value) : value;
+  return cookies.set(name, valueToStore, { ...options });
 };
 
 export const getCookie = (name: string) => {
-  return cookies.get(name);
-};
-
-// URL에서 postId를 추출하는 함수
-export const extractPostIdFromUrl = (): string => {
-  const pathSegments = window.location.pathname.split('/');
-  return pathSegments[pathSegments.length - 1];
+  const value = cookies.get(name);
+  // GUEST_MODE인 경우에만 boolean으로 변환
+  if (name === COOKIE_NAMES.GUEST_MODE) {
+    return value === 'true';
+  }
+  return value;
 };
