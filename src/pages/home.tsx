@@ -13,16 +13,16 @@ import FindPasswordModal from '../components/functional/find-password-modal';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
 import { loginWithGoogle } from '../services/auth/login-with-google';
 import { loginWithEmail } from '../services/auth/login-with-email';
-import { useGuestMode } from '../hooks/use-guest-mode';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorMessage } from '../components/ui/error-message';
+import { setCookie, COOKIE_NAMES } from '../components/utils/cookies';
 
 const loginSchema = z.object({
   email: z.string().email('이메일 형식이 올바르지 않습니다.'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
-})
+  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
+});
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
@@ -30,13 +30,12 @@ const Home = () => {
   const navigate = useNavigate();
   const isMobile = useResponsive();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [_, setGuestMode] = useGuestMode();
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
   });
 
   const { setCurrentUser } = useAuth();
@@ -46,7 +45,7 @@ const Home = () => {
       const userCredential = await loginWithEmail(data.email, data.password);
       if (userCredential) {
         setCurrentUser(userCredential.user);
-        setGuestMode(false);
+        setCookie(COOKIE_NAMES.GUEST_MODE, false);
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
@@ -68,7 +67,7 @@ const Home = () => {
       const credential = await loginWithGoogle();
       if (credential) {
         setCurrentUser(credential.user);
-        setGuestMode(false);
+        setCookie(COOKIE_NAMES.GUEST_MODE, false);
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
@@ -79,53 +78,53 @@ const Home = () => {
 
   return (
     <Main isMobile={isMobile}>
-        <FlexBox direction='column' gap='md'>
-          <FlexBox direction='column' gap='xs' className='items-start w-full'>
-            <Text fontSize='lg' fontWeight='bold'>
-              안녕하세요!
-            </Text>
-            <Text fontSize='md' fontWeight='bold'>
-              나만의 이상형을 찾아 볼까요?
-            </Text>
-          </FlexBox>
-          <FlexBox direction='column' gap='sm'>
-            <Input
-              name='email'
-              type='email'
-              placeholder='이메일을 입력해주세요'
-              register={register}
-            />
-            <Input
-              type='password'
-              name='password'
-              placeholder='비밀번호를 입력해주세요'
-              register={register}
-            />
-          </FlexBox>
-          {errors.email ? (
-            <ErrorMessage message={errors.email?.message} />
-          ) : (
-            <ErrorMessage message={errors.password?.message} />
-          )}
-          <Button
-            bgColor='transparent'
-            className='p-0'
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            비밀번호 찾기
-          </Button>
-          <Button
-            bgColor='main'
-            label='로그인하기'
-            className='w-full'
-            onClick={handleSubmit(onSubmit)}
-          >
-            로그인하기
-          </Button>
-          <NavigateToSurvey label='로그인 없이 시작'/>
+      <FlexBox direction='column' gap='md'>
+        <FlexBox direction='column' gap='xs' className='items-start w-full'>
+          <Text fontSize='lg' fontWeight='bold'>
+            안녕하세요!
+          </Text>
+          <Text fontSize='md' fontWeight='bold'>
+            나만의 이상형을 찾아 볼까요?
+          </Text>
         </FlexBox>
+        <FlexBox direction='column' gap='sm'>
+          <Input
+            name='email'
+            type='email'
+            placeholder='이메일을 입력해주세요'
+            register={register}
+          />
+          <Input
+            type='password'
+            name='password'
+            placeholder='비밀번호를 입력해주세요'
+            register={register}
+          />
+        </FlexBox>
+        {errors.email ? (
+          <ErrorMessage message={errors.email?.message} />
+        ) : (
+          <ErrorMessage message={errors.password?.message} />
+        )}
+        <Button
+          bgColor='transparent'
+          className='p-0'
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          비밀번호 찾기
+        </Button>
+        <Button
+          bgColor='main'
+          label='로그인하기'
+          className='w-full'
+          onClick={handleSubmit(onSubmit)}
+        >
+          로그인하기
+        </Button>
+        <NavigateToSurvey label='로그인 없이 시작' />
+      </FlexBox>
       <FlexBox direction='column' gap='xl'>
         <div>
           <Text fontSize='md' className='mb-3 text-center'>
