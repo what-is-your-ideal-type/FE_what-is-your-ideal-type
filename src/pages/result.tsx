@@ -64,6 +64,7 @@ const Result = () => {
       if (!postId) return;
 
       try {
+        console.log(isGuest);
         const postRef = doc(db, collection, postId);
         const postDoc = await getDoc(postRef);
 
@@ -135,12 +136,7 @@ const Result = () => {
 
         // 게스트 모드인 경우 쿠키에 postId 저장
         if (isGuest) {
-          setCookie(COOKIE_NAMES.POST_ID, actualPostId, {
-            maxAge: 7 * 24 * 60 * 60, // 7일간 유지
-            path: '/',
-            secure: true,
-            sameSite: 'strict',
-          });
+          setCookie(COOKIE_NAMES.POST_ID, actualPostId);
         }
 
         // 로그인 사용자의 경우 추가 처리 - Firebase 문서 업데이트

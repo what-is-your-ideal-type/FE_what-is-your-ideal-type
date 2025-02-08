@@ -1,7 +1,7 @@
 import type { UserCredential } from 'firebase/auth';
 import { getDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { COOKIE_NAMES, getCookie, setCookie } from './cookies';
+import { COOKIE_NAMES, getCookie, removeCookie } from './cookies';
 
 export const handleGuestPostMigration = async (
   currentUser: UserCredential['user'],
@@ -37,11 +37,15 @@ export const handleGuestPostMigration = async (
           await setDoc(userRef, { postList: newPostList }, { merge: true });
         }
 
-        // postId 쿠키 삭제
-        setCookie(COOKIE_NAMES.POST_ID, '', { maxAge: -1 });
+        // POST_ID 쿠키 삭제
+        removeCookie(COOKIE_NAMES.POST_ID);
+      } else {
+        console.log('anonymous 문서가 존재하지 않음');
       }
     } catch (error) {
       console.error('게스트 포스트 이전 중 오류 발생:', error);
     }
+  } else {
+    console.log('게스트 포스트 ID가 없음');
   }
 };
