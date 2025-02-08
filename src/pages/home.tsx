@@ -8,7 +8,6 @@ import { ButtonGroup } from '../components/ui/button/button-group';
 import { FlexBox } from '../components/ui/flexbox';
 import { Text } from '../components/ui/text';
 import { FirebaseError } from 'firebase/app';
-import { useResponsive } from '../hooks/use-responsive';
 import FindPasswordModal from '../components/functional/find-password-modal';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
 import { loginWithGoogle } from '../services/auth/login-with-google';
@@ -28,7 +27,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Home = () => {
   const navigate = useNavigate();
-  const isMobile = useResponsive();
   const [isModalOpen, setModalOpen] = useState(false);
   const {
     register,
@@ -77,7 +75,7 @@ const Home = () => {
   };
 
   return (
-    <Main isMobile={isMobile}>
+    <Main>
       <FlexBox direction='column' gap='md'>
         <FlexBox direction='column' gap='xs' className='items-start w-full'>
           <Text fontSize='lg' fontWeight='bold'>

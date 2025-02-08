@@ -12,7 +12,6 @@ import { Main } from '../components/ui/main';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Header } from '../components/ui/header';
-import { useResponsive } from '../hooks/use-responsive';
 import { convertToWebP } from '../components/functional/convert-to-webp';
 import { uploadImageToFirebase } from '../services/upload-image-to-firebase';
 import { getCountAndTimeLeft, incrementCount } from '../services/count-service';
@@ -55,7 +54,6 @@ const Result = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
-  const isMobile = useResponsive();
   const navigate = useNavigate();
 
   const isGuest = getCookie(COOKIE_NAMES.GUEST_MODE) === true;
@@ -250,7 +248,7 @@ const Result = () => {
         </Text>
         <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
       </FlexBox>
-      <Main isMobile={isMobile}>
+      <Main>
         <PreventDefaultWrapper>
           <FlexBox direction='column'>
             <Picture imageUrl={imageUrl} altText='이상형 이미지' />
