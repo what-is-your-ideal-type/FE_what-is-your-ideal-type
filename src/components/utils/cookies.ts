@@ -36,7 +36,7 @@ export const setCookie = (
 export const getCookie = (name: string) => {
   const value = cookies.get(name);
   if (name === COOKIE_NAMES.GUEST_MODE) {
-    if (!value || value === 'false') {
+    if (value === 'false') {
       return false;
     }
     return true;
