@@ -39,7 +39,6 @@ export const loginWithGoogle = async () => {
 export const handleRedirectResult = async () => {
   try {
     const result = await getRedirectResult(auth);
-    console.log('Redirect result: ', result);
     if (result) {
       await handleGuestPostMigration(result.user);
       return result;

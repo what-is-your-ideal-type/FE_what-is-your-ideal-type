@@ -64,7 +64,6 @@ const Result = () => {
       if (!postId) return;
 
       try {
-        console.log(isGuest);
         const postRef = doc(db, collection, postId);
         const postDoc = await getDoc(postRef);
 

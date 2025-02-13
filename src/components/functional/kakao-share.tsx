@@ -10,7 +10,6 @@ const Kakaoshare = () => {
   useEffect(() => {
     Kakao.cleanup();
     Kakao.init('dfd8e8ebd0ff355e3edb9867070551e5');
-    console.log(Kakao.isInitialized());
   }, []);
 
   const shareKakao = () => {
