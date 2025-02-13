@@ -20,7 +20,7 @@ import { setCookie, COOKIE_NAMES } from '../components/utils/cookies';
 
 const loginSchema = z.object({
   email: z.string().email('이메일 형식이 올바르지 않습니다.'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
+  password: z.string().min(6, '비밀번호는 최소 8자 이상이어야 합니다.'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
