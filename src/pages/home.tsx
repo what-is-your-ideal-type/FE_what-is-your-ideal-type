@@ -136,10 +136,26 @@ const Home = () => {
             >
               <img src='/images/google.png' alt='구글 로그인' />
             </Button>
-            <Button label='카카오 로그인' bgColor='white'>
+            <Button
+              label='카카오 로그인'
+              bgColor='white'
+              onClick={() =>
+                alert(
+                  '카카오 로그인 서비스는 현재 준비 중입니다. 곧 제공될 예정이니 조금만 기다려 주세요!',
+                )
+              }
+            >
               <img src='/images/kakao.png' alt='카카오 로그인' />
             </Button>
-            <Button label='네이버 로그인' bgColor='white'>
+            <Button
+              label='네이버 로그인'
+              bgColor='white'
+              onClick={() =>
+                alert(
+                  '네이버 로그인 서비스는 현재 준비 중입니다. 곧 제공될 예정이니 조금만 기다려 주세요!',
+                )
+              }
+            >
               <img src='/images/naver.png' alt='네이버 로그인' />
             </Button>
           </ButtonGroup>
