@@ -14,13 +14,15 @@ export const ModalFooter = ({
 }: ModalFooterProps) => {
   return (
     <div className='flex gap-4 mt-5'>
-      <Button className='py-2 px-4' onClick={onClick} disabled={isSending}>
+      <Button
+        bgColor='main'
+        className='py-2 px-4'
+        onClick={onClick}
+        disabled={isSending}
+      >
         {isSending ? '메일 전송 중...' : '메일 발송'}
       </Button>
-      <Button
-        className='py-2 px-4 bg-sub hover:bg-sub-hover text-main'
-        onClick={onClose}
-      >
+      <Button bgColor='sub' className='py-2 px-4' onClick={onClose}>
         닫기
       </Button>
     </div>
