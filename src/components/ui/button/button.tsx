@@ -22,16 +22,16 @@ export const Button = ({
 
   // 기본 스타일
   const baseStyles =
-    'leading-none transition duration-200 ease-in-out cursor-pointer rounded-lg text-white';
+    'leading-none transition duration-200 ease-in-out cursor-pointer rounded-lg text-black';
 
   // 배경 스타일
   const bgColorStyles = {
     transparent: 'ml-auto opacity-70',
     underline:
       'rounded-none text-main border-solid border-b border-main bg-transparent hover:text-main-hover',
-    main: !disabled ? 'bg-main hover:bg-main-hover' : '',
-    sub: !disabled ? 'bg-sub hover:bg-sub-hover' : '',
-    white: !disabled ? 'bg-white hover:bg-white-hover text-black' : '',
+    main: !disabled ? 'bg-main hover:bg-main-hover text-white' : '',
+    sub: !disabled ? 'bg-sub hover:bg-main hover:text-white text-main' : '',
+    white: !disabled ? 'bg-white hover:bg-white-hover' : '',
     disabled: 'bg-disabled cursor-not-allowed',
   };
 

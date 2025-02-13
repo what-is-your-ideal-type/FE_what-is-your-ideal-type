@@ -31,11 +31,9 @@ export const FlexBox = ({
     direction === 'column' ? 'flex-col' : 'flex-row',
     isResponsive && 'md:flex-row',
     gap && gapMap[gap],
-    className,
   );
 
   return (
-    // 추가적으로 받은 className들을 twMerge로 머지해도 좋을 것 같습니다!
     <section className={twMerge(flexBoxClass, className)} {...props}>
       {children}
     </section>
