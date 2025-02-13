@@ -12,11 +12,11 @@ import FindPasswordModal from '../components/functional/find-password-modal';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
 import { loginWithGoogle } from '../services/auth/login-with-google';
 import { loginWithEmail } from '../services/auth/login-with-email';
-import { useGuestMode } from '../hooks/use-guest-mode';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorMessage } from '../components/ui/error-message';
+import { setCookie, COOKIE_NAMES } from '../components/utils/cookies';
 
 const loginSchema = z.object({
   email: z.string().email('이메일 형식이 올바르지 않습니다.'),
@@ -28,7 +28,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 const Home = () => {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [_, setGuestMode] = useGuestMode();
   const {
     register,
     handleSubmit,
@@ -44,7 +43,7 @@ const Home = () => {
       const userCredential = await loginWithEmail(data.email, data.password);
       if (userCredential) {
         setCurrentUser(userCredential.user);
-        setGuestMode(false);
+        setCookie(COOKIE_NAMES.GUEST_MODE, false);
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
@@ -66,7 +65,7 @@ const Home = () => {
       const credential = await loginWithGoogle();
       if (credential) {
         setCurrentUser(credential.user);
-        setGuestMode(false);
+        setCookie(COOKIE_NAMES.GUEST_MODE, false);
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
