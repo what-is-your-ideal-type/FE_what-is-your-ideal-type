@@ -25,7 +25,6 @@ export const saveResultUrlToFirebase = async ({
       resultUrl: resultUrl,
     });
 
-    console.log("Result URL successfully updated in Firestore!");
   } catch (error) {
     console.error("Error updating result URL in Firestore:", error);
   }
