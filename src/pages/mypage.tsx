@@ -52,7 +52,6 @@ const MyPage = () => {
             const data = postSnapShot.data();
 
             if (!data) return null;
-            console.log(data);
 
             return {
               imageUrl: data.imageUrl,
