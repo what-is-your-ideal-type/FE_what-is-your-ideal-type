@@ -40,7 +40,14 @@ const MyPage = () => {
 
         if (!userData) return { cards: [], nextPage: undefined };
 
-        const postList = userData.postList.slice(
+        console.log(userData)
+
+
+        if(!userData.postList){  
+          return { cards: [] };
+        }
+
+        const postList = userData.postList?.slice(
           pageParam * 4,
           pageParam * 4 + 4,
         );
