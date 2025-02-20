@@ -38,7 +38,7 @@ const MyPage = () => {
         const usersSnapShot = await getDoc(docRef);
         const userData = usersSnapShot.data();
 
-        if (!userData) return { cards: [], nextPage: undefined };
+        if (!userData || !userData.postList) return { cards: [] };
 
         console.log(userData)
 
@@ -148,19 +148,28 @@ const MyPage = () => {
           <Text fontSize='xl' fontWeight='bold' className='text-center mb-8'>
             나의 이상형 리스트
           </Text>
-          <GridBox>
-            {cards.map((card, index) => (
-              <Card key={index} onClick={() => navigate(`/result/${card.id}`)}>
-                <CardContent
-                  imageUrl={card.imageUrl}
-                  altText={card.fileName}
-                  isImageLoaded={isImageLoaded}
-                  onLoad={() => setIsImageLoaded(true)}
-                />
-                <CardDescription title={extractOccupation(card.profile)} />
-              </Card>
-            ))}
-          </GridBox>
+          {cards.length > 0 ? (
+            <GridBox>
+              {cards.map((card, index) => (
+                <Card
+                  key={index}
+                  onClick={() => navigate(`/result/${card.id}`)}
+                >
+                  <CardContent
+                    imageUrl={card.imageUrl}
+                    altText={card.fileName}
+                    isImageLoaded={isImageLoaded}
+                    onLoad={() => setIsImageLoaded(true)}
+                  />
+                  <CardDescription title={extractOccupation(card.profile)} />
+                </Card>
+              ))}
+            </GridBox>
+          ) : (
+            <Text className='text-center mb-8'>
+              현재 이상형 리스트가 없습니다.
+            </Text>
+          )}
           <NavigateToSurvey label='새로운 이상형 찾기' />
           {hasNextPage && <div id='infinityQueryTrigger' className='h-5'></div>}
         </FlexBox>

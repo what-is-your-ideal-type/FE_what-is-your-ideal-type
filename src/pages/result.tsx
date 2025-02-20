@@ -27,6 +27,8 @@ interface ProfileTypes {
   occupation: string;
   personality: string;
   hobbies: string;
+  datecourse: string;
+  lovestyle: string;
 }
 
 interface PostData {
@@ -270,9 +272,11 @@ const Result = () => {
         </PreventDefaultWrapper>
         <FlexBox
           direction='column'
-          style={{ display: 'block', marginLeft: '2rem' }}
-          className='w-full md:w-1/2 mt-4 md:mt-0 md:ml-4'
+          className='w-full max-w-lg mt-4 md:mt-0 md:ml-4'
         >
+          <Text fontWeight='bold' fontSize='xxl' className='mb-3'>
+            이상형 분석 리포트
+          </Text>
           <Text fontWeight='bold' fontSize='xl' className='mb-3'>
             {profile?.age} {profile?.name}
           </Text>
@@ -280,37 +284,40 @@ const Result = () => {
             {profile?.occupation}
           </Text>
           <Text fontWeight='bold' className='mb-3'>
-            당신의 이상형은 {profile?.personality}
+            성격 : {profile?.personality}
           </Text>
           <Text fontWeight='bold' className='mb-6'>
-            취미는{' '}
+            취미 :{' '}
             {Array.isArray(profile?.hobbies)
               ? profile?.hobbies.join(', ')
               : profile?.hobbies}
-            입니다.
+          </Text>
+          <Text fontWeight='bold' className='mb-3'>
+            연애 스타일 : {profile?.lovestyle}
+          </Text>
+          <Text fontWeight='bold' className='mb-6'>
+            추천 데이트 코스 : {profile?.datecourse}
           </Text>
           <Text fontWeight='bold' className='mb-8'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
           </Text>
-          <FlexBox style={{ marginBottom: '2rem' }}>
-            {currentUser ? (
-              <>
-                <NavigateToSurvey label='이상형 다시 찾기' />
-              </>
-            ) : (
-              <>
-                <p className='text-gray'>
-                  사진을 저장하고 기록하고 싶다면 로그인 해보세요
-                </p>
-                <Button bgColor='main' onClick={() => navigate('/')}>
-                  로그인
-                </Button>
-              </>
-            )}
-          </FlexBox>
-          <FlexBox direction='column' className='text-center'>
+          {currentUser ? (
+            <FlexBox className='mb-1.5'>
+              <NavigateToSurvey label='이상형 다시 찾기' />
+            </FlexBox>
+          ) : (
+            <FlexBox direction='column'>
+              <Text fontSize='sm' className='mb-4 text-center'>
+                사진을 저장하고 기록하고 싶다면 로그인 해보세요
+              </Text>
+              <Button bgColor='main' onClick={() => navigate('/')}>
+                로그인
+              </Button>
+            </FlexBox>
+          )}
+          <FlexBox direction='column' className='mt-4 text-center'>
             {currentUser && (
-              <Text fontSize='sm' className='mb-4'>
+              <Text fontSize='sm' className='mb-3'>
                 ▼ 결과를 친구에게 공유해 보세요! ▼
               </Text>
             )}

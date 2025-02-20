@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
@@ -18,14 +18,24 @@ type orderType = {
 };
 
 export async function profileGenerate(order: orderType) {
-  const prompt = `Create a realistic profile for a ${order.age} ${order.gender} with a ${order.bodyShape} body and a ${order.faceShape} face. The person has ${order.skinTone} skin, ${order.eyesShape} eyes, and ${order.hairStyle} hair in ${order.hairColor} color. They are wearing a ${order.outfit}. Generate a name, age, occupation, personality traits, andhobbies for this profile. Provide the response in a valid JSON format with keys "name", "age", "occupation", "personality", and "hobbies". The response should be in Korean.`;
-
+  const prompt = `Create a realistic profile for a ${order.age} ${order.gender} that is wearing a ${order.outfit}. 
+  Return the response in the following JSON format:
+  {
+    "name": "한글 이름",
+    "age": "나이",
+    "occupation": "직업",
+    "hobbies": ["취미1", "취미2", "취미3"],
+    "datecourse": "추천 데이트 코스",
+    "personality": "성격 특성을 문장으로 설명",
+    "lovestyle": "연애 스타일"
+  }
+  All text values should be in Korean.`;
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: 'gpt-3.5-turbo',
       messages: [
         {
-          role: "user",
+          role: 'user',
           content: prompt,
         },
       ],
