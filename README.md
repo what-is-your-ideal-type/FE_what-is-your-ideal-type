@@ -15,7 +15,7 @@ $ npm run start
 
 # 2. 개발 환경
 
-- Front : HTML, TypeScript, React, tailwindCSS, ReactQuery, React-hook-form
+- Front : HTML, TypeScript, React, tailwindCSS, ReactQuery, React-hook-form, StoryBook
 - Back-end/ DB: Firebase
 - 컨벤션 관리: Eslint, Prettier, Husky
 - 버전 및 이슈관리 : Github
