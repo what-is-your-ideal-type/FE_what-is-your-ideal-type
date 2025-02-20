@@ -1,4 +1,4 @@
-# 0. Getting Started (시작하기)
+# 0. 시작하기
 ```bash
 $ npm run start
 ```
@@ -7,13 +7,13 @@ $ npm run start
 <br/>
 <br/>
 
-# 1. Project Overview (프로젝트 개요)
+# 1. 프로젝트 개요
 - 프로젝트 이름: What is your ideal type
 - 프로젝트 설명: 사용자의 이상형 이미지와 프로필을 간단한 설문과 AI를 활용하여 맞춤형으로 생성해주는 서비스
 
 <br>
 
-## 2. 개발 환경
+# 2. 개발 환경
 
 - Front : HTML, TypeScript, React, tailwindCSS, ReactQuery, React-hook-form
 - Back-end/ DB: Firebase
@@ -138,7 +138,7 @@ $ npm run start
 <br>
 
 
-## 4. 프로젝트 구조
+# 4. 프로젝트 구조
 
 - 페이지 기반 라우팅을 적용하여 아키텍처를 설계했습니다.
 - 도메인, 커스텀 훅, 유틸 함수, UI 등을 분리하여 관심사를 분리하고 재사용성을 높였습니다.
@@ -249,14 +249,16 @@ idealType
 └─ vite.config.ts
 ```
 
-## 5. 트러블 슈팅 및 협업 히스토리
+# 5. 트러블 슈팅 및 협업 히스토리
 
 - Issues: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/issues?q=is%3Aissue%20state%3Aclosed <br>
+
 - Pull Request: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/pulls?q=is%3Apr+is%3Aclosed <br>
+
 - Wiki: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/wiki/Button-Components-%EC%82%AC%EC%9A%A9%EB%B2%95
 
 
-## 6. 팀원 소개 및 후기
+# 6. 팀원 소개 및 후기
 
 | 김세연 | 김주희 | 염정호 |
 |----------|----------|----------|
