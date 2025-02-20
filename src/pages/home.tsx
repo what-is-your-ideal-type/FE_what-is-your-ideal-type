@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button/button';
 import { Main } from '../components/ui/main';
@@ -8,40 +8,54 @@ import { ButtonGroup } from '../components/ui/button/button-group';
 import { FlexBox } from '../components/ui/flexbox';
 import { Text } from '../components/ui/text';
 import { FirebaseError } from 'firebase/app';
-import { useResponsive } from '../hooks/use-responsive';
 import FindPasswordModal from '../components/functional/find-password-modal';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
 import { loginWithGoogle } from '../services/auth/login-with-google';
 import { loginWithEmail } from '../services/auth/login-with-email';
-import { useGuestMode } from '../hooks/use-guest-mode';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ErrorMessage } from '../components/ui/error-message';
+import { setCookie, COOKIE_NAMES } from '../components/utils/cookies';
+
+const loginSchema = z.object({
+  email: z.string().email('이메일 형식이 올바르지 않습니다.'),
+  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Home = () => {
   const navigate = useNavigate();
-  const isMobile = useResponsive();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const [isModalOpen, setModalOpen] = useState(false);
-  const [_, setGuestMode] = useGuestMode();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const { setCurrentUser } = useAuth();
 
-  const handleLoginWithEmail = async () => {
+  const onSubmit = async (data: LoginFormValues) => {
     try {
-      const userCredential = await loginWithEmail(email, password);
+      const userCredential = await loginWithEmail(data.email, data.password);
       if (userCredential) {
         setCurrentUser(userCredential.user);
+        setCookie(COOKIE_NAMES.GUEST_MODE, false);
         alert('로그인에 성공했습니다.');
-        setGuestMode('false');
         navigate('/mypage');
       }
     } catch (error) {
       const firebaseError = error as FirebaseError;
       switch (firebaseError.code) {
         case 'auth/invalid-credential':
-          return setError('이메일 또는 비밀번호를 확인해주세요');
+          return alert('이메일 또는 비밀번호를 확인해주세요');
+          break;
         default:
-          return setError('입력 정보를 확인해주세요');
+          return alert('입력 정보를 확인해주세요');
+          break;
       }
     }
   };
@@ -51,8 +65,8 @@ const Home = () => {
       const credential = await loginWithGoogle();
       if (credential) {
         setCurrentUser(credential.user);
+        setCookie(COOKIE_NAMES.GUEST_MODE, false);
         alert('로그인에 성공했습니다.');
-        setGuestMode('false');
         navigate('/mypage');
       }
     } catch (error) {
@@ -61,7 +75,7 @@ const Home = () => {
   };
 
   return (
-    <Main isMobile={isMobile}>
+    <Main isResponsive={true}>
       <FlexBox direction='column' gap='md'>
         <FlexBox direction='column' gap='xs' className='items-start w-full'>
           <Text fontSize='lg' fontWeight='bold'>
@@ -73,23 +87,23 @@ const Home = () => {
         </FlexBox>
         <FlexBox direction='column' gap='sm'>
           <Input
+            name='email'
             type='email'
             placeholder='이메일을 입력해주세요'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            register={register}
           />
           <Input
             type='password'
+            name='password'
             placeholder='비밀번호를 입력해주세요'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            register={register}
           />
         </FlexBox>
-        {error ? (
-          <Text fontSize='md' color='red'>
-            {error}
-          </Text>
-        ) : null}
+        {errors.email ? (
+          <ErrorMessage message={errors.email?.message} />
+        ) : (
+          <ErrorMessage message={errors.password?.message} />
+        )}
         <Button
           bgColor='transparent'
           className='p-0'
@@ -103,18 +117,17 @@ const Home = () => {
           bgColor='main'
           label='로그인하기'
           className='w-full'
-          onClick={handleLoginWithEmail}
+          onClick={handleSubmit(onSubmit)}
         >
           로그인하기
         </Button>
-        <NavigateToSurvey label='로그인 없이 시작' isGuestMode={true} />
+        <NavigateToSurvey label='로그인 없이 시작' />
       </FlexBox>
-      <FlexBox direction='column' gap='xl'>
+      <FlexBox direction='column' gap='lg'>
         <div>
           <Text fontSize='md' className='mb-3 text-center'>
             SNS 계정으로 간편하게 시작하기
           </Text>
-          {/* Button Group을 여기서만 사용하는데 따로 style props도 넘겨주지 않아서 일반 element로 사용해도 좋을 것 같습니다 */}
           <ButtonGroup>
             <Button
               label='구글 로그인'
@@ -123,10 +136,26 @@ const Home = () => {
             >
               <img src='/images/google.png' alt='구글 로그인' />
             </Button>
-            <Button label='카카오 로그인' bgColor='white'>
+            <Button
+              label='카카오 로그인'
+              bgColor='white'
+              onClick={() =>
+                alert(
+                  '카카오 로그인 서비스는 현재 준비 중입니다. 곧 제공될 예정이니 조금만 기다려 주세요!',
+                )
+              }
+            >
               <img src='/images/kakao.png' alt='카카오 로그인' />
             </Button>
-            <Button label='네이버 로그인' bgColor='white'>
+            <Button
+              label='네이버 로그인'
+              bgColor='white'
+              onClick={() =>
+                alert(
+                  '네이버 로그인 서비스는 현재 준비 중입니다. 곧 제공될 예정이니 조금만 기다려 주세요!',
+                )
+              }
+            >
               <img src='/images/naver.png' alt='네이버 로그인' />
             </Button>
           </ButtonGroup>

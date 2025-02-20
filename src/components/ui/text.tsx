@@ -4,11 +4,19 @@ import { twMerge } from 'tailwind-merge';
 
 export interface TextProps {
   fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  desktopFontSize?: 'xs' | 'sm' | 'md' | 'lg';
   fontWeight?: 'normal' | 'bold' | 'medium' | 'light';
-  color?: string; // e.g., Tailwind color classes or custom colors
+  color?: 'black' | 'red' | 'white' | 'main';
   className?: string;
   children?: React.ReactNode;
 }
+
+const colorMap: Record<NonNullable<TextProps['color']>, string> = {
+  black: 'text-black',
+  red: 'text-red',
+  white: 'text-white',
+  main: 'text-main',
+};
 
 const fontSizeMap: Record<NonNullable<TextProps['fontSize']>, string> = {
   xs: 'text-xs', // 12px
@@ -17,6 +25,16 @@ const fontSizeMap: Record<NonNullable<TextProps['fontSize']>, string> = {
   lg: 'text-2xl', // 24px
   xl: 'text-3xl', // 30px
   xxl: 'text-4xl', // 36px
+};
+
+const desktopFontSizeMap: Record<
+  NonNullable<TextProps['desktopFontSize']>,
+  string
+> = {
+  xs: 'md:text-xs',
+  sm: 'md:text-base',
+  md: 'md:text-lg',
+  lg: 'md:text-2xl',
 };
 
 const fontWeightMap: Record<NonNullable<TextProps['fontWeight']>, string> = {
@@ -28,17 +46,21 @@ const fontWeightMap: Record<NonNullable<TextProps['fontWeight']>, string> = {
 
 export const Text = ({
   fontSize = 'md',
+  desktopFontSize,
   fontWeight = 'normal',
-  color = 'inherit',
+  color = 'black',
   className,
   children,
 }: TextProps) => {
-  // 이 코드도 기본 스타일과 조건부 스타일을 나누어 진행하면 코드 가독성이 더 좋아질 것 같습니다!
   const baseStyles = 'leading-normal';
+  const responsiveFontSize = desktopFontSize
+    ? `${fontSizeMap[fontSize]} ${desktopFontSizeMap[desktopFontSize]}`
+    : fontSizeMap[fontSize];
+
   const conditionalStyles = clsx(
-    fontSizeMap[fontSize],
+    responsiveFontSize,
     fontWeightMap[fontWeight],
-    color !== 'inherit' && `text-${color}`,
+    colorMap[color],
   );
 
   const classes = twMerge(baseStyles, conditionalStyles, className);

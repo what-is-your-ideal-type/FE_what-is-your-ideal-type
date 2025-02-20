@@ -25,7 +25,6 @@ class ErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // 에러 리포팅 서비스에 에러를 기록할 수도 있습니다.
-    console.log('---------------  componentDidCatch   ---------------');
     console.log(error, errorInfo);
   }
 

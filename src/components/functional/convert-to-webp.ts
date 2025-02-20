@@ -1,6 +1,5 @@
 export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
   try {
-    console.log('변환 시작:', url);
 
     // 1. 직접 프록시 URL 구성
     const proxyUrl = url.replace(
@@ -9,8 +8,6 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
         ? 'http://localhost:5173/proxy'
         : 'https://what-is-your-ideal-type.vercel.app/proxy',
     );
-
-    console.log('프록시 URL:', proxyUrl);
 
     // 2. 이미지 가져오기
     const response = await fetch(proxyUrl, {

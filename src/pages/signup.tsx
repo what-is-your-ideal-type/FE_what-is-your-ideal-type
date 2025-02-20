@@ -7,81 +7,47 @@ import { FlexBox } from '../components/ui/flexbox';
 import { Text } from '../components/ui/text';
 import { Header } from '../components/ui/header';
 import {
-  validateConfirmPassword,
-  validateEmail,
-  validatePassword,
-} from '../components/utils/validation';
-import {
   saveUserInfo,
   signUpWithEmail,
 } from '../services/auth/signup-with-email';
 import EmailVerificationModal from '../components/functional/email-verification-modal';
 import { ErrorMessage } from '../components/ui/error-message';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpSchema } from '../components/utils/validation';
+import { z } from 'zod';
 
 const SignUp = () => {
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors } 
+  } = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema)
+  });
   const [isModalOpen, setModalOpen] = useState(false);
-
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-
-  // 유효성 검사 결과 상태
-  const [error, setError] = useState<string>('');
-  const [emailError, setEmailError] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string>('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
-
-  // 이메일 변경 시 유효성 검사 적용
-  const handleEmailChange = useCallback(
-    (value: string) => {
-      setError('');
-      setEmail(value);
-      setEmailError(validateEmail(value));
-    },
-    [email],
-  );
-
-  // 비밀번호 변경 시 유효성 검사 적용
-  const handlePasswordChange = useCallback(
-    (value: string) => {
-      setError('');
-      setPassword(value);
-      setPasswordError(validatePassword(value));
-    },
-    [password],
-  );
-
-  // 비밀번호 재확인 변경 시 유효성 검사 적용
-  const handleConfirmPasswordChange = useCallback(
-    (value: string) => {
-      setError('');
-      setConfirmPassword(value);
-      setConfirmPasswordError(validateConfirmPassword(password, value));
-    },
-    [confirmPassword],
-  );
-
-  const handleSignUp = async (event: React.FormEvent) => {
-    event.preventDefault();
+  
+  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     try {
-      // 회원가입 처리
-      const user = await signUpWithEmail(email, password);
-      await saveUserInfo(user.uid, email);
+      const user = await signUpWithEmail(data.email, data.password);
+      await saveUserInfo(user.uid, data.email);
 
       alert('회원가입이 완료됐습니다. 이메일 인증 후 이용해주세요.');
       setModalOpen(true);
     } catch (err) {
       const error = err as AuthError;
-      // firebase 오류 처리
       switch (error.code) {
         case 'auth/email-already-in-use':
-          return setEmailError('이미 사용 중인 이메일입니다.');
+          alert('이미 사용 중인 이메일입니다.');
+          break;
         case 'auth/network-request-failed':
-          return setError('네트워크 연결에 실패 하였습니다.');
+          alert('네트워크 연결에 실패 하였습니다.');
+          break;
         case 'auth/internal-error':
-          return setError('잘못된 요청입니다.');
+          alert('잘못된 요청입니다.');
+          break;
         default:
-          return alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+          alert('회원가입에 실패했습니다. 다시 시도해주세요.');
       }
     }
   };
@@ -101,57 +67,36 @@ const SignUp = () => {
             <Input
               type='email'
               placeholder='이메일을 입력해주세요'
-              value={email}
-              onChange={(e) => handleEmailChange(e.target.value)}
+              name='email'
+              register={register}
             />
-            {emailError && <ErrorMessage message={emailError} />}
+            {errors.email && <ErrorMessage message={errors.email?.message} />}
             <Input
               type='password'
               placeholder='비밀번호를 입력해주세요'
-              value={password}
-              onChange={(e) => handlePasswordChange(e.target.value)}
+              name='password'
+              register={register}
             />
-            {passwordError && <ErrorMessage message={passwordError} />}
+            {errors.password && <ErrorMessage message={errors.password?.message} />}
             <Input
               type='password'
               placeholder='비밀번호를 한 번 더 입력해주세요'
-              value={confirmPassword}
-              onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+              name='confirmPassword'
+              register={register}
             />
-            {confirmPasswordError && (
-              <ErrorMessage message={confirmPasswordError} />
+            {errors.confirmPassword && (
+              <ErrorMessage message={errors.confirmPassword?.message} />
             )}
-            {error ? (
-              <Text color='red' fontSize='sm' className='mr-auto ml-2'>
-                {error}
-              </Text>
-            ) : null}
           </FlexBox>
           <div className='w-full pt-8'>
-            {!email ||
-            !password ||
-            !confirmPassword ||
-            emailError ||
-            passwordError ||
-            confirmPasswordError ? (
-              <Button
-                className='w-full'
-                label='회원가입하기'
-                bgColor='disabled'
-                disabled={true}
-              >
-                회원가입하기
-              </Button>
-            ) : (
               <Button
                 className='w-full'
                 label='회원가입하기'
                 bgColor='main'
-                onClick={(e) => handleSignUp(e)}
+                onClick={handleSubmit(onSubmit)}
               >
                 회원가입하기
               </Button>
-            )}
           </div>
         </FlexBox>
       </Main>
