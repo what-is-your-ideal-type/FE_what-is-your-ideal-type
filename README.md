@@ -251,8 +251,8 @@ idealType
 
 ## 5. 트러블 슈팅 및 협업 히스토리
 
-- Issues: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/issues?q=is%3Aissue%20state%3Aclosed
-- Pull Request: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/pulls?q=is%3Apr+is%3Aclosed
+- Issues: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/issues?q=is%3Aissue%20state%3Aclosed <br>
+- Pull Request: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/pulls?q=is%3Apr+is%3Aclosed <br>
 - Wiki: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/wiki/Button-Components-%EC%82%AC%EC%9A%A9%EB%B2%95
 
 
