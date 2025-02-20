@@ -25,9 +25,9 @@ export async function profileGenerate(order: orderType) {
     "age": "나이",
     "occupation": "직업",
     "hobbies": ["취미1", "취미2", "취미3"],
-    "a recommended date course": "추천 데이트 코스",
+    "datecourse": "추천 데이트 코스",
     "personality": "성격 특성을 문장으로 설명",
-    "love style": "연애 스타일"
+    "lovestyle": "연애 스타일"
   }
   All text values should be in Korean.`;
   try {

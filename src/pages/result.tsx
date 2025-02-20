@@ -27,6 +27,8 @@ interface ProfileTypes {
   occupation: string;
   personality: string;
   hobbies: string;
+  datecourse: string;
+  lovestyle: string;
 }
 
 interface PostData {
@@ -272,6 +274,9 @@ const Result = () => {
           direction='column'
           className='w-full max-w-lg mt-4 md:mt-0 md:ml-4'
         >
+          <Text fontWeight='bold' fontSize='xxl' className='mb-3'>
+            이상형 분석 리포트
+          </Text>
           <Text fontWeight='bold' fontSize='xl' className='mb-3'>
             {profile?.age} {profile?.name}
           </Text>
@@ -279,14 +284,19 @@ const Result = () => {
             {profile?.occupation}
           </Text>
           <Text fontWeight='bold' className='mb-3'>
-            당신의 이상형은 {profile?.personality}
+            성격 : {profile?.personality}
           </Text>
           <Text fontWeight='bold' className='mb-6'>
-            취미는{' '}
+            취미 :{' '}
             {Array.isArray(profile?.hobbies)
               ? profile?.hobbies.join(', ')
               : profile?.hobbies}
-            입니다.
+          </Text>
+          <Text fontWeight='bold' className='mb-3'>
+            연애 스타일 : {profile?.lovestyle}
+          </Text>
+          <Text fontWeight='bold' className='mb-6'>
+            추천 데이트 코스 : {profile?.datecourse}
           </Text>
           <Text fontWeight='bold' className='mb-8'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
@@ -307,7 +317,9 @@ const Result = () => {
           )}
           <FlexBox direction='column' className='mt-4 text-center'>
             {currentUser && (
-              <Text fontSize='sm'>▼ 결과를 친구에게 공유해 보세요! ▼</Text>
+              <Text fontSize='sm' className='mb-3'>
+                ▼ 결과를 친구에게 공유해 보세요! ▼
+              </Text>
             )}
             <PreventDefaultWrapper className='justify-center'>
               <Button
