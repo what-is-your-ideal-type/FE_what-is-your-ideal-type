@@ -35,11 +35,8 @@ export const setCookie = (
 // 쿠키 호출 함수
 export const getCookie = (name: string) => {
   const value = cookies.get(name);
-  if (name === COOKIE_NAMES.GUEST_MODE) {
-    if (value === 'false') {
-      return false;
-    }
-    return true;
+  if (value === 'false') {
+    return false;
   }
 
   return value;

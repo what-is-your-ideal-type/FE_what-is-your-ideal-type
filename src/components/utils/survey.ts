@@ -8,7 +8,6 @@ export const surveyContentsWomen: SurveyTypes[] = [
   {
     question: '원하는 연령대를 골라주세요',
     options: [
-      {label: '10대', value: '10s'},
       {label: '20대', value: '20s'},
       {label: '30대', value: '30s'},
       {label: '40대', value: '40s'},
@@ -82,7 +81,6 @@ export const surveyContentsWomen: SurveyTypes[] = [
       {label: '깔끔한 정장', value: 'suit'},
       {label: '힙한 mz룩', value: 'hip hop style'},
       {label: '편한 트레이닝복', value: 'sports style'},
-      {label: '페스티벌룩', value: 'festival style'},
       {label: '상관 없음', value: 'simple casual style'},
     ],
   },
@@ -92,7 +90,6 @@ export const surveyContentsMen: SurveyTypes[] = [
   {
     question: '원하는 연령대를 골라주세요',
     options: [
-      {label: '10대', value: '10s'},
       {label: '20대', value: '20s'},
       {label: '30대', value: '30s'},
       {label: '40대', value: '40s'},
@@ -113,9 +110,6 @@ export const surveyContentsMen: SurveyTypes[] = [
     options: [
       {label: '둥근형', value: 'round face'},
       {label: '계란형', value: 'oval face'},
-      {label: '하트형', value: 'heart-shaped face'},
-      {label: '긴 얼굴형', value: 'oblong face'},
-      {label: '역삼각형', value: 'inverted triangle face'},
       {label: '각진형', value: 'angular face'},
       {label: '상관 없음', value: 'natural face'},
     ],
@@ -153,7 +147,7 @@ export const surveyContentsMen: SurveyTypes[] = [
     ],
   },
   {
-    question: '원하는 머리 스타일을 골라주세요',
+    question: '원하는 머리 색을 골라주세요',
     options: [
       {label: '자연스러운 게 최고! 흑발', value: 'black hair'},
       {label: '초콜릿 같은 갈색 머리', value: 'brown hair'},
@@ -170,7 +164,6 @@ export const surveyContentsMen: SurveyTypes[] = [
       {label: '깔끔한 정장', value: 'suit'},
       {label: '힙한 mz룩', value: 'hip hop style'},
       {label: '편한 트레이닝복', value: 'sports style'},
-      {label: '페스티벌룩', value: 'festival style'},
       {label: '상관 없음', value: 'simple casual style'},
     ],
   },
