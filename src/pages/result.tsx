@@ -329,7 +329,7 @@ const Result = () => {
               >
                 링크 복사하기
               </Button>
-              <Kakaoshare />
+              <Kakaoshare resultUrl={window.location.href} />
             </PreventDefaultWrapper>
           </FlexBox>
         </FlexBox>
