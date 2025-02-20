@@ -20,6 +20,8 @@ import {
   setCookie,
   getCookie,
 } from '../components/utils/cookies';
+import { Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProfileTypes {
   name: string;
@@ -27,6 +29,8 @@ interface ProfileTypes {
   occupation: string;
   personality: string;
   hobbies: string;
+  datecourse: string;
+  lovestyle: string;
 }
 
 interface PostData {
@@ -51,13 +55,15 @@ const Result = () => {
   } = location.state || {};
   const [imageUrl, setImageUrl] = useState(tempImageUrl);
   const [profile, setProfile] = useState<ProfileTypes | null>(initialProfile);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const isGuest = getCookie(COOKIE_NAMES.GUEST_MODE) === true;
   const collection = isGuest ? 'anonymous_posts' : 'posts';
+
+  const MotionLoader = motion.create(Loader2);
 
   const fetchPostData = useCallback(
     async (postId: string) => {
@@ -95,7 +101,7 @@ const Result = () => {
   useEffect(() => {
     const processBackgroundTasks = async () => {
       if (!postId || !tempImageUrl) return;
-      setIsProcessing(true);
+      setIsLoading(true);
 
       try {
         const actualPostId = postId;
@@ -104,7 +110,7 @@ const Result = () => {
         // 이미 저장된 데이터인지 확인
         const existingDoc = await getDoc(doc(db, collection, actualPostId));
         if (existingDoc.exists()) {
-          setIsProcessing(false);
+          setIsLoading(false);
           return;
         }
 
@@ -160,7 +166,7 @@ const Result = () => {
         console.error('Background processing error:', error);
         setError('처리 중 오류가 발생했습니다.');
       } finally {
-        setIsProcessing(false);
+        setIsLoading(false);
       }
     };
 
@@ -247,21 +253,40 @@ const Result = () => {
         </Text>
         <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
       </FlexBox>
-      <Main>
+      <Main isResponsive={true}>
         <PreventDefaultWrapper>
           <FlexBox direction='column'>
-            <Picture imageUrl={imageUrl} altText='이상형 이미지' />
-            {isProcessing && (
-              <Text fontSize='sm' className='text-gray-500 mt-2 text-center'>
-                이미지 최적화 처리 중...
-              </Text>
-            )}
+            <div className='w-96 h-96 flex flex-col justify-center items-center'>
+              {isLoading ? (
+                <div className='flex flex-col items-center'>
+                  <MotionLoader
+                    className='w-12 h-12 text-main'
+                    animate={{
+                      rotate: isLoading ? 360 : 0,
+                    }}
+                    transition={{
+                      duration: 2,
+                      ease: 'linear',
+                      repeat: isLoading ? Infinity : 0,
+                    }}
+                  />
+                  <Text
+                    fontSize='xs'
+                    className='text-gray-500 mt-2 text-center'
+                  >
+                    이미지 최적화 처리 중...
+                  </Text>
+                </div>
+              ) : (
+                <Picture imageUrl={imageUrl} altText='이상형 이미지' />
+              )}
+            </div>
             {currentUser && (
               <Button
                 bgColor='white'
                 className='text-black p-3 text-sm font-bold'
                 onClick={handleDownload}
-                disabled={isProcessing}
+                disabled={isLoading}
               >
                 ⤓ 내 이상형 사진 소장하기
               </Button>
@@ -272,6 +297,9 @@ const Result = () => {
           direction='column'
           className='w-full max-w-lg mt-4 md:mt-0 md:ml-4'
         >
+          <Text fontWeight='bold' fontSize='xxl' className='mb-3'>
+            이상형 분석 리포트
+          </Text>
           <Text fontWeight='bold' fontSize='xl' className='mb-3'>
             {profile?.age} {profile?.name}
           </Text>
@@ -279,14 +307,19 @@ const Result = () => {
             {profile?.occupation}
           </Text>
           <Text fontWeight='bold' className='mb-3'>
-            당신의 이상형은 {profile?.personality}
+            성격 : {profile?.personality}
           </Text>
-          <Text fontWeight='bold' className='mb-6'>
-            취미는{' '}
+          <Text fontWeight='bold' className='mb-3'>
+            취미 :{' '}
             {Array.isArray(profile?.hobbies)
               ? profile?.hobbies.join(', ')
               : profile?.hobbies}
-            입니다.
+          </Text>
+          <Text fontWeight='bold' className='mb-3'>
+            연애 스타일 : {profile?.lovestyle}
+          </Text>
+          <Text fontWeight='bold' className='mb-6'>
+            추천 데이트 코스 : {profile?.datecourse}
           </Text>
           <Text fontWeight='bold' className='mb-8'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
@@ -298,7 +331,7 @@ const Result = () => {
           ) : (
             <FlexBox direction='column'>
               <Text fontSize='sm' className='mb-4 text-center'>
-                사진을 저장하고 기록하고 싶다면 로그인 해보세요
+                ▼ 사진을 저장하고 기록하고 싶다면 로그인 해보세요 ▼
               </Text>
               <Button bgColor='main' onClick={() => navigate('/')}>
                 로그인
@@ -307,18 +340,22 @@ const Result = () => {
           )}
           <FlexBox direction='column' className='mt-4 text-center'>
             {currentUser && (
-              <Text fontSize='sm'>▼ 결과를 친구에게 공유해 보세요! ▼</Text>
+              <>
+                <Text fontSize='sm' className='mb-3'>
+                  ▼ 결과를 친구에게 공유해 보세요! ▼
+                </Text>
+                <PreventDefaultWrapper className='justify-center'>
+                  <Button
+                    className='text-main p-3 font-bold text-xs w-32'
+                    bgColor='sub'
+                    onClick={handleShare}
+                  >
+                    링크 복사하기
+                  </Button>
+                  <Kakaoshare />
+                </PreventDefaultWrapper>
+              </>
             )}
-            <PreventDefaultWrapper className='justify-center'>
-              <Button
-                className='text-main p-3 font-bold text-xs w-32'
-                bgColor='sub'
-                onClick={handleShare}
-              >
-                링크 복사하기
-              </Button>
-              <Kakaoshare />
-            </PreventDefaultWrapper>
           </FlexBox>
         </FlexBox>
       </Main>

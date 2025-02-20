@@ -19,7 +19,7 @@ export default function LoadingScreen({ isLoading }: { isLoading: boolean }) {
     if (!isLoading) return;
     const textInterval = setInterval(() => {
       setCurrentTextIndex((prev) => (prev + 1) % loadingTexts.length);
-    }, 3000);
+    }, 2800);
     return () => clearInterval(textInterval);
   }, [isLoading]);
 
