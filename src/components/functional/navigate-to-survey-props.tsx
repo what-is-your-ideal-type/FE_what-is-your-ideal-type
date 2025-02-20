@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCountAndTimeLeft } from '../../services/count-service';
 import { useAuth } from '../../contexts/auth-context';
 import { Button } from '../ui/button/button';
-import { setCookie, COOKIE_NAMES } from '../utils/cookies';
+
 
 interface NavigateToSurveyProps {
   label: string;
@@ -14,8 +14,6 @@ const NavigateToSurvey = ({ label }: NavigateToSurveyProps) => {
 
   const handleSurveyNavigation = async () => {
     const { count, limit, timeLeft } = await getCountAndTimeLeft(currentUser);
-
-    setCookie(COOKIE_NAMES.GUEST_MODE, true);
 
     if (count < limit) {
       navigate('/genderselect');
