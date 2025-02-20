@@ -9,7 +9,6 @@ export const convertToWebP = async (url: string): Promise<Blob | undefined> => {
         : 'https://what-is-your-ideal-type.vercel.app/proxy',
     );
 
-
     // 2. 이미지 가져오기
     const response = await fetch(proxyUrl, {
       headers: {
