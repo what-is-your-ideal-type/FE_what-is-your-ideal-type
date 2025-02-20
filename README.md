@@ -264,7 +264,7 @@ idealType
 
 # 6. 팀원 소개 및 후기
 
-| 김세연 | 김주희 | 염정호 |
+| [김세연](https://github.com/sennydayk) | [김주희](https://github.com/JHeeKimm)| [염정호](https://github.com/joshyeom)|
 |----------|----------|----------|
 | ![https://github.com/sennydayk](https://github.com/user-attachments/assets/1d09700a-8d71-4a6e-81d8-36da12544436) | ![https://github.com/JHeeKimm](https://github.com/user-attachments/assets/af6f44cd-964e-46b0-b534-d387d7863532) | ![https://github.com/joshyeom](https://github.com/user-attachments/assets/72108728-02ec-42b1-928d-bdf7c3535af6) |
 | (후기작성) | (후기작성) | (후기작성) |
