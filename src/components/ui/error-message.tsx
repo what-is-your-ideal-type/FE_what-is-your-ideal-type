@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import { Text } from './text';
 
 interface errorMessageProps {
-  message: string;
+  message?: string;
   className?: string;
 }
 

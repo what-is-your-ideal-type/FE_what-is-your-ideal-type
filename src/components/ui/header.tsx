@@ -5,11 +5,10 @@ import { Text } from './text';
 import { useAuth } from '../../contexts/auth-context';
 import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
-import { useMediaQuery } from 'usehooks-ts';
 import { FlexBox } from './flexbox';
+import { setCookie, COOKIE_NAMES } from '../utils/cookies';
 
 export const Header = () => {
-  const isMobile = useMediaQuery('(max-width: 768px)');
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
@@ -18,6 +17,7 @@ export const Header = () => {
     if (confirmation) {
       try {
         await signOut(auth);
+        setCookie(COOKIE_NAMES.GUEST_MODE, true);
         navigate('/');
       } catch (error) {
         console.error('Logout failed', error);
@@ -27,24 +27,23 @@ export const Header = () => {
 
   return (
     <header className='w-full flex justify-between items-center py-5 px-12'>
-      {/* Text를 isMobile마다 조건부로 스타일을 주어야하는 로직이 계속 보이는데 아예 Text안에서 isMobile일 경우 조정을 해보는 것은 어떨까요? */}
-      <Text fontSize={isMobile ? 'md' : 'lg'} fontWeight='bold'>
+      <Text fontSize='md' desktopFontSize='lg' fontWeight='bold'>
         AI 이상형 찾기
       </Text>
       <FlexBox className='items-center'>
         {currentUser ? (
           <>
             <Button bgColor='white' label='로그아웃' onClick={handleLogout}>
-              <Text fontSize={isMobile ? 'xs' : 'sm'} color='black'>
+              <Text fontSize='xs' desktopFontSize='sm' color='black'>
                 로그아웃
               </Text>
             </Button>
-            <Text className='mx-3' fontSize={isMobile ? 'xs' : 'sm'}>
+            <Text className='mx-3' fontSize='xs' desktopFontSize='sm'>
               |
             </Text>
             <Link to='/mypage'>
               <Button bgColor='white' label='마이페이지'>
-                <Text fontSize={isMobile ? 'xs' : 'sm'} color='black'>
+                <Text fontSize='xs' desktopFontSize='sm' color='black'>
                   마이페이지
                 </Text>
               </Button>
@@ -53,7 +52,8 @@ export const Header = () => {
         ) : (
           <Button bgColor='white' label='로그인' onClick={() => navigate('/')}>
             <Text
-              fontSize={isMobile ? 'xs' : 'sm'}
+              fontSize='xs'
+              desktopFontSize='sm'
               fontWeight='bold'
               color='black'
             >

@@ -10,7 +10,6 @@ const Kakaoshare = () => {
   useEffect(() => {
     Kakao.cleanup();
     Kakao.init('dfd8e8ebd0ff355e3edb9867070551e5');
-    console.log(Kakao.isInitialized());
   }, []);
 
   const shareKakao = () => {
@@ -36,7 +35,11 @@ const Kakaoshare = () => {
   };
 
   return (
-    <Button className='w-32 font-bold p-3 text-xs' onClick={shareKakao}>
+    <Button
+      bgColor='main'
+      className='w-32 font-bold p-3 text-xs'
+      onClick={shareKakao}
+    >
       카톡으로 공유하기
     </Button>
   );
