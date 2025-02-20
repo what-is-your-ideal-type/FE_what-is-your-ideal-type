@@ -3,6 +3,7 @@ import { getCookie, setCookie, COOKIE_NAMES } from '../utils/cookies';
 
 export const LandingRoute = ({ children }: { children: React.ReactNode }) => {
   const isGuestMode = getCookie(COOKIE_NAMES.GUEST_MODE);
+
   // 쿠키가 없는 경우 (초기 접속)
   if (isGuestMode === null || isGuestMode === undefined) {
     setCookie(COOKIE_NAMES.GUEST_MODE, true);
@@ -13,6 +14,7 @@ export const LandingRoute = ({ children }: { children: React.ReactNode }) => {
   if (isGuestMode === false) {
     return <Navigate to='/mypage' replace />;
   }
+
   // 게스트 모드가 true인 경우 랜딩 페이지 표시
   return children;
 };
