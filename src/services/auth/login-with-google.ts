@@ -25,11 +25,7 @@ export const loginWithGoogle = async () => {
     if (!userDoc.exists()) {
       // 문서가 존재하지 않으면, 새로운 유저 -> 저장
       await saveUserInfo(uid, email, nickname);
-      console.log('신규 유저 저장 완료');
-    } else {
-      // 이미 있는 유저 → 저장 안 함
-      console.log('기존 유저, 저장 생략');
-    }
+    } // 기존 유저 -> 저장 생략
 
     await handleGuestPostMigration(user);
     return credential;
@@ -43,7 +39,6 @@ export const handleRedirectResult = async () => {
     const result = await getRedirectResult(auth);
     if (result) {
       await handleGuestPostMigration(result.user);
-      console.log('getRedirectResult result: ', result);
       return result;
     }
     return null;

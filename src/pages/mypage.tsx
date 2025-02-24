@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
 import { useAuth } from '../contexts/auth-context';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import NavigateToSurvey from '../components/functional/navigate-to-survey-props';
 import { Text } from '../components/ui/text';
 import { FlexBox } from '../components/ui/flexbox';
 import { GridBox } from '../components/ui/gridbox';
 import { Card } from '../components/ui/card/card';
 import { Main } from '../components/ui/main';
-import { db } from '../firebase';
 import { Header } from '../components/ui/header';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { CardContent } from '../components/ui/card/card-content';
@@ -22,6 +20,14 @@ const MyPage = () => {
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
 
+  // 인증 상태 변경 감지
+  useEffect(() => {
+    if (!currentUser) {
+      alert('로그인이 필요한 서비스입니다. 홈으로 이동합니다.');
+    }
+  }, [currentUser]);
+
+  // 쿼리 로직
   const {
     data: userData,
     isLoading: isUserDataLoading,
@@ -48,6 +54,7 @@ const MyPage = () => {
     enabled: !!userData,
   });
 
+  // Intersection Observer 설정
   useEffect(() => {
     const loadMore = (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting && hasNextPage) {
@@ -60,12 +67,12 @@ const MyPage = () => {
     }
 
     observer.current = new IntersectionObserver(loadMore, {
-      root: null, // 뷰포트를 기준으로 함
+      root: null,
       rootMargin: '0px',
-      threshold: 1.0, // 100% 가시성이 있어야 트리거
+      threshold: 1.0,
     });
 
-    const target = document.getElementById('infinityQueryTrigger'); // 추가할 엘리먼트의 ID
+    const target = document.getElementById('infinityQueryTrigger');
     if (target) {
       observer.current.observe(target);
     }
@@ -87,10 +94,9 @@ const MyPage = () => {
     }
   };
 
+  // 조건부 렌더링
   if (!currentUser) {
-    alert('로그인이 필요한 서비스입니다. 홈으로 이동합니다.');
-    navigate('/');
-    return null;
+    return <Navigate to='/' replace />;
   }
 
   if (isUserDataLoading || isPostsLoading) {
@@ -103,6 +109,7 @@ const MyPage = () => {
 
   const posts = postsData?.pages.flatMap((page) => page?.posts) || [];
 
+  // 나머지 return 부분은 그대로 유지
   return (
     <>
       <Header />
