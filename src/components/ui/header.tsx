@@ -28,7 +28,7 @@ export const Header = () => {
   return (
     <header className='w-full flex justify-between items-center py-5 px-12'>
       <Text fontSize='md' desktopFontSize='lg' fontWeight='bold'>
-        AI 이상형 찾기
+        👩‍❤️‍👨 AI 이상형 찾기
       </Text>
       <FlexBox className='items-center'>
         {currentUser ? (
@@ -41,7 +41,7 @@ export const Header = () => {
             <Text className='mx-3' fontSize='xs' desktopFontSize='sm'>
               |
             </Text>
-            <Link to='/mypage'>
+            <Link to='/mypage' className='flex items-center'>
               <Button bgColor='white' label='마이페이지'>
                 <Text fontSize='xs' desktopFontSize='sm' color='black'>
                   마이페이지

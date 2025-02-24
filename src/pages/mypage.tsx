@@ -106,10 +106,7 @@ const MyPage = () => {
   return (
     <>
       <Header />
-      <FlexBox
-        direction='column'
-        className='bg-gray-200 justify-center h-32 mb-8'
-      >
+      <FlexBox direction='column' className='bg-sub justify-center h-32 mb-8'>
         <Text fontSize='xl' fontWeight='bold' className='py-4 text-center'>
           {userData?.nickname}님의 마이페이지
         </Text>

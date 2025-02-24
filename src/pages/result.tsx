@@ -246,17 +246,17 @@ const Result = () => {
       <Header></Header>
       <FlexBox
         direction='column'
-        className='bg-gray-200 justify-center h-32 mb-8 text-center'
+        className='bg-sub justify-center h-32 mb-8 text-center'
       >
         <Text fontSize='xl' fontWeight='bold' className='py-4'>
-          AI 이상형 생성 결과...{' '}
+          AI 이상형 생성 결과...
         </Text>
         <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
       </FlexBox>
       <Main isResponsive={true}>
         <PreventDefaultWrapper>
           <FlexBox direction='column'>
-            <div className='w-96 h-96 flex flex-col justify-center items-center'>
+            <div className='w-96 h-96 flex flex-col justify-center items-center rounded-lg shadow-xl'>
               {isLoading ? (
                 <div className='flex flex-col items-center'>
                   <MotionLoader
@@ -267,7 +267,7 @@ const Result = () => {
                     transition={{
                       duration: 2,
                       ease: 'linear',
-                      repeat: isLoading ? Infinity : 0,
+                      repeat: isLoading ? Number.POSITIVE_INFINITY : 0,
                     }}
                   />
                   <Text
@@ -284,7 +284,7 @@ const Result = () => {
             {currentUser && (
               <Button
                 bgColor='white'
-                className='text-black p-3 text-sm font-bold'
+                className='text-black p-3 text-sm font-bold mt-4 hover:bg-gray-100 transition-colors duration-200 shadow-md'
                 onClick={handleDownload}
                 disabled={isLoading}
               >
@@ -295,64 +295,121 @@ const Result = () => {
         </PreventDefaultWrapper>
         <FlexBox
           direction='column'
-          className='w-full max-w-lg mt-4 md:mt-0 md:ml-4'
+          className='w-full max-w-lg mt-8 md:mt-0 md:ml-8 bg-white rounded-xl shadow-lg p-6'
         >
-          <Text fontWeight='bold' fontSize='xxl' className='mb-3'>
-            이상형 분석 리포트
-          </Text>
-          <Text fontWeight='bold' fontSize='xl' className='mb-3'>
-            {profile?.age} {profile?.name}
-          </Text>
-          <Text fontSize='xxl' fontWeight='bold' className='mb-6'>
-            {profile?.occupation}
-          </Text>
-          <Text fontWeight='bold' className='mb-3'>
-            성격 : {profile?.personality}
-          </Text>
-          <Text fontWeight='bold' className='mb-3'>
-            취미 :{' '}
-            {Array.isArray(profile?.hobbies)
-              ? profile?.hobbies.join(', ')
-              : profile?.hobbies}
-          </Text>
-          <Text fontWeight='bold' className='mb-3'>
-            연애 스타일 : {profile?.lovestyle}
-          </Text>
-          <Text fontWeight='bold' className='mb-6'>
-            추천 데이트 코스 : {profile?.datecourse}
-          </Text>
-          <Text fontWeight='bold' className='mb-8'>
+          <div className='relative mb-4'>
+            <Text fontWeight='bold' fontSize='xl' className='text-main mb-2'>
+              이상형 분석 리포트
+            </Text>
+            <div className='absolute top-0 right-0 bg-sub text-main px-3 py-1 rounded-full text-sm font-semibold'>
+              분석 완료
+            </div>
+          </div>
+
+          <div className='bg-sub-hover rounded-lg p-4 mb-4'>
+            <Text fontWeight='bold' fontSize='lg'>
+              {profile?.age} {profile?.name}, {profile?.occupation}
+            </Text>
+          </div>
+
+          <div>
+            <div className='bg-white border border-gray-100 rounded-lg p-2'>
+              <div className='flex items-center mb-2'>
+                <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
+                  <span className='text-main text-lg'>✧</span>
+                </div>
+                <Text fontWeight='bold'>성격 </Text>
+              </div>
+              <Text fontSize='sm' className='text-gray-600 ml-11'>
+                {profile?.personality}
+              </Text>
+            </div>
+
+            <div className='bg-white border border-gray-100 rounded-lg p-2'>
+              <div className='flex items-center mb-2'>
+                <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
+                  <span className='text-main text-lg'>❀</span>
+                </div>
+                <Text fontWeight='bold'>취미</Text>
+              </div>
+              <Text fontSize='sm' className='text-gray-600 ml-11'>
+                {Array.isArray(profile?.hobbies)
+                  ? profile?.hobbies.map((hobby, index) => (
+                      <span
+                        key={index}
+                        className='inline-block bg-sub rounded-full px-3 py-1 text-sm mr-2 mb-2'
+                      >
+                        {hobby}
+                      </span>
+                    ))
+                  : profile?.hobbies}
+              </Text>
+            </div>
+
+            <div className='bg-white border border-gray-100 rounded-lg p-2'>
+              <div className='flex items-center mb-2'>
+                <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
+                  <span className='text-main text-lg'>✿</span>
+                </div>
+                <Text fontWeight='bold'>연애 스타일 💕</Text>
+              </div>
+              <Text fontSize='sm' className='text-gray-600 ml-11'>
+                {profile?.lovestyle}
+              </Text>
+            </div>
+
+            <div className='bg-white border border-gray-100 rounded-lg p-2'>
+              <div className='flex items-center mb-2'>
+                <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
+                  <span className='text-main text-lg'>♥</span>
+                </div>
+                <Text fontWeight='bold'>추천 데이트 코스 👩‍❤️‍👨</Text>
+              </div>
+              <Text fontSize='sm' className='text-gray-600 ml-11'>
+                {profile?.datecourse}
+              </Text>
+            </div>
+          </div>
+
+          <Text fontWeight='bold' className='mt-4 mb-4 text-center text-main'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
           </Text>
+
           {currentUser ? (
-            <FlexBox className='mb-1.5'>
-              <NavigateToSurvey label='이상형 다시 찾기' />
+            <FlexBox>
+              <NavigateToSurvey label='새로운 이상형 다시 찾기' />
             </FlexBox>
           ) : (
-            <FlexBox direction='column'>
-              <Text fontSize='sm' className='mb-4 text-center'>
+            <FlexBox direction='column' className='space-y-4'>
+              <Text fontSize='sm' className='text-center text-gray-600'>
                 ▼ 사진을 저장하고 기록하고 싶다면 로그인 해보세요 ▼
               </Text>
-              <Button bgColor='main' onClick={() => navigate('/')}>
-                로그인
+              <Button
+                bgColor='main'
+                onClick={() => navigate('/')}
+                className='w-full py-3 rounded-lg hover:opacity-90 transition-opacity duration-200'
+              >
+                로그인하고 더 많은 서비스 이용하기
               </Button>
+              <NavigateToSurvey label='새로운 이상형 찾으러 가기' />
             </FlexBox>
           )}
-          <FlexBox direction='column' className='mt-4 text-center'>
+
+          <FlexBox direction='column' className='mt-6'>
             {currentUser && (
               <>
-                <Text fontSize='sm' className='mb-3'>
+                <Text fontSize='sm' className='mb-3 text-center text-gray-600'>
                   ▼ 결과를 친구에게 공유해 보세요! ▼
                 </Text>
-                <PreventDefaultWrapper className='justify-center'>
+                <PreventDefaultWrapper className='justify-center space-x-4'>
                   <Button
-                    className='text-main p-3 font-bold text-xs w-32'
+                    className='text-main p-3 font-bold text-xs w-32 hover:bg-sub-hover'
                     bgColor='sub'
                     onClick={handleShare}
                   >
                     링크 복사하기
                   </Button>
-                  <Kakaoshare />
+                  <Kakaoshare resultUrl={window.location.href} />
                 </PreventDefaultWrapper>
               </>
             )}
