@@ -10,9 +10,11 @@ import { Card } from '../components/ui/card/card';
 import { Main } from '../components/ui/main';
 import { db } from '../firebase';
 import { Header } from '../components/ui/header';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { CardContent } from '../components/ui/card/card-content';
 import { CardDescription } from '../components/ui/card/card-description';
+import { User } from 'firebase/auth';
+import { fetchPostsData, fetchUserData } from '../api/queries';
 
 const MyPage = () => {
   const { currentUser } = useAuth();
@@ -20,77 +22,31 @@ const MyPage = () => {
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const extractOccupation = (profileData: string) => {
-    try {
-      const profileObj = JSON.parse(profileData);
-      return profileObj.occupation || '직업 정보 없음';
-    } catch (error) {
-      console.error('프로필 파싱 중 오류 발생:', error);
-      return '직업 정보 없음';
-    }
-  };
+  const {
+    data: userData,
+    isLoading: isUserDataLoading,
+    error: userDataError,
+  } = useQuery({
+    queryKey: ['userData', currentUser?.uid],
+    queryFn: () => fetchUserData(currentUser as User),
+    enabled: !!currentUser,
+  });
 
-  const getCardsData = async (pageParam: number) => {
-    try {
-      if (currentUser) {
-        const uid = currentUser.uid;
-        const docRef = doc(db, 'users', uid);
-        const usersSnapShot = await getDoc(docRef);
-        const userData = usersSnapShot.data();
-
-        if (!userData || !userData.postList) return { cards: [] };
-
-        const postList = userData.postList.slice(
-          pageParam * 4,
-          pageParam * 4 + 4,
-        );
-
-        const fetchedCards = await Promise.all(
-          postList.map(async (num: string) => {
-            const postRef = doc(db, 'posts', num);
-            const postSnapShot = await getDoc(postRef);
-            const data = postSnapShot.data();
-
-            if (!data) return null;
-
-            return {
-              imageUrl: data.imageUrl,
-              createdAt: data.createdAt.toDate(),
-              fileName: data.fileName,
-              hashTags: data.hashTags,
-              resultUrl: `${window.location.href}/result/${data.id}`,
-              profile: data.profile,
-              id: data.id,
-            };
-          }),
-        );
-
-        const validCards = fetchedCards.filter((card) => card !== null);
-
-        return {
-          cards: validCards,
-          nextPage: validCards.length === 4 ? pageParam + 1 : undefined,
-        };
-      } else {
-        alert('로그인이 필요한 서비스입니다. 홈으로 이동합니다.');
-        navigate('/');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
-    queryKey: ['posts'],
-    queryFn: ({ pageParam }) => getCardsData(pageParam as number),
+  const {
+    data: postsData,
+    isLoading: isPostsLoading,
+    error: postsError,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['posts', userData?.postList],
+    queryFn: ({ pageParam }) => fetchPostsData(userData, pageParam as number),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage?.nextPage ?? null;
     },
+    enabled: !!userData,
   });
-
-  // 카드 데이터 처리
-  const cards = data?.pages.flatMap((page) => page?.cards) || [];
 
   useEffect(() => {
     const loadMore = (entries: IntersectionObserverEntry[]) => {
@@ -121,16 +77,38 @@ const MyPage = () => {
     };
   }, [hasNextPage, fetchNextPage]);
 
-  if (isLoading) {
+  const extractOccupation = (profileData: string) => {
+    try {
+      const profileObj = JSON.parse(profileData);
+      return profileObj.occupation || '직업 정보 없음';
+    } catch (error) {
+      console.error('프로필 파싱 중 오류 발생:', error);
+      return '직업 정보 없음';
+    }
+  };
+
+  if (!currentUser) {
+    alert('로그인이 필요한 서비스입니다. 홈으로 이동합니다.');
+    navigate('/');
+    return null;
+  }
+
+  if (isUserDataLoading || isPostsLoading) {
     return <div>로딩 중...</div>;
   }
+
+  if (userDataError || postsError) {
+    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  }
+
+  const posts = postsData?.pages.flatMap((page) => page?.posts) || [];
 
   return (
     <>
       <Header />
       <FlexBox direction='column' className='bg-sub justify-center h-32 mb-8'>
         <Text fontSize='xl' fontWeight='bold' className='py-4 text-center'>
-          {currentUser?.email}님의 마이페이지
+          {userData?.nickname}님의 마이페이지
         </Text>
       </FlexBox>
       <Main>
@@ -138,20 +116,20 @@ const MyPage = () => {
           <Text fontSize='xl' fontWeight='bold' className='text-center mb-8'>
             나의 이상형 리스트
           </Text>
-          {cards.length > 0 ? (
+          {posts.length > 0 ? (
             <GridBox>
-              {cards.map((card, index) => (
+              {posts.map((post, index) => (
                 <Card
                   key={index}
-                  onClick={() => navigate(`/result/${card.id}`)}
+                  onClick={() => navigate(`/result/${post.id}`)}
                 >
                   <CardContent
-                    imageUrl={card.imageUrl}
-                    altText={card.fileName}
+                    imageUrl={post.imageUrl}
+                    altText={post.fileName}
                     isImageLoaded={isImageLoaded}
                     onLoad={() => setIsImageLoaded(true)}
                   />
-                  <CardDescription title={extractOccupation(card.profile)} />
+                  <CardDescription title={extractOccupation(post.profile)} />
                 </Card>
               ))}
             </GridBox>

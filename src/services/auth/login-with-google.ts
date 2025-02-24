@@ -16,6 +16,7 @@ export const loginWithGoogle = async () => {
     const user = credential?.user;
     const uid = user?.uid;
     const email = user?.email as string;
+    const nickname = user?.displayName as string;
 
     // Firestore에서 uid로 유저 문서 확인
     const userDocRef = doc(USERS_COLLECTION, uid);
@@ -23,7 +24,7 @@ export const loginWithGoogle = async () => {
 
     if (!userDoc.exists()) {
       // 문서가 존재하지 않으면, 새로운 유저 -> 저장
-      await saveUserInfo(uid, email);
+      await saveUserInfo(uid, email, nickname);
       console.log('신규 유저 저장 완료');
     } else {
       // 이미 있는 유저 → 저장 안 함
