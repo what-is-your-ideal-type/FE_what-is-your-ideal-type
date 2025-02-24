@@ -109,7 +109,6 @@ const MyPage = () => {
 
   const posts = postsData?.pages.flatMap((page) => page?.posts) || [];
 
-  // 나머지 return 부분은 그대로 유지
   return (
     <>
       <Header />
