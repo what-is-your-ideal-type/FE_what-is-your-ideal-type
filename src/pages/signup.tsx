@@ -18,19 +18,19 @@ import { signUpSchema } from '../components/utils/validation';
 import { z } from 'zod';
 
 const SignUp = () => {
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors } 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
   } = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema)
+    resolver: zodResolver(signUpSchema),
   });
   const [isModalOpen, setModalOpen] = useState(false);
-  
+
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     try {
       const user = await signUpWithEmail(data.email, data.password);
-      await saveUserInfo(user.uid, data.email);
+      await saveUserInfo(user.uid, data.email, data.nickname);
 
       alert('회원가입이 완료됐습니다. 이메일 인증 후 이용해주세요.');
       setModalOpen(true);
@@ -65,6 +65,15 @@ const SignUp = () => {
           </FlexBox>
           <FlexBox direction='column' gap='xs'>
             <Input
+              type='nickname'
+              placeholder='닉네임을 입력해주세요'
+              name='nickname'
+              register={register}
+            />
+            {errors.nickname && (
+              <ErrorMessage message={errors.nickname?.message} />
+            )}
+            <Input
               type='email'
               placeholder='이메일을 입력해주세요'
               name='email'
@@ -77,7 +86,9 @@ const SignUp = () => {
               name='password'
               register={register}
             />
-            {errors.password && <ErrorMessage message={errors.password?.message} />}
+            {errors.password && (
+              <ErrorMessage message={errors.password?.message} />
+            )}
             <Input
               type='password'
               placeholder='비밀번호를 한 번 더 입력해주세요'
@@ -89,14 +100,14 @@ const SignUp = () => {
             )}
           </FlexBox>
           <div className='w-full pt-8'>
-              <Button
-                className='w-full'
-                label='회원가입하기'
-                bgColor='main'
-                onClick={handleSubmit(onSubmit)}
-              >
-                회원가입하기
-              </Button>
+            <Button
+              className='w-full'
+              label='회원가입하기'
+              bgColor='main'
+              onClick={handleSubmit(onSubmit)}
+            >
+              회원가입하기
+            </Button>
           </div>
         </FlexBox>
       </Main>

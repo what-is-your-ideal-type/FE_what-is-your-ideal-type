@@ -39,13 +39,9 @@ export const handleGuestPostMigration = async (
 
         // POST_ID 쿠키 삭제
         removeCookie(COOKIE_NAMES.POST_ID);
-      } else {
-        console.log('anonymous 문서가 존재하지 않음');
       }
     } catch (error) {
-      console.error('게스트 포스트 이전 중 오류 발생:', error);
+      console.error('포스트 이전 중 오류 발생:', error);
     }
-  } else {
-    console.log('게스트 포스트 ID가 없음');
   }
 };
