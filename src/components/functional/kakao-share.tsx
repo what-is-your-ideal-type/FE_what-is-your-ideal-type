@@ -3,10 +3,7 @@ import { useEffect } from 'react';
 import { Button } from '../ui/button/button';
 const { Kakao } = window;
 
-const Kakaoshare = () => {
-  const realUrl = 'https://what-is-your-ideal-type.vercel.app';
-  const resultUrl = window.location.href;
-
+const Kakaoshare = ({ resultUrl }: { resultUrl: string }) => {
   useEffect(() => {
     Kakao.cleanup();
     Kakao.init('dfd8e8ebd0ff355e3edb9867070551e5');
@@ -20,14 +17,14 @@ const Kakaoshare = () => {
         description: 'AI가 그려준 내 이상형은 어떻게 생겼을까?',
         imageUrl: 'https://ibb.co/m5vDHcb',
         link: {
-          mobileWebUrl: realUrl,
+          mobileWebUrl: resultUrl,
         },
       },
       buttons: [
         {
           title: '나도 이상형 찾으러 가기',
           link: {
-            mobileWebUrl: realUrl,
+            mobileWebUrl: resultUrl,
           },
         },
       ],
