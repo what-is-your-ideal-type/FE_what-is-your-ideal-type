@@ -1,6 +1,6 @@
-import { auth, db } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from '../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const signUpWithEmail = async (email: string, password: string) => {
   const userCredential = await createUserWithEmailAndPassword(
@@ -12,6 +12,10 @@ export const signUpWithEmail = async (email: string, password: string) => {
   return user;
 };
 
-export const saveUserInfo = async (uid: string, email: string) => {
-  await setDoc(doc(db, "users", uid), { uid, email });
+export const saveUserInfo = async (
+  uid: string,
+  email: string,
+  nickname: string,
+) => {
+  await setDoc(doc(db, 'users', uid), { uid, email, nickname });
 };

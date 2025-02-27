@@ -1,7 +1,6 @@
 import { Cookies } from 'react-cookie';
 
 export const COOKIE_NAMES = {
-  GUEST_MODE: 'GUEST_MODE',
   POST_ID: 'POST_ID',
 } as const;
 
@@ -10,7 +9,6 @@ const cookies = new Cookies();
 // 기본 쿠키 옵션 정의
 const DEFAULT_OPTIONS = {
   path: '/',
-  maxAge: 7 * 24 * 60 * 60, // 7일
   secure: true,
   sameSite: 'strict',
 } as const;

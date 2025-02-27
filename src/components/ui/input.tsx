@@ -4,21 +4,37 @@ import { FieldValues, Path } from 'react-hook-form';
 import { UseFormRegister } from 'react-hook-form';
 
 export interface InputProps<T extends FieldValues> {
-  type: 'email' | 'password';
+  type: 'email' | 'password' | 'nickname';
   placeholder: string;
   name: Path<T>;
   register: UseFormRegister<T>;
 }
 
+const inputConfig = {
+  email: {
+    iconSrc: 'images/Message_light.png',
+    iconAlt: '이메일',
+    inputType: 'email',
+  },
+  password: {
+    iconSrc: 'images/Lock_light.png',
+    iconAlt: '비밀번호',
+    inputType: 'password',
+  },
+  nickname: {
+    iconSrc: 'images/User_light.png',
+    iconAlt: '닉네임',
+    inputType: 'text',
+  },
+};
+
 function StyledInput<T extends FieldValues>({
   type,
   placeholder,
   name,
-  register
+  register,
 }: InputProps<T>) {
-  const iconSrc =
-    type === 'email' ? 'images/Message_light.png' : 'images/Lock_light.png';
-  const iconAlt = type === 'email' ? 'Email' : 'Password';
+  const { iconSrc, iconAlt, inputType } = inputConfig[type];
 
   return (
     <div className='relative w-[22rem]'>
@@ -30,7 +46,7 @@ function StyledInput<T extends FieldValues>({
       />
       {/* 입력 필드 */}
       <input
-        type={type}
+        type={inputType}
         placeholder={placeholder}
         required
         {...register(name)}

@@ -103,8 +103,6 @@ $ npm run start
 |----------|
 |<img width="1728" alt="스크린샷 2025-02-27 오후 7 01 53" src="https://github.com/user-attachments/assets/746c0781-d9f6-48a8-b9b7-27896a552e25" />|
 
-
-
 <br>
 
 ### [이미지 최적화]
@@ -154,9 +152,6 @@ $ npm run start
 | 마이 페이지 |
 |----------|
 |<img width="1728" alt="스크린샷 2025-02-20 오후 8 26 03" src="https://github.com/user-attachments/assets/db08dcc9-8131-4bd2-9f8a-c629d59a7945" />|
-
-
-
 
 <br>
 
