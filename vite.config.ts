@@ -7,6 +7,7 @@ export default defineConfig({
     // 청크 사이즈 경고 해결을 위한 설정 추가
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
+      external: ['zod'],
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
