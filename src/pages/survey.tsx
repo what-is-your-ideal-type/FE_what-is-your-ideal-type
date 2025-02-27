@@ -90,7 +90,7 @@ const Survey = () => {
           // Assign a unique key based on the current question index
           <div key={currentQuestionIndex} className='animate-slideInRight'>
             <FlexBox direction='column' gap='lg'>
-              <Text fontSize='lg' fontWeight='bold' className='text-center'>
+              <Text fontSize='lg' className='text-center'>
                 {currentSurvey[currentQuestionIndex].question}
               </Text>
               <FlexBox direction='column' gap='xs'>
