@@ -296,6 +296,9 @@ idealType
 - Wiki: https://github.com/what-is-your-ideal-type/FE_what-is-your-ideal-type/wiki/Button-Components-%EC%82%AC%EC%9A%A9%EB%B2%95
 
 
+# 6. 설문링크
+https://forms.gle/6e7WVoUCJ6yw5E9T8
+
 <br>
 
 # 6. 팀원 소개 및 후기
