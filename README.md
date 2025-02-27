@@ -1,8 +1,12 @@
 # 0. 시작하기
+[서비스 링크](https://what-is-your-ideal-type.vercel.app/)
+
 ```bash
+# 클론 이후
+
+$ npm i
 $ npm run start
 ```
-[서비스 링크](https://what-is-your-ideal-type.vercel.app/)
 
 <br/>
 <br/>
@@ -14,13 +18,32 @@ $ npm run start
 <br>
 
 # 2. 개발 환경
+## Front-end
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white)
+![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)
 
-- Front : HTML, TypeScript, React, tailwindCSS, ReactQuery, React-hook-form, StoryBook
-- Back-end/ DB: Firebase
-- 컨벤션 관리: Eslint, Prettier, Husky
-- 버전 및 이슈관리 : Github
-- 협업 툴 : Discord, Notion
-- 서비스 배포 환경 : Vercel
+## Back-end / Database
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=firebase&logoColor=white)
+
+## 컨벤션 관리
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
+![Husky](https://img.shields.io/badge/Husky-000000?style=for-the-badge&logo=husky&logoColor=white)
+
+## 버전 및 이슈관리
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
+## 협업 툴
+![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+
+## 서비스 배포 환경
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 <br>
 
