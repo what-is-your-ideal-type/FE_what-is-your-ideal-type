@@ -96,10 +96,10 @@ const MyPage = () => {
     }
   };
 
-  // 조건부 렌더링
-  if (!currentUser) {
-    return <Navigate to='/' replace />;
-  }
+  // // 조건부 렌더링
+  // if (!currentUser) {
+  //   return <Navigate to='/' replace />;
+  // }
 
   if (isUserDataLoading || isPostsLoading) {
     return <div>로딩 중...</div>;
