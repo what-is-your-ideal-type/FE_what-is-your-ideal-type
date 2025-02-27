@@ -18,10 +18,10 @@ import { getCountAndTimeLeft, incrementCount } from '../services/count-service';
 import {
   COOKIE_NAMES,
   setCookie,
-  getCookie,
 } from '../components/utils/cookies';
 import { Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { getGuestMode } from '../components/utils/session-storage';
 
 interface ProfileTypes {
   name: string;
@@ -60,7 +60,7 @@ const Result = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  const isGuest = getCookie(COOKIE_NAMES.GUEST_MODE) === true;
+  const isGuest = getGuestMode()
   const collection = isGuest ? 'anonymous_posts' : 'posts';
 
   const MotionLoader = motion.create(Loader2);

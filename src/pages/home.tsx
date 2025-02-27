@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorMessage } from '../components/ui/error-message';
-import { setCookie, COOKIE_NAMES } from '../components/utils/cookies';
+import { setGuestMode } from '../components/utils/session-storage';
 
 const loginSchema = z.object({
   email: z.string().email('이메일 형식이 올바르지 않습니다.'),
@@ -43,7 +43,7 @@ const Home = () => {
       const userCredential = await loginWithEmail(data.email, data.password);
       if (userCredential) {
         setCurrentUser(userCredential.user);
-        setCookie(COOKIE_NAMES.GUEST_MODE, false);
+        setGuestMode(false)
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
@@ -65,7 +65,7 @@ const Home = () => {
       const credential = await loginWithGoogle();
       if (credential) {
         setCurrentUser(credential.user);
-        setCookie(COOKIE_NAMES.GUEST_MODE, false);
+        setGuestMode(false)
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
