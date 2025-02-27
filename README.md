@@ -1,8 +1,12 @@
 # 0. 시작하기
+[서비스 링크](https://what-is-your-ideal-type.vercel.app/)
+
 ```bash
+# 클론 이후
+
+$ npm i
 $ npm run start
 ```
-[서비스 링크](https://what-is-your-ideal-type.vercel.app/)
 
 <br/>
 <br/>
@@ -14,13 +18,32 @@ $ npm run start
 <br>
 
 # 2. 개발 환경
+## Front-end
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white)
+![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)
 
-- Front : HTML, TypeScript, React, tailwindCSS, ReactQuery, React-hook-form, StoryBook
-- Back-end/ DB: Firebase
-- 컨벤션 관리: Eslint, Prettier, Husky
-- 버전 및 이슈관리 : Github
-- 협업 툴 : Discord, Notion
-- 서비스 배포 환경 : Vercel
+## Back-end / Database
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=firebase&logoColor=white)
+
+## 컨벤션 관리
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
+![Husky](https://img.shields.io/badge/Husky-000000?style=for-the-badge&logo=husky&logoColor=white)
+
+## 버전 및 이슈관리
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
+## 협업 툴
+![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+
+## 서비스 배포 환경
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 <br>
 
@@ -71,13 +94,6 @@ $ npm run start
 
 <br>
 
-### [이미지 최적화]
-- 생성된 이미지를 최적화하여 데이터베이스에 저장합니다.
-- CDN을 활용하여 빠르게 로드할 수 있으며, 저장 공간을 절약할 수 있습니다.
-
-| 결과 로딩 페이지 |
-|----------|
-|![이미지 최적화](https://github.com/user-attachments/assets/dd1dccd6-d97c-4317-b3ad-ecae5ee21586)|
 
 
 ### [이미지 생성]
@@ -85,18 +101,38 @@ $ npm run start
 
 | 결과화면 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/922f597d-c020-471a-8fba-71cffcbd0e1d">|
-
+|<img width="1728" alt="스크린샷 2025-02-27 오후 7 01 53" src="https://github.com/user-attachments/assets/746c0781-d9f6-48a8-b9b7-27896a552e25" />|
 
 <br>
+
+### [이미지 최적화]
+- 생성된 이미지를 최적화하여 데이터베이스에 저장합니다.
+- CDN을 활용하여 빠르게 로드할 수 있으며, 저장 공간을 절약할 수 있습니다.
+
+| 결과 로딩 페이지 |
+|----------|
+|![이미지 최적화](https://github.com/user-attachments/assets/5dfde7c1-8e1b-4f1e-8b7b-b697234ace94)|
+
+
+
 
 ### [프로필 생성]
 - 생성된 이미지를 기반으로 맞춤형 프로필을 생성합니다.
 
 | 프로필 생성 |
 |----------|
-|<img width="1728" alt="스크린샷 2025-02-20 오후 7 36 29" src="https://github.com/user-attachments/assets/03fca411-271e-4a85-a48f-db474b173abf" />|
+|![image](https://github.com/user-attachments/assets/4048db96-ae43-4c65-9848-95ef66f56d4c)|
 
+
+<br>
+
+### [이미지 저장]
+- 생성한 이미지를 내 기기에 저장할 수 있습니다.
+- 파일 형식은 webp입니다
+
+| 결과 공유 |
+|----------|
+|![이미지 저장 3](https://github.com/user-attachments/assets/44cdf6b9-7168-4c6e-a59b-40180bcb163c)|
 
 <br>
 
@@ -105,7 +141,7 @@ $ npm run start
 
 | 결과 공유 |
 |----------|
-|<img width="1726" alt="스크린샷 2025-02-20 오후 9 07 42" src="https://github.com/user-attachments/assets/210a3a3c-1318-4581-9234-932d87c83594" />|
+|![이미지저장2](https://github.com/user-attachments/assets/ea557250-24a4-4918-a2c5-13228cf731a2)|
 
 <br>
 

@@ -3,6 +3,7 @@ import { getCountAndTimeLeft } from '../../services/count-service';
 import { useAuth } from '../../contexts/auth-context';
 import { Button } from '../ui/button/button';
 
+
 interface NavigateToSurveyProps {
   label: string;
 }

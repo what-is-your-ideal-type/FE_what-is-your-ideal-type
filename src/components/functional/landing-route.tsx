@@ -8,7 +8,7 @@ export const LandingRoute = ({ children }: { children: React.ReactNode }) => {
     setGuestMode(true);
     return children;
   }
-  
+ 
   // 게스트 모드가 명시적으로 'false'인 경우 마이페이지로 리다이렉트
   if (isGuestMode === false) {
     return <Navigate to='/mypage' replace />;
