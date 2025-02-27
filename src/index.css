@@ -6,9 +6,9 @@
   @font-face {
     font-family: 'Pretendard';
     src:
-      url('/public/fonts/Pretendard-Regular.woff2') format('woff2'),
-      url('/public/fonts/Pretendard-Regular.woff') format('woff'),
-      url('/public/Pretendard-Regular.otf') format('opentype');
+      url('../public/fonts/Pretendard-Regular.woff2') format('woff2'),
+      url('../public/fonts/Pretendard-Regular.woff') format('woff'),
+      url('../public/Pretendard-Regular.otf') format('opentype');
     font-weight: 400;
     font-display: swap;
     font-style: normal;
