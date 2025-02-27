@@ -58,9 +58,7 @@ const SignUp = () => {
       <Main>
         <FlexBox direction='column' gap='md'>
           <FlexBox direction='column' gap='xs' className='items-start w-full'>
-            <Text fontSize='lg' fontWeight='bold'>
-              회원가입
-            </Text>
+            <Text fontSize='lg'>회원가입</Text>
             <Text fontSize='md'>이상형을 찾기 위한 여정 시작</Text>
           </FlexBox>
           <FlexBox direction='column' gap='xs'>
