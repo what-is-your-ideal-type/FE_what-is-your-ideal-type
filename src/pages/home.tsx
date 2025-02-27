@@ -78,12 +78,8 @@ const Home = () => {
     <Main isResponsive={true}>
       <FlexBox direction='column' gap='md'>
         <FlexBox direction='column' gap='xs' className='items-start w-full'>
-          <Text fontSize='lg' fontWeight='bold'>
-            안녕하세요!
-          </Text>
-          <Text fontSize='md' fontWeight='bold'>
-            나만의 이상형을 찾아 볼까요?
-          </Text>
+          <Text fontSize='lg'>안녕하세요!</Text>
+          <Text fontSize='md'>나만의 이상형을 찾아 볼까요?</Text>
         </FlexBox>
         <FlexBox direction='column' gap='sm'>
           <Input

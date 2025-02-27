@@ -12,9 +12,7 @@ export const CardDescription = ({ title, className }: CardDescriptionProps) => {
 
   return (
     <div className={classes}>
-      <Text fontSize='md' fontWeight='bold'>
-        {title}
-      </Text>
+      <Text fontSize='md'>{title}</Text>
     </div>
   );
 };
