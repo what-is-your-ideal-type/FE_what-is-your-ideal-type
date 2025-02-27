@@ -71,13 +71,6 @@ $ npm run start
 
 <br>
 
-### [이미지 최적화]
-- 생성된 이미지를 최적화하여 데이터베이스에 저장합니다.
-- CDN을 활용하여 빠르게 로드할 수 있으며, 저장 공간을 절약할 수 있습니다.
-
-| 결과 로딩 페이지 |
-|----------|
-|![이미지 최적화](https://github.com/user-attachments/assets/dd1dccd6-d97c-4317-b3ad-ecae5ee21586)|
 
 
 ### [이미지 생성]
@@ -85,17 +78,29 @@ $ npm run start
 
 | 결과화면 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/922f597d-c020-471a-8fba-71cffcbd0e1d">|
+|<img width="1728" alt="스크린샷 2025-02-27 오후 7 01 53" src="https://github.com/user-attachments/assets/746c0781-d9f6-48a8-b9b7-27896a552e25" />|
+
 
 
 <br>
+
+### [이미지 최적화]
+- 생성된 이미지를 최적화하여 데이터베이스에 저장합니다.
+- CDN을 활용하여 빠르게 로드할 수 있으며, 저장 공간을 절약할 수 있습니다.
+
+| 결과 로딩 페이지 |
+|----------|
+|![이미지 최적화](https://github.com/user-attachments/assets/5dfde7c1-8e1b-4f1e-8b7b-b697234ace94)|
+
+
+
 
 ### [프로필 생성]
 - 생성된 이미지를 기반으로 맞춤형 프로필을 생성합니다.
 
 | 프로필 생성 |
 |----------|
-|<img width="1728" alt="스크린샷 2025-02-20 오후 7 36 29" src="https://github.com/user-attachments/assets/03fca411-271e-4a85-a48f-db474b173abf" />|
+|![image](https://github.com/user-attachments/assets/4048db96-ae43-4c65-9848-95ef66f56d4c)|
 
 
 <br>
@@ -105,17 +110,7 @@ $ npm run start
 
 | 결과 공유 |
 |----------|
-|<img width="1726" alt="스크린샷 2025-02-20 오후 9 07 42" src="https://github.com/user-attachments/assets/210a3a3c-1318-4581-9234-932d87c83594" />|
-
-<br>
-
-### [이미지 저장]
-- 생성된 이미지를 저장할 수 있습니다.
-- 확장자는 webP입니다.
-
-| 이미지 저장 |
-|----------|
-|![이미지 저장하기](https://github.com/user-attachments/assets/5a18011b-8717-4b71-8fac-0c6cf735c3a8)|
+|![이미지저장2](https://github.com/user-attachments/assets/ea557250-24a4-4918-a2c5-13228cf731a2)|
 
 <br>
 
