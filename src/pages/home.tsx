@@ -43,7 +43,7 @@ const Home = () => {
       const userCredential = await loginWithEmail(data.email, data.password);
       if (userCredential) {
         setCurrentUser(userCredential.user);
-        setGuestMode(false)
+        setGuestMode(false);
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
@@ -65,7 +65,7 @@ const Home = () => {
       const credential = await loginWithGoogle();
       if (credential) {
         setCurrentUser(credential.user);
-        setGuestMode(false)
+        setGuestMode(false);
         alert('로그인에 성공했습니다.');
         navigate('/mypage');
       }
@@ -161,7 +161,7 @@ const Home = () => {
           <Button
             label='회원가입'
             bgColor='underline'
-            className='font-bold p-0'
+            className='p-0'
             onClick={() => navigate('signup')}
           >
             가입하기

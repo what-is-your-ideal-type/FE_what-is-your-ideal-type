@@ -43,7 +43,7 @@ export default function LoadingScreen({ isLoading }: { isLoading: boolean }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className='text-lg text-main-hover font-bold whitespace-nowrap mt-8'
+            className='text-lg text-main-hover whitespace-nowrap mt-8'
           >
             {loadingTexts[currentTextIndex]}
           </motion.p>

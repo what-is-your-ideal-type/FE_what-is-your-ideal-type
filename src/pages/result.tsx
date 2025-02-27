@@ -15,10 +15,7 @@ import { Header } from '../components/ui/header';
 import { convertToWebP } from '../components/functional/convert-to-webp';
 import { uploadImageToFirebase } from '../services/upload-image-to-firebase';
 import { getCountAndTimeLeft, incrementCount } from '../services/count-service';
-import {
-  COOKIE_NAMES,
-  setCookie,
-} from '../components/utils/cookies';
+import { COOKIE_NAMES, setCookie } from '../components/utils/cookies';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getGuestMode } from '../components/utils/session-storage';
@@ -60,7 +57,7 @@ const Result = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  const isGuest = getGuestMode()
+  const isGuest = getGuestMode();
   const collection = isGuest ? 'anonymous_posts' : 'posts';
 
   const MotionLoader = motion.create(Loader2);
@@ -284,7 +281,7 @@ const Result = () => {
             {currentUser && (
               <Button
                 bgColor='white'
-                className='text-black p-3 text-sm font-bold mt-4 hover:bg-gray-100 transition-colors duration-200 shadow-md'
+                className='text-black p-3 text-sm mt-4 hover:bg-gray-100 transition-colors duration-200 shadow-md'
                 onClick={handleDownload}
                 disabled={isLoading}
               >
@@ -403,7 +400,7 @@ const Result = () => {
                 </Text>
                 <PreventDefaultWrapper className='justify-center space-x-4'>
                   <Button
-                    className='text-main p-3 font-bold text-xs w-32 hover:bg-sub-hover'
+                    className='text-main p-3 text-xs w-32 hover:bg-sub-hover'
                     bgColor='sub'
                     onClick={handleShare}
                   >

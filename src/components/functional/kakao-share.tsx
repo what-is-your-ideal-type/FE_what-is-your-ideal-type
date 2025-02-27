@@ -32,11 +32,7 @@ const Kakaoshare = ({ resultUrl }: { resultUrl: string }) => {
   };
 
   return (
-    <Button
-      bgColor='main'
-      className='w-32 font-bold p-3 text-xs'
-      onClick={shareKakao}
-    >
+    <Button bgColor='main' className='w-32 p-3 text-xs' onClick={shareKakao}>
       카톡으로 공유하기
     </Button>
   );
