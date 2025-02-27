@@ -113,13 +113,13 @@ const MyPage = () => {
     <>
       <Header />
       <FlexBox direction='column' className='bg-sub justify-center h-32 mb-8'>
-        <Text fontSize='xl' fontWeight='bold' className='py-4 text-center'>
+        <Text fontSize='xl' className='py-4 text-center'>
           {userData?.nickname}님의 마이페이지
         </Text>
       </FlexBox>
       <Main>
         <FlexBox direction='column'>
-          <Text fontSize='xl' fontWeight='bold' className='text-center mb-8'>
+          <Text fontSize='xl' className='text-center mb-8'>
             나의 이상형 리스트
           </Text>
           {posts.length > 0 ? (

@@ -248,7 +248,7 @@ const Result = () => {
         direction='column'
         className='bg-sub justify-center h-32 mb-8 text-center'
       >
-        <Text fontSize='xl' fontWeight='bold' className='py-4'>
+        <Text fontSize='xl' className='py-4'>
           AI 이상형 생성 결과...
         </Text>
         <Text>당신의 AI 이상형은 {profile?.occupation}입니다!</Text>
@@ -298,16 +298,16 @@ const Result = () => {
           className='w-full max-w-lg mt-8 md:mt-0 md:ml-8 bg-white rounded-xl shadow-lg p-6'
         >
           <div className='relative mb-4'>
-            <Text fontWeight='bold' fontSize='xl' className='text-main mb-2'>
+            <Text fontSize='lg' className='text-main mb-2'>
               이상형 분석 리포트
             </Text>
-            <div className='absolute top-0 right-0 bg-sub text-main px-3 py-1 rounded-full text-sm font-semibold'>
+            <div className='absolute top-0 right-0 bg-sub text-main px-3 py-1 rounded-full text-sm'>
               분석 완료
             </div>
           </div>
 
           <div className='bg-sub-hover rounded-lg p-4 mb-4'>
-            <Text fontWeight='bold' fontSize='lg'>
+            <Text fontSize='lg'>
               {profile?.age} {profile?.name}, {profile?.occupation}
             </Text>
           </div>
@@ -318,7 +318,7 @@ const Result = () => {
                 <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
                   <span className='text-main text-lg'>✧</span>
                 </div>
-                <Text fontWeight='bold'>성격 </Text>
+                <Text>성격 </Text>
               </div>
               <Text fontSize='sm' className='text-gray-600 ml-11'>
                 {profile?.personality}
@@ -330,7 +330,7 @@ const Result = () => {
                 <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
                   <span className='text-main text-lg'>❀</span>
                 </div>
-                <Text fontWeight='bold'>취미</Text>
+                <Text>취미</Text>
               </div>
               <Text fontSize='sm' className='text-gray-600 ml-11'>
                 {Array.isArray(profile?.hobbies)
@@ -351,7 +351,7 @@ const Result = () => {
                 <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
                   <span className='text-main text-lg'>✿</span>
                 </div>
-                <Text fontWeight='bold'>연애 스타일 💕</Text>
+                <Text>연애 스타일 💕</Text>
               </div>
               <Text fontSize='sm' className='text-gray-600 ml-11'>
                 {profile?.lovestyle}
@@ -363,7 +363,7 @@ const Result = () => {
                 <div className='w-8 h-8 bg-sub rounded-full flex items-center justify-center mr-3'>
                   <span className='text-main text-lg'>♥</span>
                 </div>
-                <Text fontWeight='bold'>추천 데이트 코스 👩‍❤️‍👨</Text>
+                <Text>추천 데이트 코스 👩‍❤️‍👨</Text>
               </div>
               <Text fontSize='sm' className='text-gray-600 ml-11'>
                 {profile?.datecourse}
@@ -371,7 +371,7 @@ const Result = () => {
             </div>
           </div>
 
-          <Text fontWeight='bold' className='mt-4 mb-4 text-center text-main'>
+          <Text className='mt-4 mb-4 text-center text-main'>
             이상형의 취향을 저격할 수 있는 데이트코스를 계획해보세요!
           </Text>
 
@@ -381,7 +381,7 @@ const Result = () => {
             </FlexBox>
           ) : (
             <FlexBox direction='column' className='space-y-4'>
-              <Text fontSize='sm' className='text-center text-gray-600'>
+              <Text fontSize='xs' className='text-center text-gray-600'>
                 ▼ 사진을 저장하고 기록하고 싶다면 로그인 해보세요 ▼
               </Text>
               <Button
@@ -398,7 +398,7 @@ const Result = () => {
           <FlexBox direction='column' className='mt-6'>
             {currentUser && (
               <>
-                <Text fontSize='sm' className='mb-3 text-center text-gray-600'>
+                <Text fontSize='xs' className='mb-3 text-center text-gray-600'>
                   ▼ 결과를 친구에게 공유해 보세요! ▼
                 </Text>
                 <PreventDefaultWrapper className='justify-center space-x-4'>

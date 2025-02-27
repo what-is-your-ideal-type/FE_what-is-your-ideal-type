@@ -19,16 +19,14 @@ const GenderSelect = () => {
         <FlexBox direction='column' gap='xl' className='text-center'>
           <FlexBox direction='column'>
             <FlexBox direction='column' gap='xs'>
-              <Text fontSize='lg' fontWeight='bold'>
-                이상형 선택하기
-              </Text>
+              <Text fontSize='lg'>이상형 선택하기</Text>
               <Text className='text-center whitespace-pre-line'>
                 {'아래 정보를 입력하면 \n 당신의 이상형을 알려드려요!'}
               </Text>
             </FlexBox>
           </FlexBox>
           <FlexBox direction='column' gap='xs' className='items-start'>
-            <Text fontWeight='bold'>이상형의 성별</Text>
+            <Text>이상형의 성별</Text>
             <FlexBox gap='sm'>
               <Button
                 bgColor={checkedValue === 'man' ? 'main' : 'sub'}
