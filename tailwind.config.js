@@ -92,6 +92,7 @@ const config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+
         none: '0',
         sm: '0.125rem', // 2px
         DEFAULT: '0.25rem', // 4px
@@ -101,6 +102,7 @@ const config = {
         '2xl': '1rem', // 16px
         '3xl': '1.5rem', // 24px
         full: '9999px',
+
       },
       keyframes: {
         slideInRight: {
