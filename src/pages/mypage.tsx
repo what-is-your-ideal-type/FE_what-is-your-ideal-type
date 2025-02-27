@@ -20,14 +20,12 @@ const MyPage = () => {
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
 
-  // 인증되지 않은 경우 조건부 렌더링으로 처리
-  if (!currentUser) {
-    // SSR 고려
-    if (typeof window !== 'undefined') {
+  // 인증 상태 변경 감지
+  useEffect(() => {
+    if (!currentUser) {
       alert('로그인이 필요한 서비스입니다. 홈으로 이동합니다.');
     }
-    return <Navigate to='/' replace />;
-  }
+  }, [currentUser]);
 
   // 쿼리 로직
   const {
@@ -96,10 +94,10 @@ const MyPage = () => {
     }
   };
 
-  // // 조건부 렌더링
-  // if (!currentUser) {
-  //   return <Navigate to='/' replace />;
-  // }
+  // 조건부 렌더링
+  if (!currentUser) {
+    return <Navigate to='/' replace />;
+  }
 
   if (isUserDataLoading || isPostsLoading) {
     return <div>로딩 중...</div>;
@@ -115,13 +113,13 @@ const MyPage = () => {
     <>
       <Header />
       <FlexBox direction='column' className='bg-sub justify-center h-32 mb-8'>
-        <Text fontSize='xl' fontWeight='bold' className='py-4 text-center'>
+        <Text fontSize='xl' className='py-4 text-center'>
           {userData?.nickname}님의 마이페이지
         </Text>
       </FlexBox>
       <Main>
         <FlexBox direction='column'>
-          <Text fontSize='xl' fontWeight='bold' className='text-center mb-8'>
+          <Text fontSize='xl' className='text-center mb-8'>
             나의 이상형 리스트
           </Text>
           {posts.length > 0 ? (
