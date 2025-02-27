@@ -6,7 +6,7 @@ import { useAuth } from '../../contexts/auth-context';
 import { auth } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import { FlexBox } from './flexbox';
-import { setCookie, COOKIE_NAMES } from '../utils/cookies';
+import { setGuestMode } from '../utils/session-storage';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const Header = () => {
     if (confirmation) {
       try {
         await signOut(auth);
-        setCookie(COOKIE_NAMES.GUEST_MODE, true);
+        setGuestMode(true)
         navigate('/');
       } catch (error) {
         console.error('Logout failed', error);
@@ -27,7 +27,9 @@ export const Header = () => {
 
   return (
     <header className='w-full flex justify-between items-center py-5 px-12'>
+
       <Text fontSize='md' desktopFontSize='lg'>
+
         👩‍❤️‍👨 AI 이상형 찾기
       </Text>
       <FlexBox className='items-center'>
