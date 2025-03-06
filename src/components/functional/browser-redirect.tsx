@@ -5,8 +5,6 @@ const BrowserRedirect: React.FC = () => {
     const userAgent = navigator.userAgent.toLowerCase();
     const currentUrl = window.location.href;
     const encodedUrl = encodeURIComponent(currentUrl);
-    console.log('currentUrl', currentUrl);
-    console.log('브라우저 리다이렉트');
 
     // 클립보드 복사 함수
     const copyToClipboard = async (val: string) => {
