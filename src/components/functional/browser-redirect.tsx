@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 
-const BrowserRedirect = () => {
+const BrowserRedirect: React.FC = () => {
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
     const currentUrl = window.location.href;
     const encodedUrl = encodeURIComponent(currentUrl);
+    console.log('currentUrl', currentUrl);
+    console.log('브라우저 리다이렉트');
 
     // 클립보드 복사 함수
     const copyToClipboard = async (val: string) => {
@@ -65,9 +67,6 @@ const BrowserRedirect = () => {
       redirectToExternalBrowser();
       return;
     }
-
-    // 기타 인앱 브라우저
-    window.location.href = currentUrl;
   }, []);
 
   return null;
